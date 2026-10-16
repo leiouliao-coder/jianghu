@@ -62,6 +62,9 @@ func run() error {
 			MaxLoginFailures: 5,
 			Map:              world.ClientMap(data),
 		})
+		if err := gateway.LoadCorpses(ctx); err != nil {
+			return fmt.Errorf("load corpses: %w", err)
+		}
 		mux := http.NewServeMux()
 		mux.Handle("/v1/ws", gateway)
 		mux.Handle("/", handler)

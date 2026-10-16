@@ -571,3 +571,139 @@ func TestRegisterRequestIDsAreScopedPerConnection(t *testing.T) {
 		}
 	}
 }
+
+// placeAt sets where a character will enter the world.
+func (h *harness) placeAt(id int64, x, z float64) {
+	h.t.Helper()
+	if err := h.st.SaveState(context.Background(), id, x, z, false); err != nil {
+		h.t.Fatal(err)
+	}
+}
+
+func (h *harness) mintTo(character int64, reqID string, fn func(ctx context.Context, tx *store.Tx, backpack int64) error) {
+	h.t.Helper()
+	bp, err := h.st.Backpack(context.Background(), character)
+	if err != nil {
+		h.t.Fatal(err)
+	}
+	res, err := h.st.Do(context.Background(), store.Request{ID: reqID, Kind: "grant", Payload: reqID},
+		func(ctx context.Context, tx *store.Tx) (any, error) { return nil, fn(ctx, tx, bp) })
+	if err != nil || !res.OK {
+		h.t.Fatalf("grant %s: %+v %v", reqID, res, err)
+	}
+}
+
+func TestKillDropLootRespawn(t *testing.T) {
+	h := newHarness(t, Config{})
+	a, _ := registerAndLogin(h, "killer")
+	aid := a.newCharacter("刀客")
+	b, _ := registerAndLogin(h, "victim")
+	bid := b.newCharacter("行商")
+	h.placeAt(aid, 200, -130) // both inside the F risk area
+	h.placeAt(bid, 201.2, -130)
+	var sword string
+	h.mintTo(bid, "kit-sword", func(ctx context.Context, tx *store.Tx, bp int64) (err error) {
+		sword, err = tx.Mint(ctx, bp, "TEST-SWORD-001", "d100", 1)
+		return err
+	})
+	h.mintTo(bid, "kit-coins", func(ctx context.Context, tx *store.Tx, bp int64) error { return tx.MintCoins(ctx, bp, 120) })
+	a.ok("enter_world", map[string]int64{"character_id": aid}, nil)
+	b.ok("enter_world", map[string]int64{"character_id": bid}, nil)
+	a.snapshotUntil(func(s world.Snapshot) bool { e, ok := find(s, bid); return ok && e.Zone == "risk" })
+
+	if !h.w.SetHP(bid, 50) {
+		t.Fatal("set hp")
+	}
+	a.ok("cast", map[string]any{"slot": "basic", "target": bid}, nil)
+	var corpseID int64
+	s := a.snapshotUntil(func(s world.Snapshot) bool {
+		e, _ := find(s, bid)
+		return e.Dead && len(s.Corpses) == 1
+	})
+	corpseID = s.Corpses[0].ID
+	if c := s.Corpses[0]; c.Owner != "行商" || c.Empty || c.ExpiresIn < 1790 || c.ExpiresIn > 1800 {
+		t.Fatalf("corpse %+v", c)
+	}
+	if items, coins, _ := h.st.CorpseContents(context.Background(), corpseID); len(items) != 1 || coins != 120 {
+		t.Fatalf("corpse holds %v + %d coins, want the sword and 120", items, coins)
+	}
+	b.fails("cast", map[string]any{"slot": "basic", "target": aid}, ErrDead)
+	b.fails("move_to", map[string]float64{"x": 200, "z": -120}, ErrBusy)
+
+	var opened struct {
+		Items []store.CorpseItem `json:"items"`
+		Coins int64              `json:"coins"`
+	}
+	a.ok("corpse_open", map[string]int64{"corpse_id": corpseID}, &opened)
+	if len(opened.Items) != 1 || opened.Items[0].ID != sword || opened.Coins != 120 {
+		t.Fatalf("corpse_open %+v", opened)
+	}
+	a.ok("loot", map[string]any{"corpse_id": corpseID, "item_id": sword}, nil)
+	a.fails("loot", map[string]any{"corpse_id": corpseID, "item_id": sword}, ErrNotHere)
+	a.fails("loot", map[string]any{"corpse_id": corpseID}, ErrBadRequest)
+	var took struct{ Coins int64 }
+	a.ok("loot", map[string]any{"corpse_id": corpseID, "coins": true}, &took)
+	if took.Coins != 120 {
+		t.Fatalf("took %d coins", took.Coins)
+	}
+	a.snapshotUntil(func(s world.Snapshot) bool { return len(s.Corpses) == 1 && s.Corpses[0].Empty })
+	items, coins, err := h.st.CorpseContents(context.Background(), corpseID)
+	if err != nil || len(items) != 0 || coins != 0 {
+		t.Fatalf("corpse after looting: %v %d %v", items, coins, err)
+	}
+
+	var back struct {
+		Area string `json:"area"`
+		Zone string `json:"zone"`
+	}
+	b.ok("respawn", nil, &back)
+	if back.Area != "B" || back.Zone != "service" {
+		t.Fatalf("respawned in %+v, want nearest safe town B", back)
+	}
+	b.fails("respawn", nil, ErrNotDead)
+}
+
+func TestNoPlayerHarmOutsideRiskAndFarLooters(t *testing.T) {
+	h := newHarness(t, Config{})
+	a, _ := registerAndLogin(h, "peaceful")
+	aid := a.newCharacter("和尚")
+	b, _ := registerAndLogin(h, "bystander")
+	bid := b.newCharacter("路人")
+	h.placeAt(aid, 100, 0) // on the A-B road (pve)
+	h.placeAt(bid, 101.2, 0)
+	a.ok("enter_world", map[string]int64{"character_id": aid}, nil)
+	b.ok("enter_world", map[string]int64{"character_id": bid}, nil)
+	a.snapshotUntil(func(s world.Snapshot) bool { _, ok := find(s, bid); return ok })
+	a.fails("cast", map[string]any{"slot": "basic", "target": bid}, ErrBadTarget)
+	a.fails("cast", map[string]any{"slot": "zz", "dir": [2]float64{1, 0}}, ErrNoSkill)
+	a.ok("cast", map[string]any{"slot": "e", "dir": [2]float64{1, 0}}, nil) // area moves start but skip protected players
+	time.Sleep(1500 * time.Millisecond)
+	if v, _ := h.w.Get(bid); v.HP != v.MaxHP {
+		t.Fatalf("pve-zone player took damage: %+v", v)
+	}
+	a.fails("loot", map[string]any{"corpse_id": 999, "coins": true}, ErrTooFar)
+}
+
+func TestDeadCharacterComesBackDeadWithoutSecondDrop(t *testing.T) {
+	h := newHarness(t, Config{})
+	a, _ := registerAndLogin(h, "ghost")
+	aid := a.newCharacter("孤魂")
+	h.placeAt(aid, 200, -130)
+	a.ok("enter_world", map[string]int64{"character_id": aid}, nil)
+	h.w.SetHP(aid, 0)
+	a.snapshotUntil(func(s world.Snapshot) bool { e, _ := find(s, aid); return e.Dead && len(s.Corpses) == 1 })
+	a.ok("leave_world", nil, nil)
+	var back struct {
+		Dead bool `json:"dead"`
+	}
+	a.ok("enter_world", map[string]int64{"character_id": aid}, &back)
+	if !back.Dead {
+		t.Fatal("left dead, must come back dead")
+	}
+	time.Sleep(300 * time.Millisecond)
+	live, err := h.st.LiveCorpses(context.Background())
+	if err != nil || len(live) != 1 {
+		t.Fatalf("one death must leave exactly one corpse: %v %v", live, err)
+	}
+	a.ok("respawn", nil, nil)
+}

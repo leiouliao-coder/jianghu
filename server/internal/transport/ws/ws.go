@@ -8,6 +8,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -51,6 +52,19 @@ const (
 	ErrRiskConfirmation   = "risk_confirmation_required"
 	ErrRateLimited        = "rate_limited"
 	ErrInternal           = "internal"
+	ErrBusy               = "busy"
+	ErrDead               = "dead"
+	ErrNotDead            = "not_dead"
+	ErrStunned            = "stunned"
+	ErrCooldown           = "cooldown"
+	ErrResources          = "insufficient_resources"
+	ErrNoSkill            = "no_skill"
+	ErrBadTarget          = "bad_target"
+	ErrOutOfRange         = "out_of_range"
+	ErrNoDirection        = "no_direction"
+	ErrTooFar             = "too_far"
+	ErrNotHere            = "not_here"
+	ErrNoSpace            = "no_space"
 )
 
 // Envelope is every message in both directions.
@@ -88,30 +102,101 @@ type Server struct {
 // New wires the gateway to the store, the presence leases and the world.
 // It takes over presence.OnRelease: a released character leaves the world
 // and its position is saved.
+// It also takes over the world's death and corpse hooks, which turn combat
+// outcomes into asset transactions.
 func New(st *store.Store, presence *session.Presence, w *world.World, cfg Config) *Server {
 	s := &Server{st: st, presence: presence, world: w, cfg: cfg, byAccount: map[int64]*conn{}, all: map[*conn]struct{}{}}
 	presence.OnRelease = s.onRelease
+	w.Hooks.OnDeath = func(id int64, name string, at world.Point) { go s.dropOnDeath(id, name, at) }
+	w.Hooks.OnCorpseExpired = func(id int64) { go s.expireCorpse(id) }
 	return s
 }
 
 func (s *Server) onRelease(_, character int64) {
-	pos, ok := s.world.Despawn(character)
+	pos, dead, ok := s.world.Despawn(character)
 	if !ok {
 		return
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	if err := s.st.SavePosition(ctx, character, pos[0], pos[1]); err != nil {
-		log.Printf("ws: save position of character %d: %v", character, err)
+	if err := s.st.SaveState(ctx, character, pos[0], pos[1], dead); err != nil {
+		log.Printf("ws: save state of character %d: %v", character, err)
 	}
 }
 
 // SavePositions stores every character still in the world (at shutdown).
 func (s *Server) SavePositions(ctx context.Context) {
 	for id, p := range s.world.Positions() {
-		if err := s.st.SavePosition(ctx, id, p[0], p[1]); err != nil {
-			log.Printf("ws: save position of character %d: %v", id, err)
+		if err := s.st.SaveState(ctx, id, p.Pos[0], p.Pos[1], p.Dead); err != nil {
+			log.Printf("ws: save state of character %d: %v", id, err)
 		}
+	}
+}
+
+// LoadCorpses puts every live corpse back into the world at startup; ones
+// that expired while the server was down expire on the first tick.
+func (s *Server) LoadCorpses(ctx context.Context) error {
+	corpses, err := s.st.LiveCorpses(ctx)
+	if err != nil {
+		return err
+	}
+	for _, c := range corpses {
+		s.world.AddCorpse(c.ID, world.Point{c.X, c.Z}, c.OwnerName, c.ExpiresAt, c.Empty)
+	}
+	return nil
+}
+
+// dropOnDeath moves everything the character carried into a corpse at the
+// death position. Retries reuse one request ID, so a retry after an
+// uncertain failure can never drop twice.
+func (s *Server) dropOnDeath(character int64, name string, at world.Point) {
+	nonce := make([]byte, 8)
+	_, _ = rand.Read(nonce)
+	reqID := fmt.Sprintf("death:%d:%s", character, hex.EncodeToString(nonce))
+	expires := time.Now().Add(world.CorpseTTL)
+	for attempt := range 5 {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		corpse, empty, err := s.drop(ctx, reqID, character, name, at, expires)
+		cancel()
+		if err == nil {
+			s.world.AddCorpse(corpse, at, name, expires, empty)
+			return
+		}
+		log.Printf("ws: death drop of character %d (attempt %d): %v", character, attempt+1, err)
+		time.Sleep(time.Duration(attempt+1) * 500 * time.Millisecond)
+	}
+}
+
+func (s *Server) drop(ctx context.Context, reqID string, character int64, name string, at world.Point, expires time.Time) (int64, bool, error) {
+	backpack, err := s.st.Backpack(ctx, character)
+	if err != nil {
+		return 0, false, err
+	}
+	res, err := s.st.Do(ctx, store.Request{ID: reqID, Kind: "death", Payload: character},
+		func(ctx context.Context, tx *store.Tx) (any, error) {
+			return tx.DropAll(ctx, backpack, name, at[0], at[1], expires)
+		})
+	if err != nil {
+		return 0, false, err
+	}
+	if !res.OK {
+		return 0, false, fmt.Errorf("drop rejected: %+v", res.Rejection)
+	}
+	var corpse int64
+	if err := json.Unmarshal(res.Data, &corpse); err != nil {
+		return 0, false, err
+	}
+	items, coins, err := s.st.CorpseContents(ctx, corpse)
+	return corpse, err == nil && len(items) == 0 && coins == 0, err
+}
+
+func (s *Server) expireCorpse(id int64) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	res, err := s.st.Do(ctx, store.Request{ID: fmt.Sprintf("corpse-expire:%d", id), Kind: "corpse_expire", Payload: id},
+		func(ctx context.Context, tx *store.Tx) (any, error) { return nil, tx.DestroyCorpse(ctx, id) })
+	if err != nil || (!res.OK && res.Rejection.Code != store.CodeNotHere) {
+		log.Printf("ws: expire corpse %d: %+v %v", id, res, err)
 	}
 }
 

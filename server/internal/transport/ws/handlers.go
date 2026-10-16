@@ -27,7 +27,8 @@ func (s *Server) handle(ctx context.Context, c *conn, env Envelope) bool {
 		return s.login(ctx, c, env)
 	case "resume":
 		return s.resume(ctx, c, env)
-	case "char_list", "char_create", "enter_world", "leave_world", "move_to", "stop":
+	case "char_list", "char_create", "enter_world", "leave_world", "move_to", "stop",
+		"cast", "swap", "respawn", "corpse_open", "loot":
 		account := s.accountOf(c)
 		if account == 0 {
 			c.sendError(env.ReqID, ErrNotAuthenticated, "log in or resume first", nil)
@@ -46,6 +47,12 @@ func (s *Server) handle(ctx context.Context, c *conn, env Envelope) bool {
 			s.moveTo(c, env)
 		case "stop":
 			s.stop(c, env)
+		default:
+			if c.character == 0 {
+				c.sendError(env.ReqID, ErrNotInWorld, "enter the world first", nil)
+				return true
+			}
+			s.combatRequest(ctx, c, env, account)
 		}
 	default:
 		c.sendError(env.ReqID, ErrUnknownType, "unknown message type "+env.Type, nil)
@@ -232,11 +239,12 @@ func (s *Server) enterWorld(ctx context.Context, c *conn, env Envelope, account 
 	// A lingering or kicked-away character is still in the world: take it over.
 	pos, area, ok := s.world.Attach(p.CharacterID, c)
 	if !ok {
-		pos, area = s.world.Spawn(p.CharacterID, info.Name, world.Point{info.X, info.Z}, c)
+		pos, area = s.world.Spawn(p.CharacterID, info.Name, world.Point{info.X, info.Z}, info.Dead, c)
 	}
 	c.character = p.CharacterID
+	v, _ := s.world.Get(p.CharacterID)
 	c.send("enter_world.ok", env.ReqID, map[string]any{"character_id": p.CharacterID, "name": info.Name,
-		"x": pos[0], "z": pos[1], "area": area.ID, "zone": area.Zone, "map": s.cfg.Map})
+		"x": pos[0], "z": pos[1], "area": area.ID, "zone": area.Zone, "dead": v.Dead, "map": s.cfg.Map})
 }
 
 func (s *Server) leaveWorld(c *conn, env Envelope, account int64) {
@@ -275,6 +283,8 @@ func (s *Server) moveTo(c *conn, env Envelope) {
 		c.sendError(env.ReqID, ErrRateLimited, "too many move requests", nil)
 	case errors.Is(err, world.ErrNotInWorld):
 		c.sendError(env.ReqID, ErrNotInWorld, "enter the world first", nil)
+	case errors.Is(err, world.ErrBusy):
+		c.sendError(env.ReqID, ErrBusy, "cannot move while acting, stunned or dead", nil)
 	case err != nil:
 		s.internal(c, env, err)
 	default:

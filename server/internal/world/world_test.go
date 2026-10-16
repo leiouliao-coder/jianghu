@@ -53,7 +53,7 @@ func walk(t *testing.T, w *World, id int64, allowRisk bool) (areas []string, sec
 
 func TestRouteThroughBlocks(t *testing.T) {
 	w := newWorld(t)
-	w.Spawn(1, "walker", Point{0, 0}, nil)
+	w.Spawn(1, "walker", Point{0, 0}, false, nil)
 	route := []struct {
 		to   Point
 		want []string
@@ -116,7 +116,7 @@ func TestPathAvoidsObstacles(t *testing.T) {
 
 func TestRiskAreaNeedsConfirmation(t *testing.T) {
 	w := newWorld(t)
-	w.Spawn(1, "scout", Point{200, 0}, nil)
+	w.Spawn(1, "scout", Point{200, 0}, false, nil)
 	inside := Point{200, -130}
 	if _, err := w.MoveTo(1, inside, false, t0); !errors.Is(err, ErrRiskRequired) {
 		t.Fatalf("entering risk without confirmation: %v", err)
@@ -179,7 +179,7 @@ func TestOrdinaryRouteIgnoresShorterRiskShortcut(t *testing.T) {
 	if pathLength(risky) >= pathLength(safe)-20 {
 		t.Fatalf("fixture broken: shortcut %.0f m is not clearly shorter than %.0f m", pathLength(risky), pathLength(safe))
 	}
-	w.Spawn(1, "courier", from, nil)
+	w.Spawn(1, "courier", from, false, nil)
 	if _, err := w.MoveTo(1, to, false, t0); err != nil {
 		t.Fatal(err)
 	}
@@ -191,7 +191,7 @@ func TestOrdinaryRouteIgnoresShorterRiskShortcut(t *testing.T) {
 
 func TestMoveRequestsAreRateLimitedAndCannotSpeedUp(t *testing.T) {
 	w := newWorld(t)
-	w.Spawn(1, "spammer", Point{0, 0}, nil)
+	w.Spawn(1, "spammer", Point{0, 0}, false, nil)
 	targets := []Point{{25, 0}, {-25, 0}}
 	accepted := 0
 	for i := range 100 {
@@ -219,12 +219,12 @@ func TestMoveRequestsAreRateLimitedAndCannotSpeedUp(t *testing.T) {
 
 func TestSpawnDetachAndSnapshots(t *testing.T) {
 	w := newWorld(t)
-	at, a := w.Spawn(1, "lost", Point{100, 50}, nil) // no longer walkable
+	at, a := w.Spawn(1, "lost", Point{100, 50}, false, nil) // no longer walkable
 	if at != w.spawn || a.ID != "A" {
 		t.Fatalf("unwalkable save must respawn at A: %v %v", at, a)
 	}
-	w.Spawn(2, "near", Point{20, 0}, &testSink{})
-	w.Spawn(3, "far", Point{200, 0}, nil)
+	w.Spawn(2, "near", Point{20, 0}, false, &testSink{})
+	w.Spawn(3, "far", Point{200, 0}, false, nil)
 	_, _ = w.MoveTo(1, Point{-80, 0}, false, t0)
 	w.Detach(1, &testSink{}) // a different sink: ignored
 	if v, _ := w.Get(1); !v.Moving {
@@ -248,7 +248,7 @@ func TestSpawnDetachAndSnapshots(t *testing.T) {
 	if !slices.Equal(ids, []int64{1, 2}) {
 		t.Fatalf("view radius: saw %v, want [1 2]", ids)
 	}
-	if p, ok := w.Despawn(2); !ok || p != (Point{20, 0}) {
+	if p, dead, ok := w.Despawn(2); !ok || dead || p != (Point{20, 0}) {
 		t.Fatalf("despawn returned %v %v", p, ok)
 	}
 }

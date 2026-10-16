@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 )
@@ -75,6 +76,88 @@ type World struct {
 	} `json:"edges"`
 }
 
+// Skill merges a move's timing, cost and damage (moves.json, from the move
+// table appendix) with its geometry and effects (combat.json). Seconds.
+type Skill struct {
+	ID        string
+	Damage    int     `json:"damage"`
+	MP        int     `json:"mp"`
+	SP        int     `json:"sp"`
+	Windup    float64 `json:"windup"`
+	Active    float64 `json:"active"`
+	Recovery  float64 `json:"recovery"`
+	Cooldown  float64 `json:"cd"`
+	Shape     string  `json:"shape"` // target, rect, sector, parry, dash
+	Range     float64 `json:"range"`
+	Arc       float64 `json:"arc"`
+	Length    float64 `json:"length"`
+	HalfWidth float64 `json:"half_width"`
+	Dash      float64 `json:"dash"`
+	Stun      float64 `json:"stun"`
+	Parryable bool    `json:"parryable"`
+}
+
+type MonsterKind struct {
+	Name           string  `json:"name"`
+	HP             int     `json:"hp"`
+	Speed          float64 `json:"speed"`
+	AggroRange     float64 `json:"aggro_range"`
+	LeashRange     float64 `json:"leash_range"`
+	RespawnSeconds float64 `json:"respawn_seconds"`
+	Attack         struct {
+		Range     float64 `json:"range"`
+		Windup    float64 `json:"windup"`
+		Recovery  float64 `json:"recovery"`
+		Damage    int     `json:"damage"`
+		Cooldown  float64 `json:"cooldown"`
+		Parryable bool    `json:"parryable"`
+	} `json:"attack"`
+	ControlGauge *struct {
+		StunScaleCenti    int     `json:"stun_scale_centi"`
+		StunsBeforeImmune int     `json:"stuns_before_immunity"`
+		WindowSeconds     float64 `json:"window_seconds"`
+		ImmunitySeconds   float64 `json:"immunity_seconds"`
+	} `json:"control_gauge"`
+}
+
+type Combat struct {
+	TickSeconds float64                      `json:"tick_seconds"`
+	Initial     struct{ HP, MP, SP int }     `json:"-"`
+	Presets     map[string]map[string]string `json:"presets"` // preset -> slot -> skill id
+	Passives    struct {
+		NextBasicBonus struct {
+			Damage  int     `json:"damage"`
+			Seconds float64 `json:"seconds"`
+		} `json:"next_basic_bonus"`
+		InternalRefund struct {
+			SwordParrySP    int `json:"sword_parry_sp"`
+			FistInterruptMP int `json:"fist_interrupt_mp"`
+		} `json:"internal_refund"`
+		Lightness struct {
+			Seconds          float64 `json:"seconds"`
+			SwordQLength     float64 `json:"sword_q_length"`
+			FistQSlowCenti   int     `json:"fist_q_slow_centi"`
+			FistQSlowSeconds float64 `json:"fist_q_slow_seconds"`
+		} `json:"lightness"`
+	} `json:"passives"`
+	Control struct {
+		StunImmunitySeconds float64 `json:"stun_immunity_seconds"`
+		SlowFloorCenti      int     `json:"slow_floor_centi"`
+		WeaponSwapSeconds   float64 `json:"weapon_swap_seconds"`
+	} `json:"control"`
+	Regen struct {
+		HPPerSecond int `json:"hp_per_second"`
+		MPPerSecond int `json:"mp_per_second"`
+		SPPerSecond int `json:"sp_per_second"`
+	} `json:"regen"`
+	Monsters map[string]MonsterKind `json:"-"`
+	Spawns   []struct {
+		Monster string  `json:"monster"`
+		X       float64 `json:"x"`
+		Z       float64 `json:"z"`
+	} `json:"spawns"`
+}
+
 // Rect is [x0, z0, x1, z1] in meters with x0 < x1 and z0 < z1.
 type Rect [4]float64
 
@@ -135,6 +218,8 @@ type Data struct {
 	Economy       Economy
 	World         World
 	Map           Map
+	Skills        map[string]Skill
+	Combat        Combat
 }
 
 type header struct {
@@ -167,12 +252,25 @@ func Load(dir string) (*Data, error) {
 		header
 		Map
 	}
-	for name, dst := range map[string]any{"items.json": &items, "recipes.json": &recipes, "economy.json": &economy, "world.json": &world, "map.json": &geo} {
+	var moves struct {
+		header
+		Initial struct{ HP, MP, SP int } `json:"initial"`
+		Skills  map[string]Skill         `json:"skills"`
+	}
+	var combat struct {
+		header
+		Combat
+		Skills   map[string]Skill           `json:"skills"`
+		Monsters map[string]json.RawMessage `json:"monsters"`
+	}
+	for name, dst := range map[string]any{"items.json": &items, "recipes.json": &recipes, "economy.json": &economy, "world.json": &world, "map.json": &geo,
+		"moves.json": &moves, "combat.json": &combat} {
 		if err := readJSON(filepath.Join(dir, name), dst); err != nil {
 			return nil, err
 		}
 	}
-	for name, h := range map[string]header{"items.json": items.header, "recipes.json": recipes.header, "economy.json": economy.header, "world.json": world.header, "map.json": geo.header} {
+	for name, h := range map[string]header{"items.json": items.header, "recipes.json": recipes.header, "economy.json": economy.header, "world.json": world.header, "map.json": geo.header,
+		"moves.json": moves.header, "combat.json": combat.header} {
 		if h.SchemaVersion != SchemaVersion {
 			return nil, fmt.Errorf("%s: schema_version %d, want %d", name, h.SchemaVersion, SchemaVersion)
 		}
@@ -181,7 +279,20 @@ func Load(dir string) (*Data, error) {
 		}
 	}
 	d := &Data{Items: map[string]Item{}, StackLimits: items.StackClasses, Equipment: map[string]Equipment{},
-		RepairMaxLoss: recipes.RepairMaxLoss, Economy: economy.Economy, World: world.World, Map: geo.Map}
+		RepairMaxLoss: recipes.RepairMaxLoss, Economy: economy.Economy, World: world.World, Map: geo.Map,
+		Skills: map[string]Skill{}, Combat: combat.Combat}
+	d.Combat.Initial = moves.Initial
+	d.Combat.Monsters = map[string]MonsterKind{}
+	for id, raw := range combat.Monsters {
+		if id == "note" {
+			continue
+		}
+		var m MonsterKind
+		if err := json.Unmarshal(raw, &m); err != nil {
+			return nil, fmt.Errorf("combat.json monster %q: %w", id, err)
+		}
+		d.Combat.Monsters[id] = m
+	}
 	var errs []error
 	for _, it := range items.Items {
 		if _, dup := d.Items[it.ID]; dup {
@@ -234,6 +345,7 @@ func Load(dir string) (*Data, error) {
 		errs = append(errs, errors.New("items: exactly one coin item with a positive stack limit is required"))
 	}
 	errs = append(errs, checkMap(d)...)
+	errs = append(errs, mergeSkills(d, moves.Skills, combat.Skills)...)
 	if err := errors.Join(errs...); err != nil {
 		return nil, err
 	}
@@ -330,6 +442,57 @@ func checkMap(d *Data) []error {
 		if !valid(o.Rect) || o.Rect.Contains(m.Spawn.X, m.Spawn.Z) {
 			errs = append(errs, fmt.Errorf("map: obstacle %q invalid or covers the spawn point", o.ID))
 		}
+	}
+	return errs
+}
+
+// mergeSkills joins moves.json numbers with combat.json geometry; every
+// skill needs both, and every preset slot must name a known skill.
+func mergeSkills(d *Data, numbers, geometry map[string]Skill) []error {
+	var errs []error
+	ticks := func(sec float64) bool {
+		n := sec / d.Combat.TickSeconds
+		return sec >= 0 && math.Abs(n-math.Round(n)) < 1e-9
+	}
+	for id, n := range numbers {
+		g, ok := geometry[id]
+		if !ok {
+			errs = append(errs, fmt.Errorf("combat: skill %q has no geometry in combat.json", id))
+			continue
+		}
+		g.ID, g.Damage, g.MP, g.SP = id, n.Damage, n.MP, n.SP
+		g.Windup, g.Active, g.Recovery, g.Cooldown = n.Windup, n.Active, n.Recovery, n.Cooldown
+		for _, sec := range []float64{g.Windup, g.Active, g.Recovery, g.Cooldown, g.Stun} {
+			if !ticks(sec) {
+				errs = append(errs, fmt.Errorf("combat: skill %q time %v is not on the %vs tick grid", id, sec, d.Combat.TickSeconds))
+			}
+		}
+		switch g.Shape {
+		case "target", "rect", "sector", "parry", "dash":
+		default:
+			errs = append(errs, fmt.Errorf("combat: skill %q has unknown shape %q", id, g.Shape))
+		}
+		d.Skills[id] = g
+	}
+	for id := range geometry {
+		if _, ok := numbers[id]; !ok {
+			errs = append(errs, fmt.Errorf("combat: skill %q has geometry but no numbers in moves.json", id))
+		}
+	}
+	for preset, slots := range d.Combat.Presets {
+		for slot, id := range slots {
+			if _, ok := d.Skills[id]; !ok {
+				errs = append(errs, fmt.Errorf("combat: preset %s slot %s names unknown skill %q", preset, slot, id))
+			}
+		}
+	}
+	for _, sp := range d.Combat.Spawns {
+		if _, ok := d.Combat.Monsters[sp.Monster]; !ok {
+			errs = append(errs, fmt.Errorf("combat: spawn names unknown monster %q", sp.Monster))
+		}
+	}
+	if d.Combat.TickSeconds <= 0 || d.Combat.Initial.HP <= 0 {
+		errs = append(errs, errors.New("combat: tick_seconds and initial resources must be positive"))
 	}
 	return errs
 }

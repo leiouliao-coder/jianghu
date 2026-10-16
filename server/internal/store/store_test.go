@@ -2,10 +2,12 @@ package store
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 
@@ -89,7 +91,7 @@ func TestMigrateIsIdempotent(t *testing.T) {
 	if err := s.Migrate(ctx); err != nil {
 		t.Fatal(err)
 	}
-	if n := count(t, s, `SELECT count(*) FROM schema_migrations`); n != 3 {
+	if n := count(t, s, `SELECT count(*) FROM schema_migrations`); n != 4 {
 		t.Fatalf("schema_migrations rows=%d", n)
 	}
 }
@@ -225,9 +227,12 @@ func TestTransientErrorIsNotRecorded(t *testing.T) {
 func TestConcurrentPickupExactlyOnce(t *testing.T) {
 	s := testStore(t)
 	widenRaces(t)
-	corpse := newContainer(t, s, "corpse", Corpse, nil)
-	sword := run(t, s, "drop", func(ctx context.Context, tx *Tx) (string, error) {
-		return tx.Mint(ctx, corpse, "TEST-SWORD-001", "d100", 1)
+	victim := newPlayer(t, s, "fallen")
+	sword := run(t, s, "kit", func(ctx context.Context, tx *Tx) (string, error) {
+		return tx.Mint(ctx, victim.backpack, "TEST-SWORD-001", "d100", 1)
+	})
+	corpse := run(t, s, "death", func(ctx context.Context, tx *Tx) (int64, error) {
+		return tx.DropAll(ctx, victim.backpack, "fallen", 0, 0, time.Now().Add(time.Hour))
 	})
 	const n = 50
 	players := make([]player, n)
@@ -436,5 +441,116 @@ func TestBackpackWeightAndSlots(t *testing.T) {
 	})
 	if res.OK || res.Rejection.Code != CodeNoSlots {
 		t.Fatalf("41st slot: %+v", res)
+	}
+}
+
+func TestDeathDropsEverythingOnce(t *testing.T) {
+	s := testStore(t)
+	p := newPlayer(t, s, "victim")
+	sword := run(t, s, "kit-sword", func(ctx context.Context, tx *Tx) (string, error) {
+		return tx.Mint(ctx, p.backpack, "TEST-SWORD-001", "d100", 1)
+	})
+	run(t, s, "kit-iron", func(ctx context.Context, tx *Tx) (string, error) { return tx.Mint(ctx, p.backpack, "铁锭", "", 20) })
+	run(t, s, "kit-coins", func(ctx context.Context, tx *Tx) (any, error) { return nil, tx.MintCoins(ctx, p.backpack, 300) })
+	expires := time.Now().Add(30 * time.Minute)
+	drop := func(ctx context.Context, tx *Tx) (any, error) {
+		return tx.DropAll(ctx, p.backpack, "victim", 12.5, -3, expires)
+	}
+	first, err := s.Do(ctx, Request{ID: "death-1", Kind: "death", Payload: p.character}, drop)
+	if err != nil || !first.OK {
+		t.Fatalf("drop: %+v %v", first, err)
+	}
+	again, err := s.Do(ctx, Request{ID: "death-1", Kind: "death", Payload: p.character}, drop)
+	if err != nil || !again.Replayed || string(again.Data) != string(first.Data) {
+		t.Fatalf("replayed death must return the first corpse: %+v %v", again, err)
+	}
+	var corpse int64
+	if err := json.Unmarshal(first.Data, &corpse); err != nil {
+		t.Fatal(err)
+	}
+	if n := count(t, s, `SELECT count(*) FROM items WHERE container_id = $1`, p.backpack); n != 0 {
+		t.Fatalf("backpack still has %d stacks", n)
+	}
+	if c := count(t, s, `SELECT coins FROM containers WHERE id = $1`, corpse); c != 300 {
+		t.Fatalf("corpse coins %d", c)
+	}
+	if n := count(t, s, `SELECT count(*) FROM containers WHERE kind = 'corpse'`); n != 1 {
+		t.Fatalf("%d corpses for one death", n)
+	}
+	live, err := s.LiveCorpses(ctx)
+	if err != nil || len(live) != 1 || live[0].ID != corpse || live[0].X != 12.5 || live[0].Empty || live[0].OwnerName != "victim" {
+		t.Fatalf("live corpses %+v %v", live, err)
+	}
+	items, coins, err := s.CorpseContents(ctx, corpse)
+	if err != nil || len(items) != 2 || coins != 300 {
+		t.Fatalf("contents %+v %d %v", items, coins, err)
+	}
+
+	// Anyone may loot; each item and the coins go to exactly one looter.
+	const n = 50
+	looters := make([]player, n)
+	for i := range looters {
+		looters[i] = newPlayer(t, s, fmt.Sprintf("scav%02d", i))
+	}
+	widenRaces(t)
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	gotCoins, gotSword := 0, 0
+	for i, l := range looters {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			c, _ := s.Do(ctx, Request{ID: fmt.Sprintf("coins-%d", i), AccountID: l.account, Kind: "loot", Payload: corpse},
+				func(ctx context.Context, tx *Tx) (any, error) { return tx.TakeCoins(ctx, corpse, l.backpack) })
+			w, _ := s.Do(ctx, Request{ID: fmt.Sprintf("sword-%d", i), AccountID: l.account, Kind: "loot", Payload: sword},
+				func(ctx context.Context, tx *Tx) (any, error) {
+					return nil, tx.MoveItem(ctx, sword, corpse, l.backpack)
+				})
+			mu.Lock()
+			defer mu.Unlock()
+			if c.OK {
+				gotCoins++
+			}
+			if w.OK {
+				gotSword++
+			}
+		}()
+	}
+	wg.Wait()
+	if gotCoins != 1 || gotSword != 1 {
+		t.Fatalf("coins taken %d times, sword %d times; want 1 each", gotCoins, gotSword)
+	}
+	if total := count(t, s, `SELECT sum(coins) FROM containers`); total != 300 {
+		t.Fatalf("coins not conserved: %d", total)
+	}
+}
+
+func TestExpiredCorpseIsDestroyed(t *testing.T) {
+	s := testStore(t)
+	p := newPlayer(t, s, "forgotten")
+	run(t, s, "kit", func(ctx context.Context, tx *Tx) (string, error) { return tx.Mint(ctx, p.backpack, "布", "", 5) })
+	run(t, s, "kit-coins", func(ctx context.Context, tx *Tx) (any, error) { return nil, tx.MintCoins(ctx, p.backpack, 40) })
+	corpse := run(t, s, "death", func(ctx context.Context, tx *Tx) (int64, error) {
+		return tx.DropAll(ctx, p.backpack, "forgotten", 0, 0, time.Now().Add(-time.Second))
+	})
+	run(t, s, "expire", func(ctx context.Context, tx *Tx) (any, error) { return nil, tx.DestroyCorpse(ctx, corpse) })
+	if n := count(t, s, `SELECT count(*) FROM items WHERE container_id = $1`, corpse); n != 0 {
+		t.Fatalf("%d stacks survived expiry", n)
+	}
+	if total := count(t, s, `SELECT sum(coins) FROM containers`); total != 0 {
+		t.Fatalf("expired coins must leave circulation, %d left", total)
+	}
+	if live, _ := s.LiveCorpses(ctx); len(live) != 0 {
+		t.Fatal("destroyed corpse still listed")
+	}
+	res, err := s.Do(ctx, Request{ID: "expire-again", Kind: "k"}, func(ctx context.Context, tx *Tx) (any, error) { return nil, tx.DestroyCorpse(ctx, corpse) })
+	if err != nil || res.OK || res.Rejection.Code != CodeNotHere {
+		t.Fatalf("second destroy: %+v %v", res, err)
+	}
+	if _, _, err := s.CorpseContents(ctx, corpse); !errors.Is(err, ErrNotFound) {
+		t.Fatalf("contents of destroyed corpse: %v", err)
+	}
+	if n := count(t, s, `SELECT count(*) FROM events WHERE kind = 'corpse_expired'`); n != 1 {
+		t.Fatalf("expiry events %d", n)
 	}
 }

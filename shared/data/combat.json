@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "test",
+  "sources": {
+    "skills": "docs/design/v0.44/剑拳内功轻功_招式样表_v0.35.md §二–§四 (timing, cost and damage live in moves.json)",
+    "rules": "docs/design/v0.44/完整设计执行基线_v0.44.md §3.2",
+    "authored_m4": "regen, monsters and the teaching boss are M4 authored test parameters (baseline authorizes drafting leaf details); not from the design docs"
+  },
+  "units": {"time": "seconds", "distance": "meters", "angle": "degrees", "rate": "1/100 (centi)"},
+  "tick_seconds": 0.05,
+  "skills": {
+    "sword_basic": {"shape": "target", "range": 2.0, "parryable": true},
+    "sword_q": {"shape": "rect", "length": 3.0, "half_width": 0.35, "parryable": true},
+    "sword_w": {"shape": "parry", "range": 2.0, "arc": 120},
+    "sword_e": {"shape": "sector", "range": 2.5, "arc": 60, "parryable": true},
+    "sword_l": {"shape": "dash", "range": 3.0},
+    "fist_basic": {"shape": "target", "range": 1.5, "parryable": true},
+    "fist_q": {"shape": "sector", "range": 1.5, "arc": 90, "dash": 1.5, "parryable": true},
+    "fist_w": {"shape": "sector", "range": 1.5, "arc": 90, "stun": 0.45, "parryable": true},
+    "fist_e": {"shape": "sector", "range": 1.5, "arc": 60, "parryable": true},
+    "fist_l": {"shape": "dash", "range": 2.0}
+  },
+  "presets": {
+    "armed": {"basic": "sword_basic", "q": "sword_q", "w": "sword_w", "e": "sword_e", "l": "sword_l"},
+    "unarmed": {"basic": "fist_basic", "q": "fist_q", "w": "fist_w", "e": "fist_e", "l": "fist_l"}
+  },
+  "passives": {
+    "next_basic_bonus": {"damage": 20, "seconds": 3, "sword_trigger": "successful parry", "fist_trigger": "interrupting a windup"},
+    "internal_refund": {"sword_parry_sp": 4, "fist_interrupt_mp": 4},
+    "lightness": {"seconds": 2, "sword_q_length": 3.5, "fist_q_slow_centi": 20, "fist_q_slow_seconds": 0.8}
+  },
+  "control": {"stun_immunity_seconds": 2, "slow_floor_centi": 40, "weapon_swap_seconds": 1},
+  "regen": {
+    "note": "authored M4 test parameters: only while out of combat",
+    "hp_per_second": 20,
+    "mp_per_second": 5,
+    "sp_per_second": 10
+  },
+  "monsters": {
+    "note": "authored M4 test parameters for teaching fights; no item drops until loot tables exist",
+    "bandit": {
+      "name": "矿区山贼", "hp": 400, "speed": 3.5, "aggro_range": 8, "leash_range": 20, "respawn_seconds": 60,
+      "attack": {"range": 1.8, "windup": 0.4, "recovery": 0.6, "damage": 40, "cooldown": 1.2, "parryable": true}
+    },
+    "boss": {
+      "name": "古道拦路人", "hp": 3000, "speed": 3.0, "aggro_range": 10, "leash_range": 25, "respawn_seconds": 300,
+      "attack": {"range": 2.2, "windup": 0.8, "recovery": 0.8, "damage": 120, "cooldown": 2.0, "parryable": true},
+      "control_gauge": {"stun_scale_centi": 50, "stuns_before_immunity": 3, "window_seconds": 10, "immunity_seconds": 6}
+    }
+  },
+  "spawns": [
+    {"monster": "bandit", "x": -85, "z": -20},
+    {"monster": "bandit", "x": -120, "z": 22},
+    {"monster": "bandit", "x": 300, "z": 15},
+    {"monster": "boss", "x": 200, "z": -85}
+  ]
+}

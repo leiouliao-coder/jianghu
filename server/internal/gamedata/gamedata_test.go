@@ -28,6 +28,12 @@ func TestLoadRepositoryData(t *testing.T) {
 	if d.Map.Movement.WalkSpeed != 4 || len(d.Map.Blocks) != 6 || len(d.Map.Roads) != 7 {
 		t.Fatalf("unexpected map %+v", d.Map.Movement)
 	}
+	if q := d.Skills["sword_q"]; q.Damage != 140 || q.Windup != 0.35 || q.Length != 3 || q.HalfWidth != 0.35 || d.Combat.Initial.HP != 1000 {
+		t.Fatalf("unexpected merged skill %+v", q)
+	}
+	if d.Combat.Presets["unarmed"]["w"] != "fist_w" || d.Combat.Monsters["boss"].ControlGauge == nil {
+		t.Fatalf("unexpected combat config")
+	}
 	if d.Economy.Pool.Cap != 3000 || d.Economy.OrderRewards["测试铁剑"] != 200 {
 		t.Fatalf("unexpected economy %+v", d.Economy)
 	}
@@ -35,21 +41,28 @@ func TestLoadRepositoryData(t *testing.T) {
 
 func TestLoadRejectsBrokenData(t *testing.T) {
 	cases := map[string]struct{ file, old, new, want string }{
-		"schema":        {"items.json", `"schema_version": 1`, `"schema_version": 2`, "schema_version 2"},
-		"status":        {"economy.json", `"status": "test"`, `"status": "final"`, "only test data"},
-		"unknown item":  {"recipes.json", `"木柄坯": 1`, `"木柄": 1`, `unknown item "木柄"`},
-		"duplicate":     {"items.json", `{"id": "矿石"`, `{"id": "铁锭"`, "duplicate item"},
-		"reward target": {"economy.json", `"测试铁剑": 200`, `"测试铜剑": 200`, "unknown equipment name"},
-		"node slots":    {"world.json", `"node_slots_per_account": 200`, `"node_slots_per_account": 100`, "node slots must match"},
-		"missing road":  {"map.json", `"id": "B-D", "connects": ["B", "D"]`, `"id": "B-D", "connects": ["B", "E"]`, "edge B-D (normal) needs a pve road"},
-		"risk as pve":   {"map.json", `"connects": ["F-risk", "A"], "zone": "risk"`, `"connects": ["F-risk", "A"], "zone": "pve"`, "edge F-risk-A (risk_shortcut) needs a risk road"},
-		"unknown block": {"map.json", `{"id": "E", "rect"`, `{"id": "G", "rect"`, `block "G" unknown`},
+		"schema":                 {"items.json", `"schema_version": 1`, `"schema_version": 2`, "schema_version 2"},
+		"status":                 {"economy.json", `"status": "test"`, `"status": "final"`, "only test data"},
+		"unknown item":           {"recipes.json", `"木柄坯": 1`, `"木柄": 1`, `unknown item "木柄"`},
+		"duplicate":              {"items.json", `{"id": "矿石"`, `{"id": "铁锭"`, "duplicate item"},
+		"reward target":          {"economy.json", `"测试铁剑": 200`, `"测试铜剑": 200`, "unknown equipment name"},
+		"node slots":             {"world.json", `"node_slots_per_account": 200`, `"node_slots_per_account": 100`, "node slots must match"},
+		"missing road":           {"map.json", `"id": "B-D", "connects": ["B", "D"]`, `"id": "B-D", "connects": ["B", "E"]`, "edge B-D (normal) needs a pve road"},
+		"risk as pve":            {"map.json", `"connects": ["F-risk", "A"], "zone": "risk"`, `"connects": ["F-risk", "A"], "zone": "pve"`, "edge F-risk-A (risk_shortcut) needs a risk road"},
+		"unknown block":          {"map.json", `{"id": "E", "rect"`, `{"id": "G", "rect"`, `block "G" unknown`},
+		"skill without geometry": {"combat.json", `"fist_e": {"shape"`, `"fist_x": {"shape"`, `skill "fist_e" has no geometry`},
+		"off-grid time":          {"combat.json", `"stun": 0.45`, `"stun": 0.47`, "not on the 0.05s tick grid"},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			dir := t.TempDir()
-			for _, f := range []string{"items.json", "recipes.json", "economy.json", "world.json", "map.json"} {
-				b, err := os.ReadFile(filepath.Join(repoDataDir, f))
+			files, err := filepath.Glob(filepath.Join(repoDataDir, "*.json"))
+			if err != nil || len(files) == 0 {
+				t.Fatalf("no data files: %v", err)
+			}
+			for _, path := range files {
+				f := filepath.Base(path)
+				b, err := os.ReadFile(path)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -64,7 +77,7 @@ func TestLoadRejectsBrokenData(t *testing.T) {
 					t.Fatal(err)
 				}
 			}
-			_, err := Load(dir)
+			_, err = Load(dir)
 			if err == nil || !strings.Contains(err.Error(), tc.want) {
 				t.Fatalf("err=%v, want containing %q", err, tc.want)
 			}

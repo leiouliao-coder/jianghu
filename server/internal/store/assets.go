@@ -97,8 +97,9 @@ func (t *Tx) NodeStorage(ctx context.Context, accountID int64, node string) (int
 // NewContainer creates a corpse, NPC stock, escrow or system container.
 // slotCap nil means no slot limit.
 func (t *Tx) NewContainer(ctx context.Context, kind string, node string, slotCap *int) (int64, error) {
-	if kind == Backpack || kind == NodeStorage {
-		return 0, reject(CodeInvalid, "use CreateCharacter or NodeStorage for %s", kind)
+	switch kind {
+	case Backpack, NodeStorage, Corpse:
+		return 0, reject(CodeInvalid, "use CreateCharacter, NodeStorage or DropAll for %s", kind)
 	}
 	var id int64
 	err := t.tx.QueryRow(ctx, `INSERT INTO containers (kind, node, slot_cap) VALUES ($1, NULLIF($2, ''), $3) RETURNING id`, kind, node, slotCap).Scan(&id)

@@ -64,22 +64,23 @@ type CharacterInfo struct {
 	AccountID int64
 	Name      string
 	X, Z      float64
+	Dead      bool
 }
 
 func (s *Store) CharacterInfo(ctx context.Context, characterID int64) (CharacterInfo, error) {
 	var c CharacterInfo
-	err := s.pool.QueryRow(ctx, `SELECT account_id, name, pos_x, pos_z FROM characters WHERE id = $1`, characterID).
-		Scan(&c.AccountID, &c.Name, &c.X, &c.Z)
+	err := s.pool.QueryRow(ctx, `SELECT account_id, name, pos_x, pos_z, dead FROM characters WHERE id = $1`, characterID).
+		Scan(&c.AccountID, &c.Name, &c.X, &c.Z, &c.Dead)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return c, ErrNotFound
 	}
 	return c, err
 }
 
-// SavePosition records where a character left the world. Position is not
-// an asset, so this is a plain update rather than a request transaction.
-func (s *Store) SavePosition(ctx context.Context, characterID int64, x, z float64) error {
-	_, err := s.pool.Exec(ctx, `UPDATE characters SET pos_x = $2, pos_z = $3 WHERE id = $1`, characterID, x, z)
+// SaveState records where and whether alive a character left the world.
+// Neither is an asset, so this is a plain update, not a request transaction.
+func (s *Store) SaveState(ctx context.Context, characterID int64, x, z float64, dead bool) error {
+	_, err := s.pool.Exec(ctx, `UPDATE characters SET pos_x = $2, pos_z = $3, dead = $4 WHERE id = $1`, characterID, x, z, dead)
 	return err
 }
 
