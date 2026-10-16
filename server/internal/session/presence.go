@@ -3,6 +3,10 @@
 // lease outlives the connection: after a disconnect the character lingers,
 // and until the lease ends the account may only reconnect that character.
 //
+// The lease has no timer of its own. How long a character lingers depends
+// on combat and zone, which the world loop knows, so the world ends the
+// lease with ReleaseCharacter when the character has actually left.
+//
 // The lease is in memory because the world it guards runs in this process;
 // when zones move to separate processes it must move to a shared store.
 package session
@@ -11,7 +15,6 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"time"
 )
 
 var ErrNotPresent = errors.New("session: no lease for this owner")
@@ -35,14 +38,11 @@ type lease struct {
 	character int64
 	owner     uint64 // connection that currently controls the character
 	state     State
-	timer     *time.Timer
-	gen       uint64 // guards stale timers
 }
 
 type Presence struct {
 	mu     sync.Mutex
 	leases map[int64]*lease // by account
-	gen    uint64
 	// OnRelease, if set, is called after a lease ends (outside the lock).
 	OnRelease func(account, character int64)
 }
@@ -59,10 +59,6 @@ func (p *Presence) Enter(account, character int64, owner uint64) error {
 		if l.character != character {
 			return &OtherCharacterPresent{CharacterID: l.character}
 		}
-		if l.timer != nil {
-			l.timer.Stop()
-			l.timer = nil
-		}
 		l.owner, l.state = owner, Present
 		return nil
 	}
@@ -70,7 +66,7 @@ func (p *Presence) Enter(account, character int64, owner uint64) error {
 	return nil
 }
 
-// Leave ends the lease immediately (a normal logout where that is allowed).
+// Leave ends the lease immediately (a logout the world has allowed).
 func (p *Presence) Leave(account int64, owner uint64) error {
 	p.mu.Lock()
 	l := p.leases[account]
@@ -78,36 +74,41 @@ func (p *Presence) Leave(account int64, owner uint64) error {
 		p.mu.Unlock()
 		return ErrNotPresent
 	}
-	p.releaseLocked(account, l)
+	delete(p.leases, account)
 	p.mu.Unlock()
 	p.notify(account, l.character)
 	return nil
 }
 
-// Disconnect marks owner's character as lingering; the lease ends after
-// linger unless the character is re-entered first. A stale owner (already
+// Disconnect marks owner's character as lingering. A stale owner (already
 // replaced by a newer connection) is ignored.
-func (p *Presence) Disconnect(account int64, owner uint64, linger time.Duration) {
+func (p *Presence) Disconnect(account int64, owner uint64) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
-	l := p.leases[account]
-	if l == nil || l.owner != owner || l.state != Present {
-		return
+	if l := p.leases[account]; l != nil && l.owner == owner && l.state == Present {
+		l.state = Lingering
 	}
-	p.gen++
-	gen := p.gen
-	l.state, l.gen = Lingering, gen
-	l.timer = time.AfterFunc(linger, func() {
-		p.mu.Lock()
-		cur := p.leases[account]
-		if cur != l || cur.gen != gen || cur.state != Lingering {
-			p.mu.Unlock()
-			return
+}
+
+// ReleaseCharacter ends the lease holding character, whatever its state;
+// the world calls it when the character has actually left. It reports
+// whether a lease ended.
+func (p *Presence) ReleaseCharacter(character int64) bool {
+	p.mu.Lock()
+	var account int64
+	found := false
+	for a, l := range p.leases {
+		if l.character == character {
+			account, found = a, true
+			delete(p.leases, a)
+			break
 		}
-		p.releaseLocked(account, cur)
-		p.mu.Unlock()
-		p.notify(account, cur.character)
-	})
+	}
+	p.mu.Unlock()
+	if found {
+		p.notify(account, character)
+	}
+	return found
 }
 
 // Current reports the account's lease.
@@ -118,13 +119,6 @@ func (p *Presence) Current(account int64) (character int64, state State, ok bool
 		return l.character, l.state, true
 	}
 	return 0, "", false
-}
-
-func (p *Presence) releaseLocked(account int64, l *lease) {
-	if l.timer != nil {
-		l.timer.Stop()
-	}
-	delete(p.leases, account)
 }
 
 func (p *Presence) notify(account, character int64) {

@@ -5,7 +5,6 @@ import (
 	"sync"
 	"sync/atomic"
 	"testing"
-	"time"
 )
 
 func TestOneCharacterPerAccount(t *testing.T) {
@@ -31,12 +30,12 @@ func TestOneCharacterPerAccount(t *testing.T) {
 	}
 }
 
-func TestDisconnectLingersThenReleases(t *testing.T) {
+func TestDisconnectLingersUntilTheWorldReleases(t *testing.T) {
 	p := NewPresence()
-	released := make(chan int64, 1)
-	p.OnRelease = func(_, c int64) { released <- c }
+	var released []int64
+	p.OnRelease = func(_, c int64) { released = append(released, c) }
 	_ = p.Enter(1, 10, 100)
-	p.Disconnect(1, 100, 50*time.Millisecond)
+	p.Disconnect(1, 100)
 	if c, s, ok := p.Current(1); !ok || c != 10 || s != Lingering {
 		t.Fatalf("after disconnect: %d %s %v", c, s, ok)
 	}
@@ -45,37 +44,30 @@ func TestDisconnectLingersThenReleases(t *testing.T) {
 		t.Fatal("switching character while lingering must be refused")
 	}
 	if err := p.Leave(1, 100); !errors.Is(err, ErrNotPresent) {
-		t.Fatal("a lingering character cannot be logged out instantly by the dead connection")
+		t.Fatal("the dead connection cannot log a lingering character out")
 	}
-	select {
-	case c := <-released:
-		if c != 10 {
-			t.Fatalf("released %d", c)
-		}
-	case <-time.After(2 * time.Second):
-		t.Fatal("lease never released")
+	if p.ReleaseCharacter(99) {
+		t.Fatal("released an unknown character")
+	}
+	if !p.ReleaseCharacter(10) || len(released) != 1 || released[0] != 10 {
+		t.Fatalf("release: %v", released)
 	}
 	if _, _, ok := p.Current(1); ok {
-		t.Fatal("lease still present after linger")
+		t.Fatal("lease still present after release")
+	}
+	if err := p.Enter(1, 11, 101); err != nil {
+		t.Fatalf("any character may enter after release: %v", err)
 	}
 }
 
-func TestReconnectCancelsLinger(t *testing.T) {
+func TestReconnectTakesOverAndStaleDisconnectIsIgnored(t *testing.T) {
 	p := NewPresence()
-	var releases atomic.Int32
-	p.OnRelease = func(_, _ int64) { releases.Add(1) }
 	_ = p.Enter(1, 10, 100)
-	p.Disconnect(1, 100, 30*time.Millisecond)
+	p.Disconnect(1, 100)
 	if err := p.Enter(1, 10, 101); err != nil {
 		t.Fatalf("reconnect to the same character: %v", err)
 	}
-	time.Sleep(80 * time.Millisecond)
-	if c, s, ok := p.Current(1); !ok || c != 10 || s != Present || releases.Load() != 0 {
-		t.Fatalf("stale timer released a reconnected character: %d %s %v %d", c, s, ok, releases.Load())
-	}
-	// The old connection's late disconnect must not affect the new owner.
-	p.Disconnect(1, 100, time.Millisecond)
-	time.Sleep(20 * time.Millisecond)
+	p.Disconnect(1, 100) // the old connection's late close
 	if _, s, _ := p.Current(1); s != Present {
 		t.Fatal("stale owner disconnected the new connection's character")
 	}

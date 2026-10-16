@@ -217,7 +217,7 @@ func TestRegenOnlyOutOfCombat(t *testing.T) {
 	d.run(1)
 	hp := d.sword.HP
 	d.run(25)
-	if d.sword.HP != hp || !d.e.InCombat(d.sword, 15, 30) {
+	if d.sword.HP != hp || !d.e.InCombat(d.sword) {
 		t.Fatal("PvP: no regen within 30 s of the last hit")
 	}
 	d.run(6)

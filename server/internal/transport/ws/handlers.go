@@ -247,13 +247,29 @@ func (s *Server) enterWorld(ctx context.Context, c *conn, env Envelope, account 
 		"x": pos[0], "z": pos[1], "area": area.ID, "zone": area.Zone, "dead": v.Dead, "map": s.cfg.Map})
 }
 
+// leaveWorld is an active logout: immediate when out of combat in a safe
+// zone; otherwise the character stays until it has disengaged and lingered
+// (a "left_world" push follows), and acting or being attacked cancels it.
 func (s *Server) leaveWorld(c *conn, env Envelope, account int64) {
+	if c.character == 0 {
+		c.sendError(env.ReqID, ErrNotInWorld, "this connection has no character in the world", nil)
+		return
+	}
+	immediate, err := s.world.RequestLeave(c.character)
+	if err != nil {
+		s.worldError(c, env, err)
+		return
+	}
+	if !immediate {
+		c.send("leave_world.ok", env.ReqID, map[string]bool{"left": false, "delayed": true})
+		return
+	}
 	if err := s.presence.Leave(account, c.id); err != nil {
 		c.sendError(env.ReqID, ErrNotInWorld, "this connection has no character in the world", nil)
 		return
 	}
 	c.character = 0
-	c.send("leave_world.ok", env.ReqID, nil)
+	c.send("leave_world.ok", env.ReqID, map[string]bool{"left": true})
 }
 
 func (s *Server) moveTo(c *conn, env Envelope) {

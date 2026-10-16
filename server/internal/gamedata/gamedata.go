@@ -66,7 +66,10 @@ type World struct {
 		NodeSlotsPerAccount int `json:"node_slots_per_account"`
 	} `json:"inventory"`
 	Combat struct {
-		SafeZoneDisconnectSeconds int `json:"safe_zone_disconnect_seconds"`
+		SafeZoneDisconnectSeconds   int `json:"safe_zone_disconnect_seconds"`
+		PvEDisengageSeconds         int `json:"pve_disengage_seconds"`
+		PvPDisengageSeconds         int `json:"pvp_disengage_seconds"`
+		LingerAfterDisengageSeconds int `json:"linger_after_disengage_seconds"`
 	} `json:"combat"`
 	Blocks []BlockInfo `json:"blocks"`
 	Edges  []struct {
@@ -338,6 +341,7 @@ func Load(dir string) (*Data, error) {
 		errs = append(errs, errors.New("economy pool: need 0 <= initial <= cap and refill >= 0"))
 	}
 	if w := d.World; w.Characters.PerAccount <= 0 || w.Inventory.BackpackSlots <= 0 || w.Combat.SafeZoneDisconnectSeconds <= 0 ||
+		w.Combat.PvEDisengageSeconds <= 0 || w.Combat.PvPDisengageSeconds <= 0 || w.Combat.LingerAfterDisengageSeconds <= 0 ||
 		w.Inventory.NodeSlotsPerAccount != d.Economy.NodeSlotsPerAccount {
 		errs = append(errs, errors.New("world: character/slot limits and disconnect time must be positive and node slots must match economy.json"))
 	}

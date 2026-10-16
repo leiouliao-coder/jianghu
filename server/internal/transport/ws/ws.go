@@ -78,7 +78,6 @@ type Envelope struct {
 }
 
 type Config struct {
-	Linger           time.Duration // presence kept after a disconnect in a safe zone
 	SessionTTL       time.Duration
 	IdleTimeout      time.Duration // close if the client sends nothing for this long
 	MaxLoginFailures int
@@ -109,6 +108,8 @@ func New(st *store.Store, presence *session.Presence, w *world.World, cfg Config
 	presence.OnRelease = s.onRelease
 	w.Hooks.OnDeath = func(id int64, name string, at world.Point) { go s.dropOnDeath(id, name, at) }
 	w.Hooks.OnCorpseExpired = func(id int64) { go s.expireCorpse(id) }
+	// The world decides when a lingering or logging-out character has left.
+	w.Hooks.OnLeft = func(id int64) { presence.ReleaseCharacter(id) }
 	return s
 }
 
@@ -378,7 +379,7 @@ func (s *Server) detach(c *conn) {
 		if c.character != 0 {
 			s.world.Detach(c.character, c)
 		}
-		s.presence.Disconnect(account, c.id, s.cfg.Linger)
+		s.presence.Disconnect(account, c.id)
 	}
 }
 

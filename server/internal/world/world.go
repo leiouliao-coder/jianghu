@@ -57,7 +57,20 @@ type entity struct {
 	sink      Sink    // nil while the owner is disconnected
 	moveTimes []time.Time
 	f         *combat.Fighter
+
+	leave    leaveMode
+	leaveReq combat.Tick // when a logout was requested
+	leaveAt  combat.Tick // 0 until the countdown starts (out of combat)
 }
+
+// leaveMode is why a character is waiting to leave the world.
+type leaveMode int
+
+const (
+	stay leaveMode = iota
+	disconnected
+	loggingOut
+)
 
 type corpse struct {
 	id      int64
@@ -74,6 +87,9 @@ type Hooks struct {
 	OnDeath func(character int64, name string, at Point)
 	// OnCorpseExpired must destroy what is left in the corpse.
 	OnCorpseExpired func(corpse int64)
+	// OnLeft runs when a character's delayed logout or disconnect linger is
+	// over; it must end the presence lease (which despawns the character).
+	OnLeft func(character int64)
 }
 
 type World struct {
@@ -86,8 +102,13 @@ type World struct {
 	limit int // move requests per second
 	spawn Point
 	safe  []Point // respawn points: one per service block
-	Hooks Hooks
-	Now   func() time.Time // wall clock for corpse timers; tests replace it
+	// Departure delays (world.json combat): after disengaging, a
+	// disconnected character leaves a safe zone after SafeDisconnect and
+	// anywhere else after Linger; a logout in a safe zone is immediate.
+	SafeDisconnect time.Duration
+	Linger         time.Duration
+	Hooks          Hooks
+	Now            func() time.Time // wall clock for corpse timers; tests replace it
 
 	mu      sync.Mutex
 	ents    map[int64]*entity
@@ -110,6 +131,9 @@ func New(d *gamedata.Data) *World {
 		Now:     time.Now,
 		ents:    map[int64]*entity{},
 		corpses: map[int64]*corpse{},
+
+		SafeDisconnect: time.Duration(d.World.Combat.SafeZoneDisconnectSeconds) * time.Second,
+		Linger:         time.Duration(d.World.Combat.LingerAfterDisengageSeconds) * time.Second,
 	}
 	w.eng.Rules = w
 	w.eng.Walkable = func(v combat.Vec) bool { _, ok := w.nav.Classify(v.X, v.Z); return ok }
@@ -195,6 +219,7 @@ func (w *World) Attach(id int64, sink Sink) (Point, Area, bool) {
 		return Point{}, Area{}, false
 	}
 	e.sink = sink
+	e.leave, e.leaveAt = stay, 0 // reconnecting cancels any pending departure
 	return e.pos, e.area, true
 }
 
@@ -207,6 +232,36 @@ func (w *World) Detach(id int64, sink Sink) {
 	defer w.mu.Unlock()
 	if e := w.ents[id]; e != nil && e.sink == sink {
 		e.sink, e.path = nil, nil
+		e.leave, e.leaveAt = disconnected, 0
+	}
+}
+
+// RequestLeave handles an active logout. Out of combat in a safe zone it is
+// immediate (the caller ends the lease). Otherwise the character stays and
+// leaves after disengaging plus the linger time; acting or being attacked
+// meanwhile cancels the logout.
+func (w *World) RequestLeave(id int64) (immediate bool, err error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	e := w.ents[id]
+	if e == nil {
+		return false, ErrNotInWorld
+	}
+	if e.area.Zone == ZoneService && !w.eng.InCombat(e.f) {
+		return true, nil
+	}
+	e.leave, e.leaveReq, e.leaveAt = loggingOut, w.eng.Now, 0
+	return false, nil
+}
+
+// cancelLogout is called when the player acts during a pending logout.
+func (w *World) cancelLogout(e *entity, reason string) {
+	if e.leave != loggingOut {
+		return
+	}
+	e.leave, e.leaveAt = stay, 0
+	if e.sink != nil {
+		e.sink.Push("leave_cancelled", map[string]string{"reason": reason})
 	}
 }
 
@@ -252,6 +307,7 @@ func (w *World) MoveTo(id int64, target Point, acceptRisk bool, now time.Time) (
 		return nil, err
 	}
 	e.path = path[1:]
+	w.cancelLogout(e, "moved")
 	return path, nil
 }
 
@@ -279,6 +335,7 @@ func (w *World) Cast(id int64, slot string, dir Point, target int64) error {
 		return err
 	}
 	e.path = nil
+	w.cancelLogout(e, "acted")
 	return nil
 }
 
@@ -286,10 +343,15 @@ func (w *World) Cast(id int64, slot string, dir Point, target int64) error {
 func (w *World) Swap(id int64) error {
 	w.mu.Lock()
 	defer w.mu.Unlock()
-	if w.ents[id] == nil {
+	e := w.ents[id]
+	if e == nil {
 		return ErrNotInWorld
 	}
-	return w.eng.Swap(id)
+	if err := w.eng.Swap(id); err != nil {
+		return err
+	}
+	w.cancelLogout(e, "acted")
+	return nil
 }
 
 // Respawn brings a dead character back at the nearest safe point with full
@@ -370,9 +432,15 @@ func (w *World) CanLoot(character, corpseID int64) error {
 // Step advances the world by one fixed tick of dt seconds.
 func (w *World) Step(dt float64) {
 	w.mu.Lock()
-	deaths, expired := w.step(dt)
+	r := w.step(dt)
 	w.mu.Unlock()
-	w.runHooks(deaths, expired)
+	w.runHooks(r)
+}
+
+type stepResult struct {
+	deaths  []death
+	expired []int64
+	left    []int64
 }
 
 type death struct {
@@ -381,7 +449,7 @@ type death struct {
 	at   Point
 }
 
-func (w *World) step(dt float64) ([]death, []int64) {
+func (w *World) step(dt float64) stepResult {
 	w.tick++
 	now := w.eng.Now
 	for _, e := range w.ents {
@@ -425,6 +493,7 @@ func (w *World) step(dt float64) ([]death, []int64) {
 			e.area = a
 		}
 	}
+	left := w.departures()
 	var expired []int64
 	wall := w.Now()
 	for id, c := range w.corpses {
@@ -435,18 +504,64 @@ func (w *World) step(dt float64) ([]death, []int64) {
 			delete(w.corpses, id)
 		}
 	}
-	return deaths, expired
+	return stepResult{deaths, expired, left}
 }
 
-func (w *World) runHooks(deaths []death, expired []int64) {
-	for _, d := range deaths {
+// departures advances pending logouts and disconnect lingers. Combat comes
+// first: the countdown only starts once the character has disengaged, and
+// starts over if a disconnected character is attacked again. A logout is
+// cancelled outright by an attack after it was requested.
+func (w *World) departures() []int64 {
+	var left []int64
+	now := w.eng.Now
+	tick := w.tickD
+	for id, e := range w.ents {
+		if e.leave == stay {
+			continue
+		}
+		if w.eng.InCombat(e.f) {
+			if e.leave == loggingOut && e.f.LastCombat() > e.leaveReq {
+				w.cancelLogout(e, "attacked")
+			}
+			e.leaveAt = 0
+			continue
+		}
+		if e.leaveAt == 0 {
+			wait := w.Linger
+			if e.area.Zone == ZoneService {
+				wait = w.SafeDisconnect
+				if e.leave == loggingOut {
+					wait = 0
+				}
+			}
+			e.leaveAt = now + combat.Tick(wait/tick)
+		}
+		if now >= e.leaveAt {
+			left = append(left, id)
+			e.leave = stay
+			if e.sink != nil {
+				e.sink.Push("left_world", map[string]int64{"character_id": id})
+			}
+		}
+	}
+	sort.Slice(left, func(i, j int) bool { return left[i] < left[j] })
+	return left
+}
+
+func (w *World) runHooks(r stepResult) {
+	for _, d := range r.deaths {
 		if w.Hooks.OnDeath != nil {
 			w.Hooks.OnDeath(d.id, d.name, d.at)
 		}
 	}
-	for _, id := range expired {
+	for _, id := range r.expired {
 		if w.Hooks.OnCorpseExpired != nil {
 			w.Hooks.OnCorpseExpired(id)
+		}
+	}
+	for _, id := range r.left {
+		if w.Hooks.OnLeft != nil {
+			w.Hooks.OnLeft(id)
 		}
 	}
 }
@@ -582,7 +697,7 @@ func (w *World) Run(ctx context.Context) {
 		case <-t.C:
 		}
 		w.mu.Lock()
-		deaths, expired := w.step(dt)
+		r := w.step(dt)
 		var out []delivery
 		if w.tick%uint64(w.every) == 0 {
 			out = w.snapshots()
@@ -591,6 +706,6 @@ func (w *World) Run(ctx context.Context) {
 		for _, d := range out {
 			d.sink.Push("snapshot", d.snap)
 		}
-		w.runHooks(deaths, expired)
+		w.runHooks(r)
 	}
 }

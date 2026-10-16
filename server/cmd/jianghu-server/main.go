@@ -56,7 +56,6 @@ func run() error {
 		defer stopWorld()
 		go w.Run(worldCtx)
 		gateway = ws.New(st, session.NewPresence(), w, ws.Config{
-			Linger:           time.Duration(data.World.Combat.SafeZoneDisconnectSeconds) * time.Second,
 			SessionTTL:       7 * 24 * time.Hour,
 			IdleTimeout:      60 * time.Second,
 			MaxLoginFailures: 5,

@@ -29,7 +29,9 @@ type harness struct {
 	st  *store.Store
 }
 
-func newHarness(t *testing.T, cfg Config) *harness {
+// newHarness starts a gateway with a running world. linger, if set,
+// shortens both departure delays (safe-zone disconnect and wild linger).
+func newHarness(t *testing.T, cfg Config, linger ...time.Duration) *harness {
 	t.Helper()
 	d, err := gamedata.Load("../../../../shared/data")
 	if err != nil {
@@ -52,10 +54,10 @@ func newHarness(t *testing.T, cfg Config) *harness {
 	if cfg.MaxLoginFailures == 0 {
 		cfg.MaxLoginFailures = 5
 	}
-	if cfg.Linger == 0 {
-		cfg.Linger = 30 * time.Second
-	}
 	w := world.New(d)
+	if len(linger) > 0 {
+		w.SafeDisconnect, w.Linger = linger[0], linger[0]
+	}
 	cfg.Map = world.ClientMap(d)
 	runCtx, stopWorld := context.WithCancel(context.Background())
 	go w.Run(runCtx)
@@ -358,7 +360,7 @@ func TestKickAndSingleCharacter(t *testing.T) {
 func TestDisconnectLingerThenSwitch(t *testing.T) {
 	// The linger must outlast the second login (argon2 is slow under -race
 	// on CI runners), so it is seconds, not milliseconds.
-	h := newHarness(t, Config{Linger: 3 * time.Second})
+	h := newHarness(t, Config{}, 3*time.Second)
 	a, _ := registerAndLogin(h, "lingerer")
 	first := a.newCharacter("stay")
 	second := a.newCharacter("swap")
@@ -530,7 +532,7 @@ func TestPositionIsSavedOnLeave(t *testing.T) {
 }
 
 func TestPlayersSeeEachOtherAndKickKeepsCharacter(t *testing.T) {
-	h := newHarness(t, Config{Linger: 300 * time.Millisecond})
+	h := newHarness(t, Config{}, 300*time.Millisecond)
 	a, _ := registerAndLogin(h, "alpha")
 	aid := a.newCharacter("甲士")
 	a.ok("enter_world", map[string]int64{"character_id": aid}, nil)
@@ -685,14 +687,35 @@ func TestNoPlayerHarmOutsideRiskAndFarLooters(t *testing.T) {
 }
 
 func TestDeadCharacterComesBackDeadWithoutSecondDrop(t *testing.T) {
-	h := newHarness(t, Config{})
+	h := newHarness(t, Config{}, 300*time.Millisecond)
 	a, _ := registerAndLogin(h, "ghost")
 	aid := a.newCharacter("孤魂")
 	h.placeAt(aid, 200, -130)
 	a.ok("enter_world", map[string]int64{"character_id": aid}, nil)
 	h.w.SetHP(aid, 0)
 	a.snapshotUntil(func(s world.Snapshot) bool { e, _ := find(s, aid); return e.Dead && len(s.Corpses) == 1 })
-	a.ok("leave_world", nil, nil)
+	// Outside a safe zone a logout is delayed; wait until the character has
+	// really left before coming back.
+	var leave struct {
+		Left    bool `json:"left"`
+		Delayed bool `json:"delayed"`
+	}
+	a.ok("leave_world", nil, &leave)
+	if leave.Left || !leave.Delayed {
+		t.Fatalf("logout in a risk area must be delayed: %+v", leave)
+	}
+	for {
+		env, err := a.read()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if env.Type == "left_world" {
+			break
+		}
+	}
+	if _, ok := h.w.Get(aid); ok {
+		t.Fatal("character still in the world after left_world")
+	}
 	var back struct {
 		Dead bool `json:"dead"`
 	}

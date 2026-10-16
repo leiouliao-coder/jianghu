@@ -135,13 +135,18 @@ type Engine struct {
 	Rules    Rules
 	Walkable func(Vec) bool
 	Regen    bool
-	events   []Event
+	// Disengage is how long after the last hostile exchange a fighter
+	// leaves combat, in seconds (world.json; PvP is longer than PvE).
+	Disengage struct{ PvE, PvP float64 }
+	events    []Event
 }
 
 func Ticks(sec float64, tickSec float64) Tick { return Tick(math.Round(sec / tickSec)) }
 
 func New(d *gamedata.Data) *Engine {
 	e := &Engine{data: d, cfg: d.Combat, skills: map[string]*Skill{}, fighters: map[int64]*Fighter{}, Regen: true}
+	e.Disengage.PvE = float64(d.World.Combat.PvEDisengageSeconds)
+	e.Disengage.PvP = float64(d.World.Combat.PvPDisengageSeconds)
 	for id, s := range d.Skills {
 		e.skills[id] = e.convert(s)
 	}
@@ -195,6 +200,9 @@ func (f *Fighter) Busy() bool                              { return f.act != nil
 func (f *Fighter) Stunned(now Tick) bool                   { return now < f.stunnedUntil }
 func (f *Fighter) CooldownLeft(slot string, now Tick) Tick { return max(0, f.readyAt[slot]-now) }
 
+// LastCombat is the tick of the fighter's last effective hostile exchange.
+func (f *Fighter) LastCombat() Tick { return f.lastCombat }
+
 // ActionSkill names the skill in progress, or "".
 func (f *Fighter) ActionSkill() string {
 	if f.act == nil {
@@ -216,14 +224,14 @@ func (e *Engine) SpeedCenti(f *Fighter) int {
 
 // InCombat reports the fighter's combat state: PvE leaves combat after 15 s
 // and PvP after 30 s without effective hostile actions (baseline §3.2).
-func (e *Engine) InCombat(f *Fighter, pveSec, pvpSec float64) bool {
+func (e *Engine) InCombat(f *Fighter) bool {
 	if !f.inCombatEver {
 		return false
 	}
-	if f.lastPvP > 0 && e.Now-f.lastPvP < e.ticks(pvpSec) {
+	if f.lastPvP > 0 && e.Now-f.lastPvP < e.ticks(e.Disengage.PvP) {
 		return true
 	}
-	return e.Now-f.lastCombat < e.ticks(pveSec)
+	return e.Now-f.lastCombat < e.ticks(e.Disengage.PvE)
 }
 
 func (e *Engine) skillFor(f *Fighter, slot string) *Skill {
@@ -566,7 +574,7 @@ func (e *Engine) markCombat(a, b *Fighter) {
 
 // regen restores resources only out of combat (authored test parameters).
 func (e *Engine) regen(f *Fighter) {
-	if !e.Regen || f.Dead || e.InCombat(f, 15, 30) {
+	if !e.Regen || f.Dead || e.InCombat(f) {
 		return
 	}
 	r := e.cfg.Regen
