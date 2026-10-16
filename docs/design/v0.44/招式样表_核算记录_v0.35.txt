@@ -1,0 +1,21 @@
+COMMAND: python3 work/verify_combat_sample_v35.py
+INPUT: embedded JSON in 剑拳内功轻功_招式样表_v0.35.md
+STDOUT_BEGIN
+{"case": "A", "state": {"sword": {"hp": 1000, "mp": 92, "sp": 94}, "fist": {"hp": 1000, "mp": 100, "sp": 100}}, "remaining_cd_seconds": {"sword_q": "4.3"}, "resource_timing_arithmetic": "PASS"}
+{"case": "B", "state": {"sword": {"hp": 1000, "mp": 100, "sp": 92}, "fist": {"hp": 1000, "mp": 95, "sp": 88}}, "remaining_cd_seconds": {"fist_q": "4.1", "sword_w": "5.2"}, "resource_timing_arithmetic": "PASS"}
+{"case": "C", "state": {"sword": {"hp": 920, "mp": 85, "sp": 85}, "fist": {"hp": 1000, "mp": 96, "sp": 90}}, "remaining_cd_seconds": {"sword_e": "9.1", "fist_w": "7.35"}, "resource_timing_arithmetic": "PASS"}
+{"case": "D", "state": {"sword": {"hp": 1000, "mp": 92, "sp": 76}, "fist": {"hp": 860, "mp": 100, "sp": 100}}, "remaining_cd_seconds": {"sword_l": "6.65", "sword_q": "4.30"}, "resource_timing_arithmetic": "PASS"}
+PASS: 4 authored scenarios; costs, damage arithmetic, cooldown, action timing and selected point geometry checked. NOT a game client, physics engine, multiplayer test or balance proof.
+SAMPLE_SHA256 2305f6d64c3f3e989cb14ebbc0194364c08595f82205b0ff8eda65f09d9aaa63
+STDOUT_END
+STDERR_BEGIN
+STDERR_END
+EXIT_STATUS: 0
+
+V0.36 ACCEPTANCE STATUS UPDATE: same JSON values; rerun after text-only status update.
+{"case": "A", "state": {"sword": {"hp": 1000, "mp": 92, "sp": 94}, "fist": {"hp": 1000, "mp": 100, "sp": 100}}, "remaining_cd_seconds": {"sword_q": "4.3"}, "resource_timing_arithmetic": "PASS"}
+{"case": "B", "state": {"sword": {"hp": 1000, "mp": 100, "sp": 92}, "fist": {"hp": 1000, "mp": 95, "sp": 88}}, "remaining_cd_seconds": {"fist_q": "4.1", "sword_w": "5.2"}, "resource_timing_arithmetic": "PASS"}
+{"case": "C", "state": {"sword": {"hp": 920, "mp": 85, "sp": 85}, "fist": {"hp": 1000, "mp": 96, "sp": 90}}, "remaining_cd_seconds": {"sword_e": "9.1", "fist_w": "7.35"}, "resource_timing_arithmetic": "PASS"}
+{"case": "D", "state": {"sword": {"hp": 1000, "mp": 92, "sp": 76}, "fist": {"hp": 860, "mp": 100, "sp": 100}}, "remaining_cd_seconds": {"sword_l": "6.65", "sword_q": "4.30"}, "resource_timing_arithmetic": "PASS"}
+PASS: 4 authored scenarios; costs, damage arithmetic, cooldown, action timing and selected point geometry checked. NOT a game client, physics engine, multiplayer test or balance proof.
+SAMPLE_SHA256 a2fc4e9014e194b31ef3da2a906faaa0fde37c1afe0617135a72732fa40f5b7b

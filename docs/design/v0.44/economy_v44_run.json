@@ -1,0 +1,2230 @@
+{
+  "status": "PASS",
+  "assertions": 750,
+  "input": "docs/design/v0.44/economy_v44.json",
+  "prices": [
+    {
+      "item": "测试铁剑",
+      "fresh_cost": 88,
+      "repair_cost": 18,
+      "lifecycle_cost": 124,
+      "order_reward": 200,
+      "order_net_before_labor": 112
+    },
+    {
+      "item": "测试布护具",
+      "fresh_cost": 56,
+      "repair_cost": 8,
+      "lifecycle_cost": 72,
+      "order_reward": 150,
+      "order_net_before_labor": 94
+    }
+  ],
+  "A": [
+    {
+      "label": "A0 已沿普通道路实际携款200抵B；存量1000非本期发行",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 800,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 200,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3000,
+      "mint": 0,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "A1 购料并制造独立订单件、自用件，两修回收完成",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 588,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 72,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2660,
+      "mint": 0,
+      "burn": 340,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        },
+        "B": {
+          "测试布护具": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        },
+        "B": {
+          "测试布护具": 1
+        }
+      },
+      "orders": {},
+      "goods_states": {
+        "sword-ORDER": "player",
+        "sword-SELF": "recycled",
+        "cloth-ORDER": "player",
+        "cloth-SELF": "recycled"
+      }
+    },
+    {
+      "label": "A2 接单冻结350，账号预占350",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 200,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 150,
+          "available": 850
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 588,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 72,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2660,
+      "mint": 0,
+      "burn": 340,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        },
+        "B": {
+          "测试布护具": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        },
+        "B": {
+          "测试布护具": 1
+        }
+      },
+      "orders": {
+        "s": "open",
+        "c": "open"
+      },
+      "goods_states": {
+        "sword-ORDER": "player",
+        "sword-SELF": "recycled",
+        "cloth-ORDER": "player",
+        "cloth-SELF": "recycled"
+      }
+    },
+    {
+      "label": "A3 运行1小时两池各发行200",
+      "hour": 1,
+      "real_hour": 1,
+      "nodes": {
+        "A": {
+          "T": 1200,
+          "F": 200,
+          "available": 1000
+        },
+        "B": {
+          "T": 1200,
+          "F": 150,
+          "available": 1050
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 588,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 72,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3060,
+      "mint": 400,
+      "burn": 340,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        },
+        "B": {
+          "测试布护具": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        },
+        "B": {
+          "测试布护具": 1
+        }
+      },
+      "orders": {
+        "s": "open",
+        "c": "open"
+      },
+      "goods_states": {
+        "sword-ORDER": "player",
+        "sword-SELF": "recycled",
+        "cloth-ORDER": "player",
+        "cloth-SELF": "recycled"
+      }
+    },
+    {
+      "label": "A4 交付：本地待领A200/B150，收入350",
+      "hour": 1,
+      "real_hour": 1,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        },
+        "B": {
+          "T": 1050,
+          "F": 0,
+          "available": 1050
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 588,
+            "pending": 200,
+            "bank": 0
+          },
+          "B": {
+            "carry": 72,
+            "pending": 150,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3060,
+      "mint": 400,
+      "burn": 340,
+      "npc_paid": 350,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 1
+        },
+        "B": {
+          "测试布护具": 1
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 0
+        },
+        "B": {
+          "测试布护具": 0
+        }
+      },
+      "orders": {
+        "s": "paid",
+        "c": "paid"
+      },
+      "goods_states": {
+        "sword-ORDER": "npc-stock",
+        "sword-SELF": "recycled",
+        "cloth-ORDER": "npc-stock",
+        "cloth-SELF": "recycled"
+      }
+    },
+    {
+      "label": "A5 同节点领取至银行，不跨节点不重复占额",
+      "hour": 1,
+      "real_hour": 1,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        },
+        "B": {
+          "T": 1050,
+          "F": 0,
+          "available": 1050
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 588,
+            "pending": 0,
+            "bank": 200
+          },
+          "B": {
+            "carry": 72,
+            "pending": 0,
+            "bank": 150
+          }
+        }
+      },
+      "world": 3060,
+      "mint": 400,
+      "burn": 340,
+      "npc_paid": 350,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 1
+        },
+        "B": {
+          "测试布护具": 1
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 0
+        },
+        "B": {
+          "测试布护具": 0
+        }
+      },
+      "orders": {
+        "s": "paid",
+        "c": "paid"
+      },
+      "goods_states": {
+        "sword-ORDER": "npc-stock",
+        "sword-SELF": "recycled",
+        "cloth-ORDER": "npc-stock",
+        "cloth-SELF": "recycled"
+      }
+    }
+  ],
+  "lifecycle": {
+    "sword": [
+      {
+        "stage": "made",
+        "current": 100,
+        "max": 100
+      },
+      {
+        "stage": "wear",
+        "current": 35,
+        "max": 100
+      },
+      {
+        "stage": "repair",
+        "current": 98,
+        "max": 98
+      },
+      {
+        "stage": "wear",
+        "current": 28,
+        "max": 98
+      },
+      {
+        "stage": "repair",
+        "current": 96,
+        "max": 96
+      },
+      {
+        "stage": "wear",
+        "current": 0,
+        "max": 96
+      },
+      {
+        "stage": "recycled",
+        "salvage": {
+          "废铁": 3
+        }
+      }
+    ],
+    "cloth": [
+      {
+        "stage": "made",
+        "current": 100,
+        "max": 100
+      },
+      {
+        "stage": "wear",
+        "current": 35,
+        "max": 100
+      },
+      {
+        "stage": "repair",
+        "current": 98,
+        "max": 98
+      },
+      {
+        "stage": "wear",
+        "current": 28,
+        "max": 98
+      },
+      {
+        "stage": "repair",
+        "current": 96,
+        "max": 96
+      },
+      {
+        "stage": "wear",
+        "current": 0,
+        "max": 96
+      },
+      {
+        "stage": "recycled",
+        "salvage": {
+          "碎布": 2
+        }
+      }
+    ]
+  },
+  "B": [
+    {
+      "label": "B0 请求顺序p先q后",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "p": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        },
+        "q": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 4000,
+      "mint": 0,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "B1 p锁定唯一需求，q被拒",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 200,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "p": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        },
+        "q": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 4000,
+      "mint": 0,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "orders": {
+        "p1": "open"
+      },
+      "goods_states": {}
+    },
+    {
+      "label": "B2 p收入200；重放未重复支付",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 800,
+          "F": 0,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "p": {
+          "A": {
+            "carry": 912,
+            "pending": 200,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        },
+        "q": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3912,
+      "mint": 0,
+      "burn": 88,
+      "npc_paid": 200,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "orders": {
+        "p1": "paid"
+      },
+      "goods_states": {
+        "B-S": "npc-stock"
+      }
+    },
+    {
+      "label": "B3 NPC实际消耗后q可接新订单",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 800,
+          "F": 200,
+          "available": 600
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "p": {
+          "A": {
+            "carry": 912,
+            "pending": 200,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        },
+        "q": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3912,
+      "mint": 0,
+      "burn": 88,
+      "npc_paid": 200,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "orders": {
+        "p1": "paid",
+        "q2": "open"
+      },
+      "goods_states": {
+        "B-S": "npc-consumed"
+      }
+    },
+    {
+      "label": "B4 取消仅解冻200",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 800,
+          "F": 0,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "p": {
+          "A": {
+            "carry": 912,
+            "pending": 200,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        },
+        "q": {
+          "A": {
+            "carry": 1000,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3912,
+      "mint": 0,
+      "burn": 88,
+      "npc_paid": 200,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "orders": {
+        "p1": "paid",
+        "q2": "cancelled"
+      },
+      "goods_states": {
+        "B-S": "npc-consumed"
+      }
+    },
+    {
+      "label": "B5 支付玩家工匠30为转移，非回收",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 800,
+          "F": 0,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "p": {
+          "A": {
+            "carry": 882,
+            "pending": 200,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        },
+        "q": {
+          "A": {
+            "carry": 1030,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3912,
+      "mint": 0,
+      "burn": 88,
+      "npc_paid": 200,
+      "player_transfer": 30,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "orders": {
+        "p1": "paid",
+        "q2": "cancelled"
+      },
+      "goods_states": {
+        "B-S": "npc-consumed"
+      }
+    }
+  ],
+  "negative_fixtures": [
+    [
+      {
+        "label": "负例quota：未交付预占不因24h自动消失",
+        "hour": 24,
+        "real_hour": 24,
+        "nodes": {
+          "A": {
+            "T": 3000,
+            "F": 200,
+            "available": 2800
+          },
+          "B": {
+            "T": 3000,
+            "F": 200,
+            "available": 2800
+          }
+        },
+        "player_money": {
+          "p": {
+            "A": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            },
+            "B": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            }
+          }
+        },
+        "world": 6000,
+        "mint": 4000,
+        "burn": 0,
+        "npc_paid": 0,
+        "player_transfer": 0,
+        "demand_stock": {
+          "A": {
+            "测试铁剑": 0
+          },
+          "B": {
+            "测试铁剑": 0
+          }
+        },
+        "need": {
+          "A": {
+            "测试铁剑": 2
+          },
+          "B": {
+            "测试铁剑": 2
+          }
+        },
+        "orders": {
+          "alt1": "open",
+          "alt2": "cancelled",
+          "alt3": "open"
+        },
+        "goods_states": {}
+      }
+    ],
+    [
+      {
+        "label": "负例资金不足：不接单不冻结",
+        "hour": 0,
+        "real_hour": 0,
+        "nodes": {
+          "A": {
+            "T": 100,
+            "F": 0,
+            "available": 100
+          },
+          "B": {
+            "T": 1000,
+            "F": 0,
+            "available": 1000
+          }
+        },
+        "player_money": {
+          "p": {
+            "A": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            },
+            "B": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            }
+          },
+          "q": {
+            "A": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            },
+            "B": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            }
+          }
+        },
+        "world": 1100,
+        "mint": 0,
+        "burn": 0,
+        "npc_paid": 0,
+        "player_transfer": 0,
+        "demand_stock": {
+          "A": {
+            "测试铁剑": 0
+          }
+        },
+        "need": {
+          "A": {
+            "测试铁剑": 1
+          }
+        },
+        "orders": {},
+        "goods_states": {}
+      }
+    ],
+    [
+      {
+        "label": "负例含冻结上限：A仅补100而非200",
+        "hour": 1,
+        "real_hour": 1,
+        "nodes": {
+          "A": {
+            "T": 3000,
+            "F": 200,
+            "available": 2800
+          },
+          "B": {
+            "T": 1200,
+            "F": 0,
+            "available": 1200
+          }
+        },
+        "player_money": {
+          "p": {
+            "A": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            },
+            "B": {
+              "carry": 0,
+              "pending": 0,
+              "bank": 0
+            }
+          }
+        },
+        "world": 4200,
+        "mint": 300,
+        "burn": 0,
+        "npc_paid": 0,
+        "player_transfer": 0,
+        "demand_stock": {
+          "A": {
+            "测试铁剑": 0
+          }
+        },
+        "need": {
+          "A": {
+            "测试铁剑": 1
+          }
+        },
+        "orders": {
+          "frozen": "open"
+        },
+        "goods_states": {}
+      }
+    ]
+  ],
+  "rolling_fixture": [
+    {
+      "label": "独立滚动额度夹具，主场景A不推进",
+      "hour": 25,
+      "real_hour": 25,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "solo": {
+          "A": {
+            "carry": 588,
+            "pending": 0,
+            "bank": 200
+          },
+          "B": {
+            "carry": 72,
+            "pending": 0,
+            "bank": 150
+          }
+        }
+      },
+      "world": 7010,
+      "mint": 4350,
+      "burn": 340,
+      "npc_paid": 350,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 1
+        },
+        "B": {
+          "测试布护具": 1
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 0
+        },
+        "B": {
+          "测试布护具": 0
+        }
+      },
+      "orders": {
+        "s": "paid",
+        "c": "paid"
+      },
+      "goods_states": {
+        "sword-ORDER": "npc-stock",
+        "sword-SELF": "recycled",
+        "cloth-ORDER": "npc-stock",
+        "cloth-SELF": "recycled"
+      }
+    }
+  ],
+  "C": [
+    {
+      "label": "C0 无人在线且无合同",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2000,
+      "mint": 0,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C1",
+      "hour": 1,
+      "real_hour": 1,
+      "nodes": {
+        "A": {
+          "T": 1200,
+          "F": 0,
+          "available": 1200
+        },
+        "B": {
+          "T": 1200,
+          "F": 0,
+          "available": 1200
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2400,
+      "mint": 400,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C2",
+      "hour": 2,
+      "real_hour": 2,
+      "nodes": {
+        "A": {
+          "T": 1400,
+          "F": 0,
+          "available": 1400
+        },
+        "B": {
+          "T": 1400,
+          "F": 0,
+          "available": 1400
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2800,
+      "mint": 800,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C3",
+      "hour": 3,
+      "real_hour": 3,
+      "nodes": {
+        "A": {
+          "T": 1600,
+          "F": 0,
+          "available": 1600
+        },
+        "B": {
+          "T": 1600,
+          "F": 0,
+          "available": 1600
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3200,
+      "mint": 1200,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C4",
+      "hour": 4,
+      "real_hour": 4,
+      "nodes": {
+        "A": {
+          "T": 1800,
+          "F": 0,
+          "available": 1800
+        },
+        "B": {
+          "T": 1800,
+          "F": 0,
+          "available": 1800
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 3600,
+      "mint": 1600,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C5",
+      "hour": 5,
+      "real_hour": 5,
+      "nodes": {
+        "A": {
+          "T": 2000,
+          "F": 0,
+          "available": 2000
+        },
+        "B": {
+          "T": 2000,
+          "F": 0,
+          "available": 2000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 4000,
+      "mint": 2000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C6",
+      "hour": 6,
+      "real_hour": 6,
+      "nodes": {
+        "A": {
+          "T": 2200,
+          "F": 0,
+          "available": 2200
+        },
+        "B": {
+          "T": 2200,
+          "F": 0,
+          "available": 2200
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 4400,
+      "mint": 2400,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C7",
+      "hour": 7,
+      "real_hour": 7,
+      "nodes": {
+        "A": {
+          "T": 2400,
+          "F": 0,
+          "available": 2400
+        },
+        "B": {
+          "T": 2400,
+          "F": 0,
+          "available": 2400
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 4800,
+      "mint": 2800,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C8",
+      "hour": 8,
+      "real_hour": 8,
+      "nodes": {
+        "A": {
+          "T": 2600,
+          "F": 0,
+          "available": 2600
+        },
+        "B": {
+          "T": 2600,
+          "F": 0,
+          "available": 2600
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 5200,
+      "mint": 3200,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C9",
+      "hour": 9,
+      "real_hour": 9,
+      "nodes": {
+        "A": {
+          "T": 2800,
+          "F": 0,
+          "available": 2800
+        },
+        "B": {
+          "T": 2800,
+          "F": 0,
+          "available": 2800
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 5600,
+      "mint": 3600,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C10",
+      "hour": 10,
+      "real_hour": 10,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C11",
+      "hour": 11,
+      "real_hour": 11,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C12",
+      "hour": 12,
+      "real_hour": 12,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C13",
+      "hour": 13,
+      "real_hour": 13,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C14",
+      "hour": 14,
+      "real_hour": 14,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C15",
+      "hour": 15,
+      "real_hour": 15,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C16",
+      "hour": 16,
+      "real_hour": 16,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C17",
+      "hour": 17,
+      "real_hour": 17,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C18",
+      "hour": 18,
+      "real_hour": 18,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C19",
+      "hour": 19,
+      "real_hour": 19,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C20",
+      "hour": 20,
+      "real_hour": 20,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C21",
+      "hour": 21,
+      "real_hour": 21,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C22",
+      "hour": 22,
+      "real_hour": 22,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C23",
+      "hour": 23,
+      "real_hour": 23,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C24",
+      "hour": 24,
+      "real_hour": 24,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    },
+    {
+      "label": "C维护8小时不补池",
+      "hour": 24,
+      "real_hour": 32,
+      "nodes": {
+        "A": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        },
+        "B": {
+          "T": 3000,
+          "F": 0,
+          "available": 3000
+        }
+      },
+      "player_money": {
+        "offline": {
+          "A": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 6000,
+      "mint": 4000,
+      "burn": 0,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {},
+      "need": {},
+      "orders": {},
+      "goods_states": {}
+    }
+  ],
+  "D_offline_existing_contract": [
+    {
+      "label": "D0 离线前实物已在授权验收站，报酬冻结200",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 1000,
+          "F": 200,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "owner": {
+          "A": {
+            "carry": 12,
+            "pending": 0,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2012,
+      "mint": 0,
+      "burn": 88,
+      "npc_paid": 0,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "orders": {
+        "off": "open"
+      },
+      "goods_states": {
+        "OFFLINE-S": "player"
+      }
+    },
+    {
+      "label": "D1 系统验收，无需货主在线，200进入A待领",
+      "hour": 0,
+      "real_hour": 0,
+      "nodes": {
+        "A": {
+          "T": 800,
+          "F": 0,
+          "available": 800
+        },
+        "B": {
+          "T": 1000,
+          "F": 0,
+          "available": 1000
+        }
+      },
+      "player_money": {
+        "owner": {
+          "A": {
+            "carry": 12,
+            "pending": 200,
+            "bank": 0
+          },
+          "B": {
+            "carry": 0,
+            "pending": 0,
+            "bank": 0
+          }
+        }
+      },
+      "world": 2012,
+      "mint": 0,
+      "burn": 88,
+      "npc_paid": 200,
+      "player_transfer": 0,
+      "demand_stock": {
+        "A": {
+          "测试铁剑": 1
+        }
+      },
+      "need": {
+        "A": {
+          "测试铁剑": 0
+        }
+      },
+      "orders": {
+        "off": "paid"
+      },
+      "goods_states": {
+        "OFFLINE-S": "npc-stock"
+      }
+    }
+  ],
+  "caveats": [
+    "deterministic serial ledger only; not production concurrency",
+    "all prices rewards schedules new test drafts",
+    "NPC raw stock assumed sufficient for stated purchases; no infinite supply conclusion",
+    "free no-tool gameplay exists but not an unlimited coin faucet",
+    "material consumption is not currency burn; buy NPC material burns coins",
+    "overdue/ordinary storage fees remain zero",
+    "money reserve one slot per order in fixture only; actual coin stack capacity pending"
+  ]
+}

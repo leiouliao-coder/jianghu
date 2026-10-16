@@ -1,0 +1,75 @@
+{
+  "status": "v0.42已同意先作测试方案，不作为最终配方或平衡",
+  "repair_max_loss": 2,
+  "items": [
+    {
+      "id": "TEST-SWORD-001",
+      "name": "测试铁剑",
+      "profession": "锻造",
+      "initial_inventory": {
+        "铁锭": 14,
+        "木柄坯": 1,
+        "燃料": 4,
+        "废铁": 0
+      },
+      "recipe": {
+        "铁锭": 10,
+        "木柄坯": 1,
+        "燃料": 2
+      },
+      "repair_recipe": {
+        "铁锭": 2,
+        "燃料": 1
+      },
+      "max_durability": 100,
+      "wear": [
+        65,
+        70,
+        96
+      ],
+      "salvage": {
+        "废铁": 3
+      },
+      "main_material": "铁锭",
+      "scrap": "废铁",
+      "scrap_equivalent": {
+        "numerator": 1,
+        "denominator": 2
+      }
+    },
+    {
+      "id": "TEST-CLOTH-001",
+      "name": "测试布护具",
+      "profession": "裁缝",
+      "initial_inventory": {
+        "布": 10,
+        "缝线": 6,
+        "碎布": 0
+      },
+      "recipe": {
+        "布": 8,
+        "缝线": 4
+      },
+      "repair_recipe": {
+        "布": 1,
+        "缝线": 1
+      },
+      "max_durability": 100,
+      "wear": [
+        65,
+        70,
+        96
+      ],
+      "salvage": {
+        "碎布": 2
+      },
+      "main_material": "布",
+      "scrap": "碎布",
+      "scrap_equivalent": {
+        "numerator": 1,
+        "denominator": 2
+      }
+    }
+  ],
+  "accepted_in": "v0.42"
+}

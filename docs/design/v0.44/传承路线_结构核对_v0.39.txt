@@ -1,0 +1,19 @@
+COMMAND: ["python3", "docs/design/v0.44/verify_routes_v39.py"]
+INPUT: docs/design/v0.44/transmission_routes_v39.json and docs/design/v0.44/transmission_routes_v39.md
+STDOUT_BEGIN
+PASS: 12 unique main nodes; 3 routes x 4 stages; separate prior-course checks; DAG; solo flags; 4 guest entries; Markdown names match.
+SCOPE: structural/data consistency only; no playable quest, timing, balance or game execution verified.
+STDOUT_END
+STDERR_BEGIN
+STDERR_END
+EXIT_STATUS: 0
+
+V0.40 STATUS UPDATE: accepted test plan, not final. Nodes and validator unchanged; exact prior output reused and verified.
+COMMAND: ["python3", "outputs/\u6b66\u4fa0\u517b\u6210\u6e38\u620f_v0.2/verify_routes_v39.py"]
+STDOUT_BEGIN
+PASS: 12 unique main nodes; 3 routes x 4 stages; separate prior-course checks; DAG; solo flags; 4 guest entries; Markdown names match.
+SCOPE: structural/data consistency only; no playable quest, timing, balance or game execution verified.
+STDOUT_END
+STDERR_BEGIN
+STDERR_END
+EXIT_STATUS: 0

@@ -1,0 +1,173 @@
+{
+  "description": "策划与AI概念图导入校验。非游戏验收；source hashes对应原始本地交付，repository hashes对应路径清理后的公开版本。",
+  "files": [
+    {
+      "file": "docs/design/v0.44/24项已确认设定与待细化汇总.md",
+      "source_sha256": "11a7c1b7a3727eebf990bfeb3512c612447d30d0c37ec035faba42d7576d952d",
+      "repository_sha256": "026907681c6c9dd1e53eee8cd424faa362d63710e275ce5914cc4e3b0131f034",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意；Markdown行尾双空格换为显式<br>，不改变换行语义"
+    },
+    {
+      "file": "docs/design/v0.44/economy_v44.json",
+      "source_sha256": "d51c76fbd0d69a865552f3d586f75fce7a99a49e6a760d0c7ac92d3e1e3ee353",
+      "repository_sha256": "d51c76fbd0d69a865552f3d586f75fce7a99a49e6a760d0c7ac92d3e1e3ee353",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/economy_v44.md",
+      "source_sha256": "3c41ce36a51b6b536aa7647128636a3405ae3f6609e03ad4de0d7f67d4aa5f06",
+      "repository_sha256": "b850e2359d350e7ad38719a08870a5ccb3ec5e7a5aa1f74c76219f5d93b3c0f1",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/economy_v44_run.json",
+      "source_sha256": "186d50a3117ee2b2da67880e53e36ae606c0509dc997314366f6396c424a385c",
+      "repository_sha256": "0bd856aed99a02949a4cabe024a14ed6b86e34027c12c37e8bba510014b0fb35",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/equipment_ledger_v41.json",
+      "source_sha256": "4df14cbea7435c906953d09b9d13b3b9d4db957d0bce755c8474c3d6f0f7216f",
+      "repository_sha256": "4df14cbea7435c906953d09b9d13b3b9d4db957d0bce755c8474c3d6f0f7216f",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/equipment_ledger_v41.md",
+      "source_sha256": "ee272d0561e03370c2199d8fa0caa69b195a37d81754d20040df98f6d26e32e2",
+      "repository_sha256": "afc6f806fcd180d2c95680a0653310c9d933f4c02310e6cb8144569855cd6def",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/first_playable_loop_v42.md",
+      "source_sha256": "18968fce7be177209e3dd162e5e96f500bef7bbc8e5c2f60de4ee96848ec202e",
+      "repository_sha256": "18968fce7be177209e3dd162e5e96f500bef7bbc8e5c2f60de4ee96848ec202e",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/growth_cases_v37.json",
+      "source_sha256": "579ec105f69cc95a73f25d84947f9ab153aac3a8273d9222274dc6639dd27a88",
+      "repository_sha256": "579ec105f69cc95a73f25d84947f9ab153aac3a8273d9222274dc6639dd27a88",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/transmission_routes_v39.json",
+      "source_sha256": "581f98266728a6ed6b717c836d5b5ac391bc7173c6cbaeddac276c2328635fd8",
+      "repository_sha256": "581f98266728a6ed6b717c836d5b5ac391bc7173c6cbaeddac276c2328635fd8",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/transmission_routes_v39.md",
+      "source_sha256": "616a5cc0bfc397f4d9a8e726e034189bb492d78f16ae647d209e5852912eda98",
+      "repository_sha256": "616a5cc0bfc397f4d9a8e726e034189bb492d78f16ae647d209e5852912eda98",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/verify_economy_v44.py",
+      "source_sha256": "1f69f74bac758466e91226194d7f619adc3053ed0fd3c4af74cf0ef04fb37c34",
+      "repository_sha256": "1f69f74bac758466e91226194d7f619adc3053ed0fd3c4af74cf0ef04fb37c34",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/verify_equipment_ledger_v41.py",
+      "source_sha256": "d4183ea4fd42c335acc64a3de27caccf7db7f41cf2fa73b8de0d532eceeb5ad7",
+      "repository_sha256": "d4183ea4fd42c335acc64a3de27caccf7db7f41cf2fa73b8de0d532eceeb5ad7",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/verify_growth_v37.py",
+      "source_sha256": "2d17d7e22e1db18aeb5e01592cf3ba8952000180340edf22cebe2e141303192b",
+      "repository_sha256": "2d17d7e22e1db18aeb5e01592cf3ba8952000180340edf22cebe2e141303192b",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/verify_routes_v39.py",
+      "source_sha256": "9652fdf1bc9a694f004f2dff8e1bfba511671d841ad437343e3256081f074403",
+      "repository_sha256": "9652fdf1bc9a694f004f2dff8e1bfba511671d841ad437343e3256081f074403",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/传承路线_结构核对_v0.39.txt",
+      "source_sha256": "fd51efa5be5b3126694563dbd986218b6ae97b7e997fe624fdd9e5cb7c77c60e",
+      "repository_sha256": "6a12a8d4cf58df40f1102f9ef190abf0640d8842b1023dd60115d5ca1feeaf03",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/剑拳内功轻功_招式样表_v0.35.md",
+      "source_sha256": "a2fc4e9014e194b31ef3da2a906faaa0fde37c1afe0617135a72732fa40f5b7b",
+      "repository_sha256": "a2fc4e9014e194b31ef3da2a906faaa0fde37c1afe0617135a72732fa40f5b7b",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/完整设计执行基线_v0.44.md",
+      "source_sha256": "937fdeb3cb2fd8813364f2883f1a610aacda972e3ebc3711817a1dd7e853c65c",
+      "repository_sha256": "937fdeb3cb2fd8813364f2883f1a610aacda972e3ebc3711817a1dd7e853c65c",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/待讨论问题.md",
+      "source_sha256": "c127f191750ac087d98ed82a6e82318874934894a9ba48779b010ff4a8e231e0",
+      "repository_sha256": "c127f191750ac087d98ed82a6e82318874934894a9ba48779b010ff4a8e231e0",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/成长案例_执行记录_v0.37.txt",
+      "source_sha256": "fd0394c28d02b134b0a11ceba742a2f29563b1809ea95e4de56189729228d4a0",
+      "repository_sha256": "4e7b8619287fa84249082682f66c77e7d00333248e504c891fe63b2613ae00b3",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/招式样表_核算记录_v0.35.txt",
+      "source_sha256": "0f949c642f10fca44dd4988dcf7b0afef95eed9b6e979fb04ddd25bc01cc18f9",
+      "repository_sha256": "b5e27f7121b0958b238cc7df015a5242d3919a4c7d6aaa4defd293c4bc4121b8",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/游戏策划设定.md",
+      "source_sha256": "e851188a3e51d5bc4e7d1bfff3d7c4a67527aac7a19e247fff839c29fad673f8",
+      "repository_sha256": "f649d06e21d4ab5f225d6f5093af33e9b6802b653f73eea45e5696952784f0d4",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意；Markdown行尾双空格换为显式<br>，不改变换行语义"
+    },
+    {
+      "file": "docs/design/v0.44/经济演算_执行记录_v0.44.txt",
+      "source_sha256": "882fa8c55ddef597ef2fd5588ee315b3191f26b65784d355b8e893b9fc365761",
+      "repository_sha256": "72bc10b936aa17c1d83b546b190c9506e319cb84eeee7f8ddf6d0f11fcc9487c",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/行为—属性映射与成长案例_v0.37.md",
+      "source_sha256": "7f0bf575d90a3989320247f39f725cbdff91807e92b69e3754a638e00477e831",
+      "repository_sha256": "0a7fecabb83834f47c14053dc50c63d7498d1d57a4db0d622ee743e5f76a12e1",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "docs/design/v0.44/装备物料账_执行记录_v0.41.txt",
+      "source_sha256": "e46026a97a36c4294183abaf50bb5606bf9850aef4231f17f14b8cd5b617de15",
+      "repository_sha256": "80511679b6faa19a79382e191a0e4320edc57c4530e717563b3b085d252e39d7",
+      "normalization": "仅将本机绝对工作路径改为仓库相对路径；历史规则保持原意"
+    },
+    {
+      "file": "assets/concept-art/starter-village-wide-v1.png",
+      "source_sha256": "45de6eae63fdc4d0d303094558afd8610f576f3cfbaacb4c5ca9b4bfd17bfd5f",
+      "repository_sha256": "45de6eae63fdc4d0d303094558afd8610f576f3cfbaacb4c5ca9b4bfd17bfd5f",
+      "normalization": "无，逐字节复制"
+    },
+    {
+      "file": "assets/concept-art/starter-village-wide-v1-prompt.md",
+      "source_sha256": "42bf1b28e3fad4738924e492d6ad23fad0e37d3fdec1a82ffa577aaaf649db45",
+      "repository_sha256": "42bf1b28e3fad4738924e492d6ad23fad0e37d3fdec1a82ffa577aaaf649db45",
+      "normalization": "无，逐字节复制"
+    },
+    {
+      "file": "assets/concept-art/player-novice-v1.png",
+      "source_sha256": "24d75df3a7be32587c79822037d387c8564833ca05d5693a85862fe100d4a966",
+      "repository_sha256": "24d75df3a7be32587c79822037d387c8564833ca05d5693a85862fe100d4a966",
+      "normalization": "无，逐字节复制"
+    },
+    {
+      "file": "assets/concept-art/player-novice-v1-prompt.md",
+      "source_sha256": "5dd73ffe92e85db42a3def1a96e95c8f54b23feabd1416903183a4d2c9a3e3bb",
+      "repository_sha256": "5dd73ffe92e85db42a3def1a96e95c8f54b23feabd1416903183a4d2c9a3e3bb",
+      "normalization": "无，逐字节复制"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+COMMAND: ["python3", "docs/design/v0.44/verify_equipment_ledger_v41.py", "--input", "docs/design/v0.44/equipment_ledger_v41.json"]
+INPUT: docs/design/v0.44/equipment_ledger_v41.json
+STDOUT_BEGIN
+范围：独立物料状态/算术模型；不验证真实背包、容量预留、网络并发或服务端实现。
+输入状态：本轮物料演示测试候选，非最终配方或平衡
+
+=== 测试铁剑 / TEST-SWORD-001 ===
+初始 {"consumed": {}, "equipment": null, "events": {}, "inventory": {"废铁": 0, "木柄坯": 1, "燃料": 4, "铁锭": 14}}
+制造后 {"consumed": {"木柄坯": 1, "燃料": 2, "铁锭": 10}, "equipment": {"D": 100, "M": 100, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 2, "铁锭": 4}}
+使用1后 {"consumed": {"木柄坯": 1, "燃料": 2, "铁锭": 10}, "equipment": {"D": 35, "M": 100, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 2, "铁锭": 4}}
+维修1后 {"consumed": {"木柄坯": 1, "燃料": 3, "铁锭": 12}, "equipment": {"D": 98, "M": 98, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 1, "铁锭": 2}}
+使用2后 {"consumed": {"木柄坯": 1, "燃料": 3, "铁锭": 12}, "equipment": {"D": 28, "M": 98, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 1, "铁锭": 2}}
+维修2后 {"consumed": {"木柄坯": 1, "燃料": 4, "铁锭": 14}, "equipment": {"D": 96, "M": 96, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 0, "铁锭": 0}}
+使用3后 {"consumed": {"木柄坯": 1, "燃料": 4, "铁锭": 14}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-SWORD-001", "status": "disabled"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 0, "铁锭": 0}}
+回收后 {"consumed": {"木柄坯": 1, "燃料": 4, "铁锭": 14}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-SWORD-001", "status": "destroyed"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair", "salvage-1": "成功：salvage"}, "inventory": {"废铁": 3, "木柄坯": 0, "燃料": 0, "铁锭": 0}}
+主材当量比较：投入铁锭=14，废料废铁=3，演示换算当量=3/2；非可执行加工配方。
+负例：新事件重复回收 -> 拒绝：原件不存在；全状态不变
+重放：已成功回收事件 -> 返回缓存结果；全状态不变（模型层）
+负例：材料不足 -> 拒绝：材料不足；全状态不变
+负例：错误专业 -> 拒绝：专业不符；全状态不变
+负例：最大耐久为2 -> 拒绝：最大耐久不足；全状态不变
+负例：未确认回收 -> 拒绝：未确认回收；全状态不变
+
+=== 测试布护具 / TEST-CLOTH-001 ===
+初始 {"consumed": {}, "equipment": null, "events": {}, "inventory": {"布": 10, "碎布": 0, "缝线": 6}}
+制造后 {"consumed": {"布": 8, "缝线": 4}, "equipment": {"D": 100, "M": 100, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"布": 2, "碎布": 0, "缝线": 2}}
+使用1后 {"consumed": {"布": 8, "缝线": 4}, "equipment": {"D": 35, "M": 100, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"布": 2, "碎布": 0, "缝线": 2}}
+维修1后 {"consumed": {"布": 9, "缝线": 5}, "equipment": {"D": 98, "M": 98, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"布": 1, "碎布": 0, "缝线": 1}}
+使用2后 {"consumed": {"布": 9, "缝线": 5}, "equipment": {"D": 28, "M": 98, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"布": 1, "碎布": 0, "缝线": 1}}
+维修2后 {"consumed": {"布": 10, "缝线": 6}, "equipment": {"D": 96, "M": 96, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"布": 0, "碎布": 0, "缝线": 0}}
+使用3后 {"consumed": {"布": 10, "缝线": 6}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-CLOTH-001", "status": "disabled"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"布": 0, "碎布": 0, "缝线": 0}}
+回收后 {"consumed": {"布": 10, "缝线": 6}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-CLOTH-001", "status": "destroyed"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair", "salvage-1": "成功：salvage"}, "inventory": {"布": 0, "碎布": 2, "缝线": 0}}
+主材当量比较：投入布=10，废料碎布=2，演示换算当量=1；非可执行加工配方。
+负例：新事件重复回收 -> 拒绝：原件不存在；全状态不变
+重放：已成功回收事件 -> 返回缓存结果；全状态不变（模型层）
+负例：材料不足 -> 拒绝：材料不足；全状态不变
+负例：错误专业 -> 拒绝：专业不符；全状态不变
+负例：最大耐久为2 -> 拒绝：最大耐久不足；全状态不变
+负例：未确认回收 -> 拒绝：未确认回收；全状态不变
+
+PASS：102个断言；两条主流程、每件5个拒绝分支与1个幂等重放。
+未计算金币价格、收入平衡、技能或属性成长；未将主材之外不同材料相加。
+STDOUT_END
+STDERR_BEGIN
+STDERR_END
+EXIT_STATUS: 0
+
+V0.42 ACCEPTED TEST PLAN: data values and algorithm unchanged; prior102-assertion state/numeric results verified unchanged; only input-status display line differs.
+COMMAND: ["python3", "docs/design/v0.44/verify_equipment_ledger_v41.py", "--input", "docs/design/v0.44/equipment_ledger_v41.json"]
+STDOUT_BEGIN
+范围：独立物料状态/算术模型；不验证真实背包、容量预留、网络并发或服务端实现。
+输入状态：v0.42已同意先作测试方案，不作为最终配方或平衡
+
+=== 测试铁剑 / TEST-SWORD-001 ===
+初始 {"consumed": {}, "equipment": null, "events": {}, "inventory": {"废铁": 0, "木柄坯": 1, "燃料": 4, "铁锭": 14}}
+制造后 {"consumed": {"木柄坯": 1, "燃料": 2, "铁锭": 10}, "equipment": {"D": 100, "M": 100, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 2, "铁锭": 4}}
+使用1后 {"consumed": {"木柄坯": 1, "燃料": 2, "铁锭": 10}, "equipment": {"D": 35, "M": 100, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 2, "铁锭": 4}}
+维修1后 {"consumed": {"木柄坯": 1, "燃料": 3, "铁锭": 12}, "equipment": {"D": 98, "M": 98, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 1, "铁锭": 2}}
+使用2后 {"consumed": {"木柄坯": 1, "燃料": 3, "铁锭": 12}, "equipment": {"D": 28, "M": 98, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 1, "铁锭": 2}}
+维修2后 {"consumed": {"木柄坯": 1, "燃料": 4, "铁锭": 14}, "equipment": {"D": 96, "M": 96, "M0": 100, "id": "TEST-SWORD-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 0, "铁锭": 0}}
+使用3后 {"consumed": {"木柄坯": 1, "燃料": 4, "铁锭": 14}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-SWORD-001", "status": "disabled"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"废铁": 0, "木柄坯": 0, "燃料": 0, "铁锭": 0}}
+回收后 {"consumed": {"木柄坯": 1, "燃料": 4, "铁锭": 14}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-SWORD-001", "status": "destroyed"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair", "salvage-1": "成功：salvage"}, "inventory": {"废铁": 3, "木柄坯": 0, "燃料": 0, "铁锭": 0}}
+主材当量比较：投入铁锭=14，废料废铁=3，演示换算当量=3/2；非可执行加工配方。
+负例：新事件重复回收 -> 拒绝：原件不存在；全状态不变
+重放：已成功回收事件 -> 返回缓存结果；全状态不变（模型层）
+负例：材料不足 -> 拒绝：材料不足；全状态不变
+负例：错误专业 -> 拒绝：专业不符；全状态不变
+负例：最大耐久为2 -> 拒绝：最大耐久不足；全状态不变
+负例：未确认回收 -> 拒绝：未确认回收；全状态不变
+
+=== 测试布护具 / TEST-CLOTH-001 ===
+初始 {"consumed": {}, "equipment": null, "events": {}, "inventory": {"布": 10, "碎布": 0, "缝线": 6}}
+制造后 {"consumed": {"布": 8, "缝线": 4}, "equipment": {"D": 100, "M": 100, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"布": 2, "碎布": 0, "缝线": 2}}
+使用1后 {"consumed": {"布": 8, "缝线": 4}, "equipment": {"D": 35, "M": 100, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture"}, "inventory": {"布": 2, "碎布": 0, "缝线": 2}}
+维修1后 {"consumed": {"布": 9, "缝线": 5}, "equipment": {"D": 98, "M": 98, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"布": 1, "碎布": 0, "缝线": 1}}
+使用2后 {"consumed": {"布": 9, "缝线": 5}, "equipment": {"D": 28, "M": 98, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair"}, "inventory": {"布": 1, "碎布": 0, "缝线": 1}}
+维修2后 {"consumed": {"布": 10, "缝线": 6}, "equipment": {"D": 96, "M": 96, "M0": 100, "id": "TEST-CLOTH-001", "status": "usable"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"布": 0, "碎布": 0, "缝线": 0}}
+使用3后 {"consumed": {"布": 10, "缝线": 6}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-CLOTH-001", "status": "disabled"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair"}, "inventory": {"布": 0, "碎布": 0, "缝线": 0}}
+回收后 {"consumed": {"布": 10, "缝线": 6}, "equipment": {"D": 0, "M": 96, "M0": 100, "id": "TEST-CLOTH-001", "status": "destroyed"}, "events": {"make-1": "成功：manufacture", "repair-0": "成功：repair", "repair-1": "成功：repair", "salvage-1": "成功：salvage"}, "inventory": {"布": 0, "碎布": 2, "缝线": 0}}
+主材当量比较：投入布=10，废料碎布=2，演示换算当量=1；非可执行加工配方。
+负例：新事件重复回收 -> 拒绝：原件不存在；全状态不变
+重放：已成功回收事件 -> 返回缓存结果；全状态不变（模型层）
+负例：材料不足 -> 拒绝：材料不足；全状态不变
+负例：错误专业 -> 拒绝：专业不符；全状态不变
+负例：最大耐久为2 -> 拒绝：最大耐久不足；全状态不变
+负例：未确认回收 -> 拒绝：未确认回收；全状态不变
+
+PASS：102个断言；两条主流程、每件5个拒绝分支与1个幂等重放。
+未计算金币价格、收入平衡、技能或属性成长；未将主材之外不同材料相加。
+STDOUT_END
+STDERR_BEGIN
+STDERR_END
+EXIT_STATUS: 0

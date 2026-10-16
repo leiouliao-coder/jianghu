@@ -1,0 +1,510 @@
+{
+  "version": "v0.39",
+  "status": "accepted_test_plan_not_final",
+  "nodes": [
+    {
+      "id": "A1",
+      "route": "A",
+      "route_label": "听雨门",
+      "stage": 1,
+      "npc": "顾砚",
+      "content": {
+        "martial": "疏雨剑",
+        "internal": "守一诀",
+        "lightness": "折柳步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [],
+        "proficiency_each": {},
+        "membership": "听雨门",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "A2",
+      "route": "A",
+      "route_label": "听雨门",
+      "stage": 2,
+      "npc": "叶听澜",
+      "content": {
+        "martial": "回澜剑",
+        "internal": "澄息功",
+        "lightness": "避雨步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "A1"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "疏雨剑",
+            "minimum": 200
+          },
+          "internal": {
+            "course": "守一诀",
+            "minimum": 200
+          },
+          "lightness": {
+            "course": "折柳步",
+            "minimum": 200
+          }
+        },
+        "membership": "听雨门",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "A3",
+      "route": "A",
+      "route_label": "听雨门",
+      "stage": 3,
+      "npc": "沈照",
+      "content": {
+        "martial": "分潮剑",
+        "internal": "照泉功",
+        "lightness": "踏汀步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "A2"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "回澜剑",
+            "minimum": 600
+          },
+          "internal": {
+            "course": "澄息功",
+            "minimum": 600
+          },
+          "lightness": {
+            "course": "避雨步",
+            "minimum": 600
+          }
+        },
+        "membership": "听雨门",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "A4",
+      "route": "A",
+      "route_label": "听雨门",
+      "stage": 4,
+      "npc": "闻素",
+      "content": {
+        "martial": "听潮剑典",
+        "internal": "归澜功",
+        "lightness": "无雨步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "A3"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "分潮剑",
+            "minimum": 900
+          },
+          "internal": {
+            "course": "照泉功",
+            "minimum": 900
+          },
+          "lightness": {
+            "course": "踏汀步",
+            "minimum": 900
+          }
+        },
+        "membership": "听雨门",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "B1",
+      "route": "B",
+      "route_label": "磐石堂",
+      "stage": 1,
+      "npc": "陆平",
+      "content": {
+        "martial": "砺石拳",
+        "internal": "守一诀",
+        "lightness": "折柳步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [],
+        "proficiency_each": {},
+        "membership": "磐石堂",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "B2",
+      "route": "B",
+      "route_label": "磐石堂",
+      "stage": 2,
+      "npc": "秦岳",
+      "content": {
+        "martial": "叠岩拳",
+        "internal": "沉息功",
+        "lightness": "趋山步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "B1"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "砺石拳",
+            "minimum": 200
+          },
+          "internal": {
+            "course": "守一诀",
+            "minimum": 200
+          },
+          "lightness": {
+            "course": "折柳步",
+            "minimum": 200
+          }
+        },
+        "membership": "磐石堂",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "B3",
+      "route": "B",
+      "route_label": "磐石堂",
+      "stage": 3,
+      "npc": "孟嶂",
+      "content": {
+        "martial": "裂岳拳",
+        "internal": "镇岳功",
+        "lightness": "穿隘步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "B2"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "叠岩拳",
+            "minimum": 600
+          },
+          "internal": {
+            "course": "沉息功",
+            "minimum": 600
+          },
+          "lightness": {
+            "course": "趋山步",
+            "minimum": 600
+          }
+        },
+        "membership": "磐石堂",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "B4",
+      "route": "B",
+      "route_label": "磐石堂",
+      "stage": 4,
+      "npc": "韩峙",
+      "content": {
+        "martial": "磐岳拳经",
+        "internal": "抱山功",
+        "lightness": "移峰步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "B3"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "裂岳拳",
+            "minimum": 900
+          },
+          "internal": {
+            "course": "镇岳功",
+            "minimum": 900
+          },
+          "lightness": {
+            "course": "穿隘步",
+            "minimum": 900
+          }
+        },
+        "membership": "磐石堂",
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "S1",
+      "route": "S",
+      "route_label": "行路传承",
+      "stage": 1,
+      "npc": "陶行舟",
+      "content": {
+        "martial": "行路刀",
+        "internal": "守一诀",
+        "lightness": "折柳步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [],
+        "proficiency_each": {},
+        "membership": null,
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "S2",
+      "route": "S",
+      "route_label": "行路传承",
+      "stage": 2,
+      "npc": "杜遥",
+      "content": {
+        "martial": "过岭刀",
+        "internal": "平息功",
+        "lightness": "逐径步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "S1"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "行路刀",
+            "minimum": 200
+          },
+          "internal": {
+            "course": "守一诀",
+            "minimum": 200
+          },
+          "lightness": {
+            "course": "折柳步",
+            "minimum": 200
+          }
+        },
+        "membership": null,
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "S3",
+      "route": "S",
+      "route_label": "行路传承",
+      "stage": 3,
+      "npc": "柳归",
+      "content": {
+        "martial": "回岫刀",
+        "internal": "藏锋功",
+        "lightness": "渡壑步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "S2"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "过岭刀",
+            "minimum": 600
+          },
+          "internal": {
+            "course": "平息功",
+            "minimum": 600
+          },
+          "lightness": {
+            "course": "逐径步",
+            "minimum": 600
+          }
+        },
+        "membership": null,
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    },
+    {
+      "id": "S4",
+      "route": "S",
+      "route_label": "行路传承",
+      "stage": 4,
+      "npc": "温渡",
+      "content": {
+        "martial": "万里刀经",
+        "internal": "行藏功",
+        "lightness": "越关步"
+      },
+      "scope": "content_test_draft",
+      "solo": true,
+      "forced_group": false,
+      "forced_pvp": false,
+      "new_named_skill_initial_proficiency": 0,
+      "prerequisites": {
+        "nodes": [
+          "S3"
+        ],
+        "proficiency_each": {
+          "martial": {
+            "course": "回岫刀",
+            "minimum": 900
+          },
+          "internal": {
+            "course": "藏锋功",
+            "minimum": 900
+          },
+          "lightness": {
+            "course": "渡壑步",
+            "minimum": 900
+          }
+        },
+        "membership": null,
+        "permission": "逐阶段授业许可",
+        "unique_public_victory": false
+      },
+      "failure": "保留已学及永久成长；未完成部分可合法重试；实物死亡掉落无豁免"
+    }
+  ],
+  "cross_permissions": [
+    {
+      "kind": "public",
+      "scope": "公共开放基础课，不默认本派专属"
+    },
+    {
+      "kind": "guest",
+      "scope": "双方许可，只开放指定课程"
+    },
+    {
+      "kind": "secret",
+      "scope": "正式身份或另行明确定义特殊许可；本案无自动特殊许可"
+    },
+    {
+      "kind": "transfer",
+      "scope": "先离旧后入新，逐课承认同名记录"
+    }
+  ],
+  "guest_entries": [
+    {
+      "id": "X1",
+      "membership": "听雨门",
+      "permission": "双方客授许可",
+      "content": "砺石拳",
+      "checks_each": {},
+      "unlocks_later_secret": false
+    },
+    {
+      "id": "X2",
+      "prerequisites": [
+        "X1"
+      ],
+      "membership": "听雨门",
+      "permission": "双方客授许可",
+      "content": "叠岩拳",
+      "checks_each": {
+        "砺石拳": 200,
+        "守一诀": 200,
+        "折柳步": 200
+      },
+      "unlocks_later_secret": false
+    },
+    {
+      "id": "X3",
+      "membership": "磐石堂",
+      "permission": "双方客授许可",
+      "content": "疏雨剑",
+      "checks_each": {},
+      "unlocks_later_secret": false
+    },
+    {
+      "id": "X4",
+      "prerequisites": [
+        "X3"
+      ],
+      "membership": "磐石堂",
+      "permission": "双方客授许可",
+      "content": "回澜剑",
+      "checks_each": {
+        "疏雨剑": 200,
+        "守一诀": 200,
+        "折柳步": 200
+      },
+      "unlocks_later_secret": false
+    }
+  ],
+  "transfer_case": "A2出师仍在派；正常离派保留已学；入B1后砺石拳从0培养；守一诀和折柳步同名记录保留；B2逐门达200",
+  "prototype_scope": "已同意作为测试规划；先用既有剑拳样表验证授业状态，不要求同时制作全部新武学；散人刀路已纳入测试方案，非最终武器或首发路线",
+  "accepted_in": "v0.40"
+}

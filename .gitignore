@@ -23,3 +23,30 @@ mono_crash.*.json
 *.exe
 # Uncomment if your project does not version PCK files as runtime dependencies.
 # *.pck
+
+# Local secrets and signing credentials (examples may be versioned)
+.env
+.env.*
+!.env.example
+!*.env.example
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.mobileprovision
+
+# Build products, local tools and test outputs
+/bin/
+/build/
+/dist/
+/work/
+/server/bin/
+/server/coverage.out
+*.test
+*.prof
+__pycache__/
+*.pyc
+.DS_Store
+.idea/
+.vscode/
