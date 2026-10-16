@@ -356,7 +356,9 @@ func TestKickAndSingleCharacter(t *testing.T) {
 }
 
 func TestDisconnectLingerThenSwitch(t *testing.T) {
-	h := newHarness(t, Config{Linger: 300 * time.Millisecond})
+	// The linger must outlast the second login (argon2 is slow under -race
+	// on CI runners), so it is seconds, not milliseconds.
+	h := newHarness(t, Config{Linger: 3 * time.Second})
 	a, _ := registerAndLogin(h, "lingerer")
 	first := a.newCharacter("stay")
 	second := a.newCharacter("swap")
@@ -366,7 +368,21 @@ func TestDisconnectLingerThenSwitch(t *testing.T) {
 	b := h.dial()
 	b.login("lingerer")
 	b.fails("enter_world", map[string]int64{"character_id": second}, ErrCharacterPresent)
-	time.Sleep(600 * time.Millisecond)
+	// Wait for the linger to end instead of sleeping a fixed time.
+	deadline := time.Now().Add(10 * time.Second)
+	for {
+		var list struct {
+			Present *struct{} `json:"present"`
+		}
+		b.ok("char_list", nil, &list)
+		if list.Present == nil {
+			break
+		}
+		if time.Now().After(deadline) {
+			t.Fatal("lingering character never left the world")
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
 	b.ok("enter_world", map[string]int64{"character_id": second}, nil)
 }
 
