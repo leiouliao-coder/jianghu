@@ -1,0 +1,509 @@
+{
+  "pass": true,
+  "fence_segments": [
+    {
+      "name": "Fence_X_-29.85_-28",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_-24",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_-20",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_-16",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_-12",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_-8",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_-5",
+      "world_extent_m": [
+        2.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_6",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_10",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_14",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_18",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_22",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_26",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_-29.85_29",
+      "world_extent_m": [
+        2.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-28",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-24",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-20",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-16",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-12",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-8",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_-4.5",
+      "world_extent_m": [
+        3.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_5",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_9",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_13",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_17",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_21",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_25",
+      "world_extent_m": [
+        4.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_X_29.85_28.5",
+      "world_extent_m": [
+        3.0,
+        0.2999992370605469,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-28",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-24",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-20",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-16",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-12",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-8",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_-5",
+      "world_extent_m": [
+        0.2999992370605469,
+        2.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_6",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_10",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_14",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_18",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_22",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_26",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_-29.85_29",
+      "world_extent_m": [
+        0.2999992370605469,
+        2.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-28",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-24",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-20",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-16",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-12",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-8",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_-5",
+      "world_extent_m": [
+        0.2999992370605469,
+        2.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_6",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_10",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_14",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_18",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_22",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_26",
+      "world_extent_m": [
+        0.2999992370605469,
+        4.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    },
+    {
+      "name": "Fence_Y_29.85_29",
+      "world_extent_m": [
+        0.2999992370605469,
+        2.0,
+        1.1999999284744263
+      ],
+      "aligned_to_boundary": true
+    }
+  ]
+}

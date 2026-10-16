@@ -1,0 +1,5 @@
+# Hall side elevation correction
+
+Generated with built-in image_gen using building-hall-oblique.png as architectural identity reference. Original second pass corrects the first pass's erroneous front door.
+
+Use the attached architectural design image as the building identity reference. Create ONE strict right SIDE ORTHOGRAPHIC ELEVATION of this same two-storey village inn, looking directly at its east side. The east side has FOUR equally spaced lattice windows on each of the two floors and NO DOOR, NO SIGN, NO LANTERNS. Roof seen from short ridge end, not the front long side: a symmetrical Chinese HIP ROOF silhouette with a short ridge end and gently flying eaves. Keep ivory plaster and dark aged umber posts and muted blue-gray ceramic tiles. Keep the small lower roof belt separating storeys. Same hand-painted original wuxia architecture, 14 metre square building, approximate 9m height. Full building centered on pale parchment background. This is the side view, no perspective, no front door visible, no text or dimensions.

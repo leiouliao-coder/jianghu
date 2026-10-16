@@ -1,0 +1,409 @@
+{
+  "blender_version": "4.3.2",
+  "generation": "Original authored SVG design, deterministic Blender Python mesh construction, original hand-painted procedural PNG textures",
+  "texture_dimensions": {
+    "bark_albedo.png": [
+      1024,
+      1024
+    ],
+    "bark_normal.png": [
+      1024,
+      1024
+    ],
+    "bark_roughness.png": [
+      1024,
+      1024
+    ],
+    "ceramic_albedo.png": [
+      512,
+      512
+    ],
+    "ceramic_normal.png": [
+      512,
+      512
+    ],
+    "ceramic_roughness.png": [
+      512,
+      512
+    ],
+    "cloth_albedo.png": [
+      512,
+      512
+    ],
+    "cloth_normal.png": [
+      512,
+      512
+    ],
+    "cloth_roughness.png": [
+      512,
+      512
+    ],
+    "leaf_mass_0_albedo.png": [
+      512,
+      512
+    ],
+    "leaf_mass_0_normal.png": [
+      512,
+      512
+    ],
+    "leaf_mass_0_roughness.png": [
+      512,
+      512
+    ],
+    "leaf_mass_1_albedo.png": [
+      512,
+      512
+    ],
+    "leaf_mass_1_normal.png": [
+      512,
+      512
+    ],
+    "leaf_mass_1_roughness.png": [
+      512,
+      512
+    ],
+    "leaf_mass_2_albedo.png": [
+      512,
+      512
+    ],
+    "leaf_mass_2_normal.png": [
+      512,
+      512
+    ],
+    "leaf_mass_2_roughness.png": [
+      512,
+      512
+    ],
+    "leaf_mass_3_albedo.png": [
+      512,
+      512
+    ],
+    "leaf_mass_3_normal.png": [
+      512,
+      512
+    ],
+    "leaf_mass_3_roughness.png": [
+      512,
+      512
+    ],
+    "leaves_0_albedo.png": [
+      512,
+      512
+    ],
+    "leaves_1_albedo.png": [
+      512,
+      512
+    ],
+    "leaves_2_albedo.png": [
+      512,
+      512
+    ],
+    "leaves_3_albedo.png": [
+      512,
+      512
+    ],
+    "metal_albedo.png": [
+      512,
+      512
+    ],
+    "metal_normal.png": [
+      512,
+      512
+    ],
+    "metal_roughness.png": [
+      512,
+      512
+    ],
+    "paper_albedo.png": [
+      512,
+      512
+    ],
+    "paper_normal.png": [
+      512,
+      512
+    ],
+    "paper_roughness.png": [
+      512,
+      512
+    ],
+    "rope_albedo.png": [
+      512,
+      512
+    ],
+    "rope_normal.png": [
+      512,
+      512
+    ],
+    "rope_roughness.png": [
+      512,
+      512
+    ],
+    "stone_albedo.png": [
+      512,
+      512
+    ],
+    "stone_normal.png": [
+      512,
+      512
+    ],
+    "stone_roughness.png": [
+      512,
+      512
+    ],
+    "wood_albedo.png": [
+      1024,
+      1024
+    ],
+    "wood_light_albedo.png": [
+      1024,
+      1024
+    ],
+    "wood_light_normal.png": [
+      1024,
+      1024
+    ],
+    "wood_light_roughness.png": [
+      1024,
+      1024
+    ],
+    "wood_normal.png": [
+      1024,
+      1024
+    ],
+    "wood_roughness.png": [
+      1024,
+      1024
+    ]
+  },
+  "tree_old.glb": {
+    "name": "tree_old",
+    "triangles": 2992,
+    "vertices": 1790,
+    "local_min_m": [
+      -5.983049392700195,
+      -6.086097240447998,
+      0.0
+    ],
+    "local_max_m": [
+      5.91179084777832,
+      5.913902759552002,
+      7.126999855041504
+    ],
+    "dimensions_m": [
+      11.894840240478516,
+      12.0,
+      7.126999855041504
+    ],
+    "origin_local_m": [
+      0,
+      0,
+      0
+    ],
+    "display_translation_blender_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "front": "-Y",
+    "file_bytes": 2977368
+  },
+  "fence_wood_4m.glb": {
+    "name": "fence_wood_4m",
+    "triangles": 1000,
+    "vertices": 552,
+    "local_min_m": [
+      -2.0,
+      -0.15000006556510925,
+      0.0
+    ],
+    "local_max_m": [
+      1.9999998807907104,
+      0.15000000596046448,
+      1.1999999284744263
+    ],
+    "dimensions_m": [
+      3.9999998807907104,
+      0.30000007152557373,
+      1.1999999284744263
+    ],
+    "origin_local_m": [
+      0,
+      0,
+      0
+    ],
+    "display_translation_blender_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "front": "-Y",
+    "file_bytes": 4644576
+  },
+  "props_set.glb": {
+    "objects": [
+      {
+        "name": "crate",
+        "triangles": 1444,
+        "vertices": 792,
+        "local_min_m": [
+          -0.5275000333786011,
+          -0.5375000238418579,
+          0.0
+        ],
+        "local_max_m": [
+          0.5275000333786011,
+          0.5375000238418579,
+          0.9399999976158142
+        ],
+        "dimensions_m": [
+          1.0550000667572021,
+          1.0750000476837158,
+          0.9399999976158142
+        ],
+        "origin_local_m": [
+          0,
+          0,
+          0
+        ],
+        "display_translation_blender_m": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "front": "-Y"
+      },
+      {
+        "name": "barrel",
+        "triangles": 584,
+        "vertices": 388,
+        "local_min_m": [
+          -0.42996904253959656,
+          -0.4203369915485382,
+          0.0
+        ],
+        "local_max_m": [
+          0.42996904253959656,
+          0.4203369915485382,
+          0.9160000085830688
+        ],
+        "dimensions_m": [
+          0.8599380850791931,
+          0.8406739830970764,
+          0.9160000085830688
+        ],
+        "origin_local_m": [
+          0,
+          0,
+          0
+        ],
+        "display_translation_blender_m": [
+          -1.5,
+          0.0,
+          0.0
+        ],
+        "front": "-Y"
+      },
+      {
+        "name": "lantern_pole",
+        "triangles": 624,
+        "vertices": 348,
+        "local_min_m": [
+          -0.5115000009536743,
+          -0.27300000190734863,
+          0.0
+        ],
+        "local_max_m": [
+          0.5115000009536743,
+          0.27300000190734863,
+          2.702453851699829
+        ],
+        "dimensions_m": [
+          1.0230000019073486,
+          0.5460000038146973,
+          2.702453851699829
+        ],
+        "origin_local_m": [
+          0,
+          0,
+          0
+        ],
+        "display_translation_blender_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "front": "-Y"
+      },
+      {
+        "name": "well",
+        "triangles": 2908,
+        "vertices": 1558,
+        "local_min_m": [
+          -0.959241509437561,
+          -0.9234830141067505,
+          0.0
+        ],
+        "local_max_m": [
+          0.959241509437561,
+          0.9234830141067505,
+          2.2799999713897705
+        ],
+        "dimensions_m": [
+          1.918483018875122,
+          1.846966028213501,
+          2.2799999713897705
+        ],
+        "origin_local_m": [
+          0,
+          0,
+          0
+        ],
+        "display_translation_blender_m": [
+          2.0,
+          0.0,
+          0.0
+        ],
+        "front": "-Y"
+      },
+      {
+        "name": "market_table",
+        "triangles": 1468,
+        "vertices": 821,
+        "local_min_m": [
+          -0.9400001764297485,
+          -0.565000057220459,
+          0.0
+        ],
+        "local_max_m": [
+          0.9400001764297485,
+          0.565000057220459,
+          1.125258445739746
+        ],
+        "dimensions_m": [
+          1.880000352859497,
+          1.130000114440918,
+          1.125258445739746
+        ],
+        "origin_local_m": [
+          0,
+          0,
+          0
+        ],
+        "display_translation_blender_m": [
+          0.0,
+          2.0,
+          0.0
+        ],
+        "front": "-Y"
+      }
+    ],
+    "arrangement": "Five separate root mesh objects. Each local origin is footprint center at ground. Collection translations spread the props for inspection; reset a root translation when instancing it individually.",
+    "file_bytes": 7781312
+  },
+  "technical_notes": [
+    "Leaf-fringe materials use glTF MASK alpha cutout at 0.42, two-sided, original PNG albedo; sculpted leaf masses are opaque",
+    "No transmission, subsurface, Blender-only procedural textures, external asset dependencies, or unapplied modifiers",
+    "Only tree trunk collision radius 1.5 m; branches and canopy are visual decoration",
+    "Blender +Z up converted on export to glTF +Y up"
+  ]
+}

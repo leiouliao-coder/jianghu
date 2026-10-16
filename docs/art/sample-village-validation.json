@@ -1,0 +1,1972 @@
+{
+  "blender_version": "4.3.2",
+  "method": "Independent binary glTF inspection plus clean Blender background re-import per file",
+  "assets": [
+    {
+      "file": "client/assets/art/village/building_hall.glb",
+      "bytes": 4360480,
+      "sha256": "b0aa35dd08d83742f8d6c02875ca299572f2a9d6af89c7cdb9437eb8fd022335",
+      "triangles": 19656,
+      "triangle_budget": 20000,
+      "embedded_pngs": [
+        {
+          "name": "wood_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 200984,
+          "embedded": true
+        },
+        {
+          "name": "wood_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 86531,
+          "embedded": true
+        },
+        {
+          "name": "wood_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34095,
+          "embedded": true
+        },
+        {
+          "name": "brass_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 437389,
+          "embedded": true
+        },
+        {
+          "name": "brass_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 58730,
+          "embedded": true
+        },
+        {
+          "name": "brass_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 35622,
+          "embedded": true
+        },
+        {
+          "name": "iron_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 437455,
+          "embedded": true
+        },
+        {
+          "name": "iron_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 57006,
+          "embedded": true
+        },
+        {
+          "name": "iron_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33921,
+          "embedded": true
+        },
+        {
+          "name": "stone_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 96936,
+          "embedded": true
+        },
+        {
+          "name": "stone_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 57768,
+          "embedded": true
+        },
+        {
+          "name": "stone_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33789,
+          "embedded": true
+        },
+        {
+          "name": "roof_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 94677,
+          "embedded": true
+        },
+        {
+          "name": "roof_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 61216,
+          "embedded": true
+        },
+        {
+          "name": "roof_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 32433,
+          "embedded": true
+        },
+        {
+          "name": "roof_dark_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 96056,
+          "embedded": true
+        },
+        {
+          "name": "roof_dark_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 62406,
+          "embedded": true
+        },
+        {
+          "name": "roof_dark_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33287,
+          "embedded": true
+        },
+        {
+          "name": "roof_light_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 95118,
+          "embedded": true
+        },
+        {
+          "name": "roof_light_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 62240,
+          "embedded": true
+        },
+        {
+          "name": "roof_light_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33388,
+          "embedded": true
+        },
+        {
+          "name": "roof_warm_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 96928,
+          "embedded": true
+        },
+        {
+          "name": "roof_warm_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 63007,
+          "embedded": true
+        },
+        {
+          "name": "roof_warm_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34623,
+          "embedded": true
+        },
+        {
+          "name": "cloth_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 162269,
+          "embedded": true
+        },
+        {
+          "name": "cloth_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 84455,
+          "embedded": true
+        },
+        {
+          "name": "cloth_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34335,
+          "embedded": true
+        },
+        {
+          "name": "plaster_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 98857,
+          "embedded": true
+        },
+        {
+          "name": "plaster_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 56364,
+          "embedded": true
+        },
+        {
+          "name": "plaster_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34920,
+          "embedded": true
+        },
+        {
+          "name": "paper_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 94263,
+          "embedded": true
+        },
+        {
+          "name": "paper_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 52000,
+          "embedded": true
+        },
+        {
+          "name": "paper_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 32885,
+          "embedded": true
+        }
+      ],
+      "animations": [],
+      "skins": 0,
+      "joints": [],
+      "bounds_blender": {
+        "min": [
+          -7.88425350189209,
+          -7.87000036239624,
+          0.0
+        ],
+        "max": [
+          7.88425350189209,
+          7.87000036239624,
+          9.057082176208496
+        ],
+        "dimensions": [
+          15.76850700378418,
+          15.74000072479248,
+          9.057082176208496
+        ]
+      },
+      "root_nodes": [
+        {
+          "name": "building_hall",
+          "type": "EMPTY",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "prop_hierarchies": [],
+      "blender_reimport": "PASS",
+      "importer_helper_meshes_excluded": [],
+      "material_count": 11,
+      "extension_names": []
+    },
+    {
+      "file": "client/assets/art/village/building_forge.glb",
+      "bytes": 4027640,
+      "sha256": "3b6b7dd2c94447c65f2841ff74bae112a1cca5a93c619f97d04c4bc76f3027bf",
+      "triangles": 13088,
+      "triangle_budget": 20000,
+      "embedded_pngs": [
+        {
+          "name": "iron_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 437455,
+          "embedded": true
+        },
+        {
+          "name": "iron_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 57006,
+          "embedded": true
+        },
+        {
+          "name": "iron_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33921,
+          "embedded": true
+        },
+        {
+          "name": "wood_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 200984,
+          "embedded": true
+        },
+        {
+          "name": "wood_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 86531,
+          "embedded": true
+        },
+        {
+          "name": "wood_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34095,
+          "embedded": true
+        },
+        {
+          "name": "cloth_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 162269,
+          "embedded": true
+        },
+        {
+          "name": "cloth_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 84455,
+          "embedded": true
+        },
+        {
+          "name": "cloth_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34335,
+          "embedded": true
+        },
+        {
+          "name": "stone_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 96936,
+          "embedded": true
+        },
+        {
+          "name": "stone_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 57768,
+          "embedded": true
+        },
+        {
+          "name": "stone_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33789,
+          "embedded": true
+        },
+        {
+          "name": "coal_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 155700,
+          "embedded": true
+        },
+        {
+          "name": "coal_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 67722,
+          "embedded": true
+        },
+        {
+          "name": "coal_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 22504,
+          "embedded": true
+        },
+        {
+          "name": "ember_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 152656,
+          "embedded": true
+        },
+        {
+          "name": "ember_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 166582,
+          "embedded": true
+        },
+        {
+          "name": "ember_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33108,
+          "embedded": true
+        },
+        {
+          "name": "roof_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 94677,
+          "embedded": true
+        },
+        {
+          "name": "roof_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 61216,
+          "embedded": true
+        },
+        {
+          "name": "roof_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 32433,
+          "embedded": true
+        },
+        {
+          "name": "roof_dark_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 96056,
+          "embedded": true
+        },
+        {
+          "name": "roof_dark_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 62406,
+          "embedded": true
+        },
+        {
+          "name": "roof_dark_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33287,
+          "embedded": true
+        },
+        {
+          "name": "roof_light_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 95118,
+          "embedded": true
+        },
+        {
+          "name": "roof_light_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 62240,
+          "embedded": true
+        },
+        {
+          "name": "roof_light_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 33388,
+          "embedded": true
+        },
+        {
+          "name": "roof_warm_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 96928,
+          "embedded": true
+        },
+        {
+          "name": "roof_warm_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 63007,
+          "embedded": true
+        },
+        {
+          "name": "roof_warm_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34623,
+          "embedded": true
+        },
+        {
+          "name": "paper_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 94263,
+          "embedded": true
+        },
+        {
+          "name": "paper_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 52000,
+          "embedded": true
+        },
+        {
+          "name": "paper_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 32885,
+          "embedded": true
+        },
+        {
+          "name": "plaster_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 98857,
+          "embedded": true
+        },
+        {
+          "name": "plaster_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 56364,
+          "embedded": true
+        },
+        {
+          "name": "plaster_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34920,
+          "embedded": true
+        }
+      ],
+      "animations": [],
+      "skins": 0,
+      "joints": [],
+      "bounds_blender": {
+        "min": [
+          -7.0,
+          -7.0,
+          0.0
+        ],
+        "max": [
+          7.0,
+          7.0,
+          6.007081985473633
+        ],
+        "dimensions": [
+          14.0,
+          14.0,
+          6.007081985473633
+        ]
+      },
+      "root_nodes": [
+        {
+          "name": "building_forge",
+          "type": "EMPTY",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "prop_hierarchies": [],
+      "blender_reimport": "PASS",
+      "importer_helper_meshes_excluded": [],
+      "material_count": 12,
+      "extension_names": [
+        "KHR_materials_emissive_strength"
+      ]
+    },
+    {
+      "file": "client/assets/art/village/tree_old.glb",
+      "bytes": 2977368,
+      "sha256": "0836ce345966c8af8e92e8ae2ff5545143d98ef96d7dd55db786c0e387def92c",
+      "triangles": 2992,
+      "triangle_budget": 3000,
+      "embedded_pngs": [
+        {
+          "name": "bark_normal",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 1004184,
+          "embedded": true
+        },
+        {
+          "name": "bark_albedo",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 657588,
+          "embedded": true
+        },
+        {
+          "name": "bark_roughness",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 357824,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_0_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 75023,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_0_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 47214,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_0_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 55255,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_1_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 72358,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_1_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 45268,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_1_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 53307,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_2_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 71917,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_2_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 45291,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_2_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 53488,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_3_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 71111,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_3_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 44926,
+          "embedded": true
+        },
+        {
+          "name": "leaf_mass_3_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 52539,
+          "embedded": true
+        },
+        {
+          "name": "leaves_0_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 35516,
+          "embedded": true
+        },
+        {
+          "name": "leaves_1_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 34911,
+          "embedded": true
+        },
+        {
+          "name": "leaves_2_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 37002,
+          "embedded": true
+        },
+        {
+          "name": "leaves_3_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 38751,
+          "embedded": true
+        }
+      ],
+      "animations": [],
+      "skins": 0,
+      "joints": [],
+      "bounds_blender": {
+        "min": [
+          -5.983049392700195,
+          -6.086097240447998,
+          0.0
+        ],
+        "max": [
+          5.91179084777832,
+          5.913902759552002,
+          7.126999855041504
+        ],
+        "dimensions": [
+          11.894840240478516,
+          12.0,
+          7.126999855041504
+        ]
+      },
+      "root_nodes": [
+        {
+          "name": "tree_old",
+          "type": "MESH",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "prop_hierarchies": [],
+      "blender_reimport": "PASS",
+      "importer_helper_meshes_excluded": [],
+      "material_count": 9,
+      "extension_names": []
+    },
+    {
+      "file": "client/assets/art/village/fence_wood_4m.glb",
+      "bytes": 4644576,
+      "sha256": "d13959fb601ccfde76576ad18974a81c8d7776d71e2b4f3a1faa28ed021a27ac",
+      "triangles": 1000,
+      "triangle_budget": 3000,
+      "embedded_pngs": [
+        {
+          "name": "wood_normal",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 1001060,
+          "embedded": true
+        },
+        {
+          "name": "wood_albedo",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 655938,
+          "embedded": true
+        },
+        {
+          "name": "wood_roughness",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 356352,
+          "embedded": true
+        },
+        {
+          "name": "wood_light_normal",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 1004457,
+          "embedded": true
+        },
+        {
+          "name": "wood_light_albedo",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 658145,
+          "embedded": true
+        },
+        {
+          "name": "wood_light_roughness",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 357331,
+          "embedded": true
+        },
+        {
+          "name": "metal_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 247774,
+          "embedded": true
+        },
+        {
+          "name": "metal_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 183723,
+          "embedded": true
+        },
+        {
+          "name": "metal_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 100739,
+          "embedded": true
+        }
+      ],
+      "animations": [],
+      "skins": 0,
+      "joints": [],
+      "bounds_blender": {
+        "min": [
+          -2.0,
+          -0.15000006556510925,
+          0.0
+        ],
+        "max": [
+          1.9999998807907104,
+          0.15000000596046448,
+          1.1999999284744263
+        ],
+        "dimensions": [
+          3.9999998807907104,
+          0.30000007152557373,
+          1.1999999284744263
+        ]
+      },
+      "root_nodes": [
+        {
+          "name": "fence_wood_4m",
+          "type": "MESH",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "prop_hierarchies": [],
+      "blender_reimport": "PASS",
+      "importer_helper_meshes_excluded": [],
+      "material_count": 3,
+      "extension_names": []
+    },
+    {
+      "file": "client/assets/art/village/props_set.glb",
+      "bytes": 7781312,
+      "sha256": "18b67775dbf2935d1aa71233683f397ab41e02d51083bc0e9e30adc6ee9e911d",
+      "triangles": 7028,
+      "triangle_budget": 15000,
+      "embedded_pngs": [
+        {
+          "name": "wood_light_normal",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 1004457,
+          "embedded": true
+        },
+        {
+          "name": "wood_light_albedo",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 658145,
+          "embedded": true
+        },
+        {
+          "name": "wood_light_roughness",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 357331,
+          "embedded": true
+        },
+        {
+          "name": "wood_normal",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 1001060,
+          "embedded": true
+        },
+        {
+          "name": "wood_albedo",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 655938,
+          "embedded": true
+        },
+        {
+          "name": "wood_roughness",
+          "size": [
+            1024,
+            1024
+          ],
+          "bytes": 356352,
+          "embedded": true
+        },
+        {
+          "name": "metal_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 247774,
+          "embedded": true
+        },
+        {
+          "name": "metal_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 183723,
+          "embedded": true
+        },
+        {
+          "name": "metal_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 100739,
+          "embedded": true
+        },
+        {
+          "name": "stone_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 249890,
+          "embedded": true
+        },
+        {
+          "name": "stone_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 189197,
+          "embedded": true
+        },
+        {
+          "name": "stone_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 101759,
+          "embedded": true
+        },
+        {
+          "name": "paper_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 248126,
+          "embedded": true
+        },
+        {
+          "name": "paper_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 183512,
+          "embedded": true
+        },
+        {
+          "name": "paper_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 103565,
+          "embedded": true
+        },
+        {
+          "name": "rope_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 249640,
+          "embedded": true
+        },
+        {
+          "name": "rope_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 187264,
+          "embedded": true
+        },
+        {
+          "name": "rope_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 105717,
+          "embedded": true
+        },
+        {
+          "name": "cloth_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 247477,
+          "embedded": true
+        },
+        {
+          "name": "cloth_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 183697,
+          "embedded": true
+        },
+        {
+          "name": "cloth_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 101404,
+          "embedded": true
+        },
+        {
+          "name": "ceramic_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 247931,
+          "embedded": true
+        },
+        {
+          "name": "ceramic_albedo",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 183740,
+          "embedded": true
+        },
+        {
+          "name": "ceramic_roughness",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 100750,
+          "embedded": true
+        }
+      ],
+      "animations": [],
+      "skins": 0,
+      "joints": [],
+      "bounds_blender": {
+        "min": [
+          -3.5275001525878906,
+          -0.9234830141067505,
+          0.0
+        ],
+        "max": [
+          2.9592413902282715,
+          2.565000057220459,
+          2.702453851699829
+        ],
+        "dimensions": [
+          6.486741542816162,
+          3.4884830713272095,
+          2.702453851699829
+        ]
+      },
+      "root_nodes": [
+        {
+          "name": "crate",
+          "type": "MESH",
+          "location": [
+            -3.0,
+            -0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "barrel",
+          "type": "MESH",
+          "location": [
+            -1.5,
+            -0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "lantern_pole",
+          "type": "MESH",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "well",
+          "type": "MESH",
+          "location": [
+            2.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "market_table",
+          "type": "MESH",
+          "location": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "prop_hierarchies": [
+        {
+          "name": "crate",
+          "triangles": 1444,
+          "local_dimensions": [
+            1.0550000667572021,
+            1.0750000476837158,
+            0.9399999976158142
+          ],
+          "origin_blender": [
+            -3.0,
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "barrel",
+          "triangles": 584,
+          "local_dimensions": [
+            0.8599380850791931,
+            0.8406739830970764,
+            0.9160000085830688
+          ],
+          "origin_blender": [
+            -1.5,
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "lantern_pole",
+          "triangles": 624,
+          "local_dimensions": [
+            1.0230000019073486,
+            0.5460000038146973,
+            2.702453851699829
+          ],
+          "origin_blender": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "well",
+          "triangles": 2908,
+          "local_dimensions": [
+            1.918483018875122,
+            1.846966028213501,
+            2.2799999713897705
+          ],
+          "origin_blender": [
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "market_table",
+          "triangles": 1468,
+          "local_dimensions": [
+            1.880000352859497,
+            1.130000114440918,
+            1.125258445739746
+          ],
+          "origin_blender": [
+            0.0,
+            2.0,
+            0.0
+          ]
+        }
+      ],
+      "blender_reimport": "PASS",
+      "importer_helper_meshes_excluded": [],
+      "material_count": 10,
+      "extension_names": []
+    },
+    {
+      "file": "client/assets/art/characters/player_novice.glb",
+      "bytes": 13381712,
+      "sha256": "3f046cfcda663ba63300963341f575b69b827bd5100ac303d65a01e135794ce8",
+      "triangles": 14773,
+      "triangle_budget": 15000,
+      "embedded_pngs": [
+        {
+          "name": "skin_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 315099,
+          "embedded": true
+        },
+        {
+          "name": "skin_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 293663,
+          "embedded": true
+        },
+        {
+          "name": "skin_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260795,
+          "embedded": true
+        },
+        {
+          "name": "slate_woven_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 420211,
+          "embedded": true
+        },
+        {
+          "name": "slate_woven_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 350533,
+          "embedded": true
+        },
+        {
+          "name": "slate_woven_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260454,
+          "embedded": true
+        },
+        {
+          "name": "flax_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 419360,
+          "embedded": true
+        },
+        {
+          "name": "flax_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 343706,
+          "embedded": true
+        },
+        {
+          "name": "flax_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260814,
+          "embedded": true
+        },
+        {
+          "name": "slate_edge_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 419715,
+          "embedded": true
+        },
+        {
+          "name": "slate_edge_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 380074,
+          "embedded": true
+        },
+        {
+          "name": "slate_edge_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260534,
+          "embedded": true
+        },
+        {
+          "name": "leather_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 420139,
+          "embedded": true
+        },
+        {
+          "name": "leather_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 375154,
+          "embedded": true
+        },
+        {
+          "name": "leather_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260805,
+          "embedded": true
+        },
+        {
+          "name": "bronze_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 315120,
+          "embedded": true
+        },
+        {
+          "name": "bronze_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 314061,
+          "embedded": true
+        },
+        {
+          "name": "bronze_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 261549,
+          "embedded": true
+        },
+        {
+          "name": "binding_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 418965,
+          "embedded": true
+        },
+        {
+          "name": "binding_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 367455,
+          "embedded": true
+        },
+        {
+          "name": "binding_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260426,
+          "embedded": true
+        },
+        {
+          "name": "boots_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 419462,
+          "embedded": true
+        },
+        {
+          "name": "boots_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 371679,
+          "embedded": true
+        },
+        {
+          "name": "boots_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260521,
+          "embedded": true
+        },
+        {
+          "name": "trouser_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 419646,
+          "embedded": true
+        },
+        {
+          "name": "trouser_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 360380,
+          "embedded": true
+        },
+        {
+          "name": "trouser_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260723,
+          "embedded": true
+        },
+        {
+          "name": "skin_shadow_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 314864,
+          "embedded": true
+        },
+        {
+          "name": "skin_shadow_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260358,
+          "embedded": true
+        },
+        {
+          "name": "skin_shadow_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 260630,
+          "embedded": true
+        },
+        {
+          "name": "eye_normal",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 20040,
+          "embedded": true
+        },
+        {
+          "name": "eye_basecolor",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 19012,
+          "embedded": true
+        },
+        {
+          "name": "eye_orm",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 16798,
+          "embedded": true
+        },
+        {
+          "name": "iris_normal",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 20006,
+          "embedded": true
+        },
+        {
+          "name": "iris_basecolor",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 19902,
+          "embedded": true
+        },
+        {
+          "name": "iris_orm",
+          "size": [
+            128,
+            128
+          ],
+          "bytes": 16841,
+          "embedded": true
+        },
+        {
+          "name": "hair_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 314609,
+          "embedded": true
+        },
+        {
+          "name": "hair_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 293908,
+          "embedded": true
+        },
+        {
+          "name": "hair_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 261079,
+          "embedded": true
+        },
+        {
+          "name": "hair_ridge_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 314918,
+          "embedded": true
+        },
+        {
+          "name": "hair_ridge_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 296761,
+          "embedded": true
+        },
+        {
+          "name": "hair_ridge_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 261084,
+          "embedded": true
+        },
+        {
+          "name": "steel_normal",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 315024,
+          "embedded": true
+        },
+        {
+          "name": "steel_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 300081,
+          "embedded": true
+        },
+        {
+          "name": "steel_orm",
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 261123,
+          "embedded": true
+        }
+      ],
+      "animations": [
+        {
+          "name": "attack_basic",
+          "start_seconds": 0,
+          "end_seconds": 0.7,
+          "duration_seconds": 0.7,
+          "channels": 84
+        },
+        {
+          "name": "death",
+          "start_seconds": 0,
+          "end_seconds": 1,
+          "duration_seconds": 1,
+          "channels": 84
+        },
+        {
+          "name": "hit",
+          "start_seconds": 0,
+          "end_seconds": 0.3,
+          "duration_seconds": 0.3,
+          "channels": 84
+        },
+        {
+          "name": "idle",
+          "start_seconds": 0,
+          "end_seconds": 2,
+          "duration_seconds": 2,
+          "channels": 84
+        },
+        {
+          "name": "walk",
+          "start_seconds": 0,
+          "end_seconds": 0.4,
+          "duration_seconds": 0.4,
+          "channels": 84
+        }
+      ],
+      "skins": 1,
+      "joints": [
+        28
+      ],
+      "bounds_blender": {
+        "min": [
+          -0.37618812918663025,
+          -0.3094845116138458,
+          -5.161792842045543e-07
+        ],
+        "max": [
+          0.4804558753967285,
+          0.1756715178489685,
+          1.7490004301071167
+        ],
+        "dimensions": [
+          0.8566440045833588,
+          0.48515602946281433,
+          1.749000946286401
+        ]
+      },
+      "root_nodes": [
+        {
+          "name": "player_novice",
+          "type": "ARMATURE",
+          "location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "prop_hierarchies": [],
+      "blender_reimport": "PASS",
+      "importer_helper_meshes_excluded": [
+        "Icosphere"
+      ],
+      "material_count": 15,
+      "extension_names": []
+    }
+  ],
+  "errors": [],
+  "godot_4_7_gameplay": "NOT RUN; local integration acceptance required",
+  "pass": true
+}

@@ -1,0 +1,183 @@
+{
+  "generator": "assets/source/ground_generate.py",
+  "seed": 41873,
+  "authoring": "Original deterministic procedural painting; no third-party textures or brushes",
+  "reference": "assets/concept-art/starter-village-wide-v1.png; inspected visually",
+  "tile_metres": 4.0,
+  "normal_convention": "OpenGL tangent space, +Y green up, linear/data",
+  "periodic_domain": "2047 unique samples plus duplicate first row and column; zero opposite-edge pixel error",
+  "files": [
+    {
+      "file": "client/assets/art/textures/ground_dirt_road.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "bytes": 2114917,
+      "sha256": "ef1b96b09abedbcd1a075c51fbc96197e5cb694941b9080f4629686b46773160",
+      "edge_max_error_left_right": 0,
+      "edge_max_error_top_bottom": 0,
+      "channel_min": [
+        106,
+        97,
+        73
+      ],
+      "channel_max": [
+        165,
+        159,
+        136
+      ]
+    },
+    {
+      "file": "client/assets/art/textures/ground_dirt_road_normal.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "bytes": 3853128,
+      "sha256": "a737dd2d5879776247b7d22f4bab7390fce6e33824fd15d5642a00806ce3b679",
+      "edge_max_error_left_right": 0,
+      "edge_max_error_top_bottom": 0,
+      "channel_min": [
+        63,
+        66,
+        235
+      ],
+      "channel_max": [
+        192,
+        189,
+        255
+      ],
+      "normal_length_min_max": [
+        0.9947111010551453,
+        1.0057199001312256
+      ],
+      "normal_positive_z": true
+    },
+    {
+      "file": "client/assets/art/textures/ground_grass.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "bytes": 2255056,
+      "sha256": "291590ca754d0bf41991ac791eb9a6bc1221c329c846a6978ac26a1eb1ad1e81",
+      "edge_max_error_left_right": 0,
+      "edge_max_error_top_bottom": 0,
+      "channel_min": [
+        64,
+        87,
+        42
+      ],
+      "channel_max": [
+        123,
+        132,
+        79
+      ]
+    },
+    {
+      "file": "client/assets/art/textures/ground_grass_normal.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "bytes": 3445799,
+      "sha256": "751ab4ec589a88bcc0ad8a3ffd0cc3c40a920b6b0450c66aa48ecfdd6417a43e",
+      "edge_max_error_left_right": 0,
+      "edge_max_error_top_bottom": 0,
+      "channel_min": [
+        93,
+        93,
+        249
+      ],
+      "channel_max": [
+        162,
+        162,
+        255
+      ],
+      "normal_length_min_max": [
+        0.994896650314331,
+        1.0049856901168823
+      ],
+      "normal_positive_z": true
+    },
+    {
+      "file": "client/assets/art/textures/ground_stone_paving.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "bytes": 2434934,
+      "sha256": "d83b18b08d0364d432bc4309e9633fcc5d4d6098901064cdd54a86b2e8168be1",
+      "edge_max_error_left_right": 0,
+      "edge_max_error_top_bottom": 0,
+      "channel_min": [
+        92,
+        94,
+        68
+      ],
+      "channel_max": [
+        187,
+        181,
+        162
+      ]
+    },
+    {
+      "file": "client/assets/art/textures/ground_stone_paving_normal.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "bytes": 4555305,
+      "sha256": "a0828fb416214123bbfdf3f0392f73b46a81faf0bde970abe055e4cf92856f2d",
+      "edge_max_error_left_right": 0,
+      "edge_max_error_top_bottom": 0,
+      "channel_min": [
+        3,
+        3,
+        147
+      ],
+      "channel_max": [
+        253,
+        252,
+        255
+      ],
+      "normal_length_min_max": [
+        0.9936593174934387,
+        1.0066369771957397
+      ],
+      "normal_positive_z": true
+    }
+  ],
+  "blender_source": {
+    "file": "assets/source/ground_materials.blend",
+    "version": "4.3.2",
+    "fresh_process_reopen": "passed",
+    "bytes": 18764157,
+    "packed_png_sha256_matches_files": true,
+    "packed_image_count": 6,
+    "materials": [
+      "ground_dirt_road",
+      "ground_grass",
+      "ground_stone_paving"
+    ],
+    "editable_shader_nodes": "Principled BSDF, UV coordinate, image texture, tangent normal map",
+    "swatch_scale": "8x8 metres with UV 0\u20132: four 4m tiles per swatch",
+    "builder": "assets/source/ground_build_blender.py",
+    "validation_script": "assets/source/ground_validate_blender.py",
+    "preview": "assets/source/ground-material-preview.png",
+    "tiled_inspection_sheet": "assets/source/ground-preview.png"
+  },
+  "visual_review": {
+    "tiled_sheet": "Reviewed 2x2 albedo repeats for all three materials; no visible seam discontinuities",
+    "blender_render": "Reviewed 1800x1000 material studio render with all three swatches and normal mapping",
+    "stone_refinement": "Soft worn bevel, irregular edge chips, mineral/patina strokes and warm gray palette; no excessive fine noise",
+    "third_party_art_resources": []
+  }
+}

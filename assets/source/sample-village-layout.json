@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "source": "shared/data/map.json @ 2d9b020f276ed87b810c0903d65dcb00a6a9e9c4",
+  "units": "metres",
+  "blender_axes": "X east, Y north, Z up; front is -Y",
+  "gltf_godot_mapping": "(x, y, z)_Blender -> (x, z, -y)_Godot",
+  "area": {"size": [60, 60], "center": [0, 0, 0]},
+  "spawn": [0, 0, 0],
+  "placements": [
+    {"id": "A-hall", "asset": "building_hall.glb", "position": [-15, 15, 0], "rotation_z_deg": 0, "wall_footprint": [14, 14], "server_rect_xz": [-22, -22, -8, -8]},
+    {"id": "A-forge", "asset": "building_forge.glb", "position": [15, -15, 0], "rotation_z_deg": 0, "footprint": [14, 14], "server_rect_xz": [8, 8, 22, 22]},
+    {"id": "old_tree", "asset": "tree_old.glb", "position": [14, 14, 0], "rotation_z_deg": 0, "trunk_radius_max": 1.5, "canopy_diameter": 12, "collision_note": "Trunk only. Server has no tree obstacle yet; do not infer collision from canopy."}
+  ],
+  "gateways": [
+    {"direction": "west", "center": [-30, 0, 0], "width": 8, "road": "A-C"},
+    {"direction": "east", "center": [30, 0, 0], "width": 8, "road": "A-B"},
+    {"direction": "south", "center": [0, -30, 0], "width": 8, "road": "A-E"},
+    {"direction": "north", "center": [0, 30, 0], "width": 6, "road": "F-risk-A"}
+  ],
+  "preview_only": true,
+  "integration_note": "No existing gameplay code or server collisions changed. Placement asset preview and Blender source are supplied for local integration. Fence is decorative until collision authored explicitly."
+}

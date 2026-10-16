@@ -1,0 +1,1019 @@
+{
+  "asset": "player_novice.glb",
+  "blender_version": "4.3.2",
+  "source": "original scripted modeling following AI-generated original turnaround",
+  "triangles_source": 14773,
+  "body_triangles": 13983,
+  "sword_triangles": 790,
+  "height_m_bind": 1.7489999532699585,
+  "origin": "feet center at (0,0,0)",
+  "front": "Blender -Y, glTF +Z",
+  "skin_bones": 28,
+  "textures": "Embedded baked PNG, maximum512x512",
+  "clips_expected": {
+    "idle": 2.0,
+    "walk": 0.4,
+    "attack_basic": 0.7,
+    "hit": 0.3,
+    "death": 1.0
+  },
+  "walk": {
+    "type": "root motion",
+    "root_bone": "root",
+    "velocity_mps": 4,
+    "cycle_seconds": 0.4,
+    "cycle_displacement_m": 1.6,
+    "loop_integration": "Godot must extract root bone motion; root wraps at loop boundary while cumulative actor transform advances. Do not add duplicate 4m/s motion.",
+    "stance": "Each stance ankle is held at a mathematically fixed world-space target; only swing feet advance.",
+    "samples": [
+      {
+        "frame": 1,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.0
+      },
+      {
+        "frame": 1,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.0
+      },
+      {
+        "frame": 2,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.06666666666666667
+      },
+      {
+        "frame": 2,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          0.36851853132247925,
+          0.16899923980236053
+        ],
+        "root_y": -0.06666666666666667
+      },
+      {
+        "frame": 3,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.13333333333333333
+      },
+      {
+        "frame": 3,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          0.28148147463798523,
+          0.20999999344348907
+        ],
+        "root_y": -0.13333333333333333
+      },
+      {
+        "frame": 4,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.2
+      },
+      {
+        "frame": 4,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          0.15000000596046448,
+          0.24520815908908844
+        ],
+        "root_y": -0.2
+      },
+      {
+        "frame": 5,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.26666666666666666
+      },
+      {
+        "frame": 5,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -0.014814814552664757,
+          0.2722243070602417
+        ],
+        "root_y": -0.26666666666666666
+      },
+      {
+        "frame": 6,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.3333333333333333
+      },
+      {
+        "frame": 6,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -0.20185184478759766,
+          0.289207398891449
+        ],
+        "root_y": -0.3333333333333333
+      },
+      {
+        "frame": 7,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.4
+      },
+      {
+        "frame": 7,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -0.4000000059604645,
+          0.29499998688697815
+        ],
+        "root_y": -0.4
+      },
+      {
+        "frame": 8,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.4666666666666667
+      },
+      {
+        "frame": 8,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -0.5981481671333313,
+          0.289207398891449
+        ],
+        "root_y": -0.4666666666666667
+      },
+      {
+        "frame": 9,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.5333333333333333
+      },
+      {
+        "frame": 9,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -0.7851851582527161,
+          0.2722243070602417
+        ],
+        "root_y": -0.5333333333333333
+      },
+      {
+        "frame": 10,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.6
+      },
+      {
+        "frame": 10,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -0.949999988079071,
+          0.24520815908908844
+        ],
+        "root_y": -0.6
+      },
+      {
+        "frame": 11,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.6666666666666666
+      },
+      {
+        "frame": 11,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.0814814567565918,
+          0.20999999344348907
+        ],
+        "root_y": -0.6666666666666666
+      },
+      {
+        "frame": 12,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.7333333333333333
+      },
+      {
+        "frame": 12,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.1685185432434082,
+          0.16899923980236053
+        ],
+        "root_y": -0.7333333333333333
+      },
+      {
+        "frame": 13,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4000000059604645,
+          0.125
+        ],
+        "root_y": -0.8
+      },
+      {
+        "frame": 13,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -0.8
+      },
+      {
+        "frame": 14,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.4314814805984497,
+          0.16899923980236053
+        ],
+        "root_y": -0.8666666666666667
+      },
+      {
+        "frame": 14,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -0.8666666666666667
+      },
+      {
+        "frame": 15,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.5185185074806213,
+          0.20999999344348907
+        ],
+        "root_y": -0.9333333333333333
+      },
+      {
+        "frame": 15,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -0.9333333333333333
+      },
+      {
+        "frame": 16,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.6499999761581421,
+          0.24520815908908844
+        ],
+        "root_y": -1.0
+      },
+      {
+        "frame": 16,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.0
+      },
+      {
+        "frame": 17,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -0.8148148059844971,
+          0.2722243070602417
+        ],
+        "root_y": -1.0666666666666667
+      },
+      {
+        "frame": 17,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.0666666666666667
+      },
+      {
+        "frame": 18,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.0018517971038818,
+          0.289207398891449
+        ],
+        "root_y": -1.1333333333333333
+      },
+      {
+        "frame": 18,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.1333333333333333
+      },
+      {
+        "frame": 19,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.2000000476837158,
+          0.29499998688697815
+        ],
+        "root_y": -1.2
+      },
+      {
+        "frame": 19,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.2
+      },
+      {
+        "frame": 20,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.3981481790542603,
+          0.289207398891449
+        ],
+        "root_y": -1.2666666666666666
+      },
+      {
+        "frame": 20,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.2666666666666666
+      },
+      {
+        "frame": 21,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.585185170173645,
+          0.2722243070602417
+        ],
+        "root_y": -1.3333333333333333
+      },
+      {
+        "frame": 21,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.3333333333333333
+      },
+      {
+        "frame": 22,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.75,
+          0.24520815908908844
+        ],
+        "root_y": -1.4
+      },
+      {
+        "frame": 22,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.4
+      },
+      {
+        "frame": 23,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.8814815282821655,
+          0.20999999344348907
+        ],
+        "root_y": -1.4666666666666666
+      },
+      {
+        "frame": 23,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.4666666666666666
+      },
+      {
+        "frame": 24,
+        "foot": "L",
+        "stance": false,
+        "ankle_world": [
+          -0.10400000214576721,
+          -1.9685184955596924,
+          0.16899923980236053
+        ],
+        "root_y": -1.5333333333333334
+      },
+      {
+        "frame": 24,
+        "foot": "R",
+        "stance": true,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.5333333333333334
+      },
+      {
+        "frame": 25,
+        "foot": "L",
+        "stance": true,
+        "ankle_world": [
+          -0.10400000214576721,
+          -2.0,
+          0.125
+        ],
+        "root_y": -1.6
+      },
+      {
+        "frame": 25,
+        "foot": "R",
+        "stance": false,
+        "ankle_world": [
+          0.10400000214576721,
+          -1.2000000476837158,
+          0.125
+        ],
+        "root_y": -1.6
+      }
+    ]
+  },
+  "attack_contact": {
+    "frame": 16,
+    "seconds": 0.25,
+    "tip_target_blender": [
+      0.18000000715255737,
+      -1.2699999809265137,
+      1.2899999618530273
+    ],
+    "note": "Sword_Independent rigidly skinned to sword bone; contact is maximum thrust extension."
+  },
+  "death_final_hold_seconds": 0.15,
+  "third_party_assets": [],
+  "verified_glb": {
+    "bytes": 13381712,
+    "triangles": 14773,
+    "animations": [
+      {
+        "name": "attack_basic",
+        "start": 0.0,
+        "end": 0.699999988079071,
+        "duration": 0.699999988079071,
+        "channels": 84
+      },
+      {
+        "name": "death",
+        "start": 0.0,
+        "end": 1.0,
+        "duration": 1.0,
+        "channels": 84
+      },
+      {
+        "name": "hit",
+        "start": 0.0,
+        "end": 0.30000001192092896,
+        "duration": 0.30000001192092896,
+        "channels": 84
+      },
+      {
+        "name": "idle",
+        "start": 0.0,
+        "end": 2.0,
+        "duration": 2.0,
+        "channels": 84
+      },
+      {
+        "name": "walk",
+        "start": 0.0,
+        "end": 0.4000000059604645,
+        "duration": 0.4000000059604645,
+        "channels": 84
+      }
+    ],
+    "skins": 1,
+    "images": [
+      {
+        "name": "skin_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "skin_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "skin_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "slate_woven_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "slate_woven_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "slate_woven_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "flax_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "flax_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "flax_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "slate_edge_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "slate_edge_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "slate_edge_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "leather_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "leather_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "leather_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "bronze_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "bronze_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "bronze_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "binding_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "binding_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "binding_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "boots_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "boots_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "boots_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "trouser_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "trouser_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "trouser_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "skin_shadow_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "skin_shadow_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "skin_shadow_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "eye_normal",
+        "mimeType": "image/png",
+        "width": 128,
+        "height": 128,
+        "embedded": true
+      },
+      {
+        "name": "eye_basecolor",
+        "mimeType": "image/png",
+        "width": 128,
+        "height": 128,
+        "embedded": true
+      },
+      {
+        "name": "eye_orm",
+        "mimeType": "image/png",
+        "width": 128,
+        "height": 128,
+        "embedded": true
+      },
+      {
+        "name": "iris_normal",
+        "mimeType": "image/png",
+        "width": 128,
+        "height": 128,
+        "embedded": true
+      },
+      {
+        "name": "iris_basecolor",
+        "mimeType": "image/png",
+        "width": 128,
+        "height": 128,
+        "embedded": true
+      },
+      {
+        "name": "iris_orm",
+        "mimeType": "image/png",
+        "width": 128,
+        "height": 128,
+        "embedded": true
+      },
+      {
+        "name": "hair_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "hair_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "hair_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "hair_ridge_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "hair_ridge_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "hair_ridge_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "steel_normal",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "steel_basecolor",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      },
+      {
+        "name": "steel_orm",
+        "mimeType": "image/png",
+        "width": 512,
+        "height": 512,
+        "embedded": true
+      }
+    ],
+    "meshes": [
+      "Novice_Body_Skinned",
+      "Sword_Independent"
+    ],
+    "root_motion_speed_min": 4.0,
+    "root_motion_speed_max": 4.0,
+    "reimport_success": true,
+    "reimport_actions": [
+      "attack_basic_player_novice",
+      "death_player_novice",
+      "hit_player_novice",
+      "idle_player_novice",
+      "walk_player_novice"
+    ],
+    "sha256": "3f046cfcda663ba63300963341f575b69b827bd5100ac303d65a01e135794ce8"
+  },
+  "verified_source_motion": {
+    "max_stance_ankle_drift_m": 4.1676659199437487e-07,
+    "attack_peak_extension_frame": 16,
+    "attack_peak_seconds": 0.25,
+    "attack_tip_blender": [
+      0.17999932169914246,
+      -1.2649998664855957,
+      1.2899996042251587
+    ],
+    "death_head_height_m": 0.17999979853630066,
+    "death_lies_horizontal": true,
+    "death_final_hold_matrix_error": 0.0,
+    "max_limb_joint_gap_m": 0.00022179346043349485
+  },
+  "verified_source_cleanup": {
+    "orphan_meshes": [],
+    "orphan_materials": [],
+    "actions": [
+      "attack_basic",
+      "death",
+      "hit",
+      "idle",
+      "walk"
+    ],
+    "unpacked_used_images": [],
+    "mesh_modifiers": {
+      "Novice_Body_Skinned": [
+        "ARMATURE"
+      ],
+      "Sword_Independent": [
+        "ARMATURE"
+      ]
+    }
+  },
+  "files": {
+    "source_blend": "assets/source/character_novice.blend",
+    "build_script": "assets/source/character_build.py",
+    "validation_script": "assets/source/character_validate.py",
+    "pose_render_script": "assets/source/character_preview.py",
+    "design_turnaround": "assets/concept-art/sample/player-turnaround.png",
+    "design_prompt": "assets/concept-art/sample/player-turnaround-prompt.md",
+    "renders": [
+      "assets/source/character-preview.png",
+      "assets/source/character-front.png",
+      "assets/source/character-side.png",
+      "assets/source/character-back.png",
+      "assets/source/character-walk.png",
+      "assets/source/character-attack.png",
+      "assets/source/character-death.png"
+    ]
+  },
+  "integration_note": "walk uses 4 m/s root motion over a 0.4-second, 1.6-meter cycle. If server-authoritative movement already advances the actor at 4 m/s, remove/extract root motion from the visual skeleton and use that server displacement. Never add both displacements. attack_basic contact is exactly 0.25 s, all animation samplers begin at zero."
+}

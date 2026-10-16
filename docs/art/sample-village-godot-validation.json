@@ -1,0 +1,76 @@
+{
+  "assets": [
+    {
+      "animations": {
+
+      },
+      "file": "village/building_hall.glb",
+      "mesh_count": 43,
+      "node_count": 45,
+      "skeleton_count": 0
+    },
+    {
+      "animations": {
+
+      },
+      "file": "village/building_forge.glb",
+      "mesh_count": 72,
+      "node_count": 74,
+      "skeleton_count": 0
+    },
+    {
+      "animations": {
+
+      },
+      "file": "village/tree_old.glb",
+      "mesh_count": 1,
+      "node_count": 2,
+      "skeleton_count": 0
+    },
+    {
+      "animations": {
+
+      },
+      "file": "village/fence_wood_4m.glb",
+      "mesh_count": 1,
+      "node_count": 2,
+      "skeleton_count": 0
+    },
+    {
+      "animations": {
+
+      },
+      "file": "village/props_set.glb",
+      "mesh_count": 5,
+      "node_count": 6,
+      "skeleton_count": 0
+    },
+    {
+      "animations": {
+        "attack_basic": 0.699999988079071,
+        "death": 1.0,
+        "hit": 0.300000011920929,
+        "idle": 2.0,
+        "walk": 0.400000005960464
+      },
+      "file": "characters/player_novice.glb",
+      "mesh_count": 2,
+      "node_count": 6,
+      "skeleton_count": 1
+    }
+  ],
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "failures": [],
+  "method": "Headless imported-resource load and scene instantiation. Not a rendering or gameplay test.",
+  "renderer": "gl_compatibility"
+}

@@ -1,0 +1,1190 @@
+{
+  "base_main_commit": "2d9b020f276ed87b810c0903d65dcb00a6a9e9c4",
+  "target_branch": "art/sample-village",
+  "generated_utc": "2026-10-16T14:41:32.859467+00:00",
+  "blender": "4.3.2",
+  "files_excluding_this_index": [
+    {
+      "path": "assets/concept-art/sample/building-forge-front-prompt.md",
+      "bytes": 1934,
+      "sha256": "5bb8f74b17b108ea7acb7c1d9588b549370317fb6aff32144edffbe5a3a29865"
+    },
+    {
+      "path": "assets/concept-art/sample/building-forge-front.png",
+      "bytes": 2513988,
+      "sha256": "066262ff4d3bc3eda576d987a6305ea6e831769e45d58953b8ecdd03610bdb36"
+    },
+    {
+      "path": "assets/concept-art/sample/building-forge-oblique-prompt.md",
+      "bytes": 2072,
+      "sha256": "5be67efd38d8346e7dca5432ac99bb417037cad84a68be8de838e7c88e53b5c5"
+    },
+    {
+      "path": "assets/concept-art/sample/building-forge-oblique.png",
+      "bytes": 2716114,
+      "sha256": "c9063ff16fca42b70e7719bef484da88ebc7351e30d55fb6146dda2d22239d62"
+    },
+    {
+      "path": "assets/concept-art/sample/building-forge-side-prompt.md",
+      "bytes": 1926,
+      "sha256": "d6978fe146090ef635616b66b6237e9281ac7e76f1fb3ef28d608f4857791ec1"
+    },
+    {
+      "path": "assets/concept-art/sample/building-forge-side.png",
+      "bytes": 2124174,
+      "sha256": "72ccd8c85d914757a7737b450e78d327151981dd5313caefbfd8437f113f72fd"
+    },
+    {
+      "path": "assets/concept-art/sample/building-hall-front-prompt.md",
+      "bytes": 1799,
+      "sha256": "c13fc8792cb60e2b3de58168fd3391d41f689c1f04cdc2d1fb1be7db8f730de4"
+    },
+    {
+      "path": "assets/concept-art/sample/building-hall-front.png",
+      "bytes": 2492603,
+      "sha256": "7e6341c69fae704b52ccb7daef574246e03bb53a28e52189a5f826b2189dd0c3"
+    },
+    {
+      "path": "assets/concept-art/sample/building-hall-oblique-prompt.md",
+      "bytes": 1893,
+      "sha256": "7a98dd8867f1a4a7fb9471ca254cd8d73f47a97b45d372e524bf1eec63218122"
+    },
+    {
+      "path": "assets/concept-art/sample/building-hall-oblique.png",
+      "bytes": 2708436,
+      "sha256": "92f12d137982cb7486a588071301e5760060357ebfaed134f730744a582c06b7"
+    },
+    {
+      "path": "assets/concept-art/sample/building-hall-side-prompt.md",
+      "bytes": 1038,
+      "sha256": "1f878208f6753af72b321402a84e6d99b7eb6f9561a8241250210423a9f9febd"
+    },
+    {
+      "path": "assets/concept-art/sample/building-hall-side.png",
+      "bytes": 2316439,
+      "sha256": "e57a2a276c47ff848049b8a6aef1e9bdcb79f179a891a656dfa95e23a6ffce3a"
+    },
+    {
+      "path": "assets/concept-art/sample/player-turnaround-prompt.md",
+      "bytes": 1586,
+      "sha256": "68cb0750c0cab58f04b7d76c9203ebebe6dfd56ba7dc49f2603b966b027a467b"
+    },
+    {
+      "path": "assets/concept-art/sample/player-turnaround.png",
+      "bytes": 2805228,
+      "sha256": "bf06067bb586db425cb3cab0142d512b7a95dc5ab2145545539bd28567397e80"
+    },
+    {
+      "path": "assets/concept-art/sample/props-design-prompt.md",
+      "bytes": 1058,
+      "sha256": "5412310f6b79b1f2fda0455d4162778f248361015a898426136d1340f85f1c24"
+    },
+    {
+      "path": "assets/concept-art/sample/props-design.png",
+      "bytes": 162628,
+      "sha256": "542e96bc3a4bf70ae677d4c24f9c768ce32d68dc2dcf63ad31e8135e5b891c0a"
+    },
+    {
+      "path": "assets/concept-art/sample/props-design.svg",
+      "bytes": 4963,
+      "sha256": "d05365830d89cfc72f38c6249ada45b733cb732fdac218076bb96b9d596977ee"
+    },
+    {
+      "path": "assets/concept-art/sample/village-layout-prompt.md",
+      "bytes": 1644,
+      "sha256": "9a555062878655cf133c1f1be97fffbc8a45728cc3d4ec365aea4b0fd6c82414"
+    },
+    {
+      "path": "assets/concept-art/sample/village-layout.png",
+      "bytes": 3386862,
+      "sha256": "c05bb3083d6c6eb9697f33cb239c0b9f1705778695cc2d5b6be83a99b546c2f3"
+    },
+    {
+      "path": "assets/source/README.md",
+      "bytes": 4238,
+      "sha256": "21da4c336f9fb5dd329de16e33bbc3ffe9bdbfe1f86f4a1d2f894309aacc2c0e"
+    },
+    {
+      "path": "assets/source/assemble_sample_village.py",
+      "bytes": 8697,
+      "sha256": "401e0cb680dd8545fb8fb7b76c6d29a75a7aa99c1bf2500881a1555aaafc11b2"
+    },
+    {
+      "path": "assets/source/buildings/README.md",
+      "bytes": 2787,
+      "sha256": "802c9fe4f49bdfbf990d419562ccd7a3e4ad8f3af87b41380f0f3ea4b1ac0990"
+    },
+    {
+      "path": "assets/source/buildings/build_buildings.py",
+      "bytes": 25881,
+      "sha256": "f00820cab4c48509a4c98742a988d99cc5627dbb043a460a5ed7711f023e7e71"
+    },
+    {
+      "path": "assets/source/buildings/building_forge.blend",
+      "bytes": 5699960,
+      "sha256": "95bbedd68ff3c32e00980b4c935ae3a4e4a20198eb5949766f9e21252b7db844"
+    },
+    {
+      "path": "assets/source/buildings/building_hall.blend",
+      "bytes": 6100935,
+      "sha256": "baf01105b605d20bc28fd2057a818b9322b1f59295345263aae20f656179f480"
+    },
+    {
+      "path": "assets/source/buildings/clean_sources.py",
+      "bytes": 687,
+      "sha256": "504731b5e6633ac2daeeb4aba8dbfbc12f9a774c222b50bb72a172d6678b5384"
+    },
+    {
+      "path": "assets/source/buildings/make_building_textures.py",
+      "bytes": 4078,
+      "sha256": "96823c3905cf09817b31258b5d5a0630bcecb9fee406c83f5a086beb3a2a8171"
+    },
+    {
+      "path": "assets/source/buildings/render_exported_buildings.py",
+      "bytes": 2441,
+      "sha256": "cf5ea449a672985869ad8ef8ba4dbcac5165cf7444b040070c115cde1f2f99f8"
+    },
+    {
+      "path": "assets/source/buildings/renders/building_forge_front.png",
+      "bytes": 1571894,
+      "sha256": "85e78ba9ac89a01ec0f184d7c7ed6e8aa3c498ec053cf0819fa2658f3194032c"
+    },
+    {
+      "path": "assets/source/buildings/renders/building_forge_oblique.png",
+      "bytes": 2150154,
+      "sha256": "774ff045f4f3eaf0e43ce43cb84e0a4b79e4871055ab85c8867b7973a97082a4"
+    },
+    {
+      "path": "assets/source/buildings/renders/building_forge_side.png",
+      "bytes": 1438495,
+      "sha256": "34f5a81b700dfc55935b89f8e630ad8e2191398b80269e5a1c9876f729268afc"
+    },
+    {
+      "path": "assets/source/buildings/renders/building_hall_front.png",
+      "bytes": 1776357,
+      "sha256": "9f4189cc51efe314ece6a7456913fd88b5453fbb259a8a9353f6de9888e6d7cc"
+    },
+    {
+      "path": "assets/source/buildings/renders/building_hall_oblique.png",
+      "bytes": 2288089,
+      "sha256": "5c55b76da76a12ebf0ac7380750cddc2754c3569b7c7ac71d6ce7301ee14c822"
+    },
+    {
+      "path": "assets/source/buildings/renders/building_hall_side.png",
+      "bytes": 1738708,
+      "sha256": "fa196af7dc138868e928db9fd155c90cf808a0da10fd66f120e54ec5db1a4214"
+    },
+    {
+      "path": "assets/source/buildings/textures/brass_basecolor.png",
+      "bytes": 58730,
+      "sha256": "f6201e6b73c95bee2caa483a5d1f69f6f3885b68e47c4f90a35f04b9f5e387eb"
+    },
+    {
+      "path": "assets/source/buildings/textures/brass_normal.png",
+      "bytes": 437389,
+      "sha256": "c8f5cee8a2db6a67740a096efc438a95b6ad3760600d661987dfa021b5411af1"
+    },
+    {
+      "path": "assets/source/buildings/textures/brass_orm.png",
+      "bytes": 35622,
+      "sha256": "ef7598202fff8b3c45c8c807342075d83db8cf1681b3bfb634f6c495e37bbcce"
+    },
+    {
+      "path": "assets/source/buildings/textures/cloth_basecolor.png",
+      "bytes": 84455,
+      "sha256": "91bdf3b77b7d4d9d15ccec54c865c71e894c785808467fe5dca0c64300ce331e"
+    },
+    {
+      "path": "assets/source/buildings/textures/cloth_normal.png",
+      "bytes": 162269,
+      "sha256": "22debcc95855288a60cd4cdb04d027e4feceb4e80d787e8093f379f30ceeb320"
+    },
+    {
+      "path": "assets/source/buildings/textures/cloth_orm.png",
+      "bytes": 34335,
+      "sha256": "c35686b1ba9a469c3f4e9e6e00a2eeac983a505ced7a4ae8f95f260902fb3aa2"
+    },
+    {
+      "path": "assets/source/buildings/textures/coal_basecolor.png",
+      "bytes": 67722,
+      "sha256": "a41c6f5dbb865a29ef2d39c8eb8375d5f16084f21fad4e1c8de8bba2c5bfc687"
+    },
+    {
+      "path": "assets/source/buildings/textures/coal_normal.png",
+      "bytes": 155700,
+      "sha256": "5b5394ca97f838c5a03a74210dfdd52c33f2aad05b586492b90aace0b0306559"
+    },
+    {
+      "path": "assets/source/buildings/textures/coal_orm.png",
+      "bytes": 22504,
+      "sha256": "b6a2793fa03bd0b19665c86a003b2eec3dabef8faa2632bd8ebea0b7ce6324b7"
+    },
+    {
+      "path": "assets/source/buildings/textures/ember_basecolor.png",
+      "bytes": 166582,
+      "sha256": "38f49214709cbd5bf9e2702454461747a7d072a37a19894fbe18215bd0f585c4"
+    },
+    {
+      "path": "assets/source/buildings/textures/ember_normal.png",
+      "bytes": 152656,
+      "sha256": "75500982948db28590cbbf963673189a2d7ef9c9e264c592e9fc311083bb23ac"
+    },
+    {
+      "path": "assets/source/buildings/textures/ember_orm.png",
+      "bytes": 33108,
+      "sha256": "4b144ab44c480eef5344b47bd4229c77ef3ebdab90fb99987b5287f56a0ecea2"
+    },
+    {
+      "path": "assets/source/buildings/textures/iron_basecolor.png",
+      "bytes": 57006,
+      "sha256": "2ccd1c8cf610a3d36c0cd658fd371fe487630c4db74dbe47b718953130e23db7"
+    },
+    {
+      "path": "assets/source/buildings/textures/iron_normal.png",
+      "bytes": 437455,
+      "sha256": "8513e87e44da8440749338f20080c4c82eb7530ee1a00b94743519144e0e989d"
+    },
+    {
+      "path": "assets/source/buildings/textures/iron_orm.png",
+      "bytes": 33921,
+      "sha256": "b103286e0f60a52132e79a8c56e20d4bf0ba37acf56f380b828907d0cb4bbf9d"
+    },
+    {
+      "path": "assets/source/buildings/textures/paper_basecolor.png",
+      "bytes": 52000,
+      "sha256": "ea91b4d59d0fee137d585d71e9a5b96ef48cfde04c58ac7bf70651848ac0e723"
+    },
+    {
+      "path": "assets/source/buildings/textures/paper_normal.png",
+      "bytes": 94263,
+      "sha256": "fc32410e5cc2ef0479c521805001c570a8ec44ed761757bfa0b0855d756a0ada"
+    },
+    {
+      "path": "assets/source/buildings/textures/paper_orm.png",
+      "bytes": 32885,
+      "sha256": "711267d0be8767420dc5e64ef5b03e8a2028c7df31841e7e717d613085aaa762"
+    },
+    {
+      "path": "assets/source/buildings/textures/plaster_basecolor.png",
+      "bytes": 56364,
+      "sha256": "faafbcc845353edf97ce817ceda17545ab2b713e98f1c9f207a38e9f55996dd4"
+    },
+    {
+      "path": "assets/source/buildings/textures/plaster_normal.png",
+      "bytes": 98857,
+      "sha256": "134dd0b517b15eefec2207f3028ba216100d20e536bd1bc770c6904e74c9a969"
+    },
+    {
+      "path": "assets/source/buildings/textures/plaster_orm.png",
+      "bytes": 34920,
+      "sha256": "c7d84fe944a7a1c32266a8c03342d50efcd4fc7ae86c3aa45d0b600d90c9e4e0"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_basecolor.png",
+      "bytes": 61216,
+      "sha256": "f4cc8c5cd34dab9f1e996866899445d7e976747cafb8c6d7b9aee73f73a389a9"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_dark_basecolor.png",
+      "bytes": 62406,
+      "sha256": "4abaf236ead56970d64f32ef413eb69d51e1bc9194a9eb00a1102caeac9da9f0"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_dark_normal.png",
+      "bytes": 96056,
+      "sha256": "c632986d505bde0340075b7562ee2a8a5af9c0e2d40c110948cedcd7931d1d28"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_dark_orm.png",
+      "bytes": 33287,
+      "sha256": "e6608c6bb7b5c21cef8c13673e7456dcdff7a3cec6b9666637f1fa00c2386f20"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_light_basecolor.png",
+      "bytes": 62240,
+      "sha256": "daf784d1c863eba84c7a34e2a47fa8d74697ee076537f4bf59e857d389308393"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_light_normal.png",
+      "bytes": 95118,
+      "sha256": "1396278d308980a977c57bf1a1a759c4ec39cf2a9c0fe0a1059f9817d050d253"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_light_orm.png",
+      "bytes": 33388,
+      "sha256": "c698029cd2fcf1049197604b8addc8fccee5206978cffe4ab495e23fa9dcdd97"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_normal.png",
+      "bytes": 94677,
+      "sha256": "b8e72e76c48827cb92d831d0deeb3b811726d9bd8df83eebc8d7123ea7bbd119"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_orm.png",
+      "bytes": 32433,
+      "sha256": "0e2aa7770a46484c3356e904ad9f3259662a7ebfe3b51611caf2ae9b0c5fac70"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_warm_basecolor.png",
+      "bytes": 63007,
+      "sha256": "dfdcdb302d9bafa580432daf3fde419dd354db379334c6f640944fe506fdc637"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_warm_normal.png",
+      "bytes": 96928,
+      "sha256": "f5db678720f624013e113236550be3cf108b9b1272313e4d06c58585b73e80ff"
+    },
+    {
+      "path": "assets/source/buildings/textures/roof_warm_orm.png",
+      "bytes": 34623,
+      "sha256": "bffc6d0b882f14b3e4ff3ad25a69556b80c91fee8d5c4bea9c9ec98979de4f2a"
+    },
+    {
+      "path": "assets/source/buildings/textures/stone_basecolor.png",
+      "bytes": 57768,
+      "sha256": "a163a6f582573283c061aae583b8023b38e8081b57ddf2c97aa7bfa74596e4d0"
+    },
+    {
+      "path": "assets/source/buildings/textures/stone_normal.png",
+      "bytes": 96936,
+      "sha256": "56c31d3ed20ac878ac920e097fea45140d11cc8948f07ef3d3460403b8ca5205"
+    },
+    {
+      "path": "assets/source/buildings/textures/stone_orm.png",
+      "bytes": 33789,
+      "sha256": "683b1dc8e51449b22119c4c46d156fd5cd356a7b72e2f4430070764e7eef2f2c"
+    },
+    {
+      "path": "assets/source/buildings/textures/wood_basecolor.png",
+      "bytes": 86531,
+      "sha256": "dde0d61070f3e9ef18f558b0d3264436f106df2770f8dc6d543fe8140ce4f8ed"
+    },
+    {
+      "path": "assets/source/buildings/textures/wood_normal.png",
+      "bytes": 200984,
+      "sha256": "1664db9124f0d452cdaddab90012ff934132c983ab8c036da8d885f7b80354c9"
+    },
+    {
+      "path": "assets/source/buildings/textures/wood_orm.png",
+      "bytes": 34095,
+      "sha256": "142ccb1b9c3f2b23d3e6dba26f05d2cc1d43dada2950182a330739ae8fa27695"
+    },
+    {
+      "path": "assets/source/buildings/validate_buildings.py",
+      "bytes": 3793,
+      "sha256": "31911f69c4f2f38d533fe1b1b03d241ee743b8c1b891e5191e8c0d6362d2cff5"
+    },
+    {
+      "path": "assets/source/character-attack.png",
+      "bytes": 700683,
+      "sha256": "4585ed5b2fba38c84b56e0df7d10274438cd820ad710fdfe1ab366fc7e7e85a3"
+    },
+    {
+      "path": "assets/source/character-back.png",
+      "bytes": 719763,
+      "sha256": "f41b2e3c4d05439d96472ea6327d548ff52c26cee55463335f4cbd4063978738"
+    },
+    {
+      "path": "assets/source/character-death.png",
+      "bytes": 676695,
+      "sha256": "83e2a213e0a5ec637b961818bc21e27f201b4177eef2b152ecc769fdd7a01c5b"
+    },
+    {
+      "path": "assets/source/character-front.png",
+      "bytes": 739706,
+      "sha256": "52f8d02c5bf3f21abfe9b6b17261a12825ab53a977d77ac36b89a9ce42a23cb8"
+    },
+    {
+      "path": "assets/source/character-preview.png",
+      "bytes": 1069347,
+      "sha256": "76ddaccf0d7b7dc2ad04b159bed3e328131fa5d1049e34de33e18fa235bdfb72"
+    },
+    {
+      "path": "assets/source/character-side.png",
+      "bytes": 670803,
+      "sha256": "02cb61f23b48ca63d76ef6b966b799cd47dc189aaa1c5b5253a9083fd5b210f8"
+    },
+    {
+      "path": "assets/source/character-walk.png",
+      "bytes": 702735,
+      "sha256": "bbdae69dfb5a5c67865a29dafedb3aae09d39dddf313a88caf618aa7af0bf7fc"
+    },
+    {
+      "path": "assets/source/character_build.py",
+      "bytes": 41168,
+      "sha256": "4be95efcd8d71207aa245a8d0beb4c0a7358dba1ed6306189a31b402482db17c"
+    },
+    {
+      "path": "assets/source/character_novice.blend",
+      "bytes": 13197050,
+      "sha256": "a6f6130390cb2852daf4182472f8fa87d2cb27b64f38500f4a117824363af644"
+    },
+    {
+      "path": "assets/source/character_preview.py",
+      "bytes": 1167,
+      "sha256": "1141a92c184069dffeb8d998c42099a8502f90dbdc888ef85b0d405d9c82b34e"
+    },
+    {
+      "path": "assets/source/character_textures/binding_basecolor.png",
+      "bytes": 367455,
+      "sha256": "aa853776e2084f1941147de81592547bd742b3cf7641e25804e80d4fc4d7622c"
+    },
+    {
+      "path": "assets/source/character_textures/binding_normal.png",
+      "bytes": 418965,
+      "sha256": "151114fabf4b0edb1d33a7a6e8322623eee14840191773c61cbdb3cc67edcbb3"
+    },
+    {
+      "path": "assets/source/character_textures/binding_orm.png",
+      "bytes": 260426,
+      "sha256": "50dcdf69a0365440ab2664c01fa2d872695457ec531117c0ab5b8329643460f9"
+    },
+    {
+      "path": "assets/source/character_textures/boots_basecolor.png",
+      "bytes": 371679,
+      "sha256": "f37258e0cfc6ca7fb6bb6fd1ac08e450c6fb88190ddc9ea7060ed0fa3e48f5e1"
+    },
+    {
+      "path": "assets/source/character_textures/boots_normal.png",
+      "bytes": 419462,
+      "sha256": "e71dee4e4b26551c19aae1e2bc08c1116f33367d00f31a2e24174438d32dff52"
+    },
+    {
+      "path": "assets/source/character_textures/boots_orm.png",
+      "bytes": 260521,
+      "sha256": "057573f70fa8aa90a5e4dea273b4cd5b4f5aa12e0b3047cd3e7eb400f77eece5"
+    },
+    {
+      "path": "assets/source/character_textures/bronze_basecolor.png",
+      "bytes": 314061,
+      "sha256": "a5dad98d30e5434c9d6cb334ca3bbc4a30580d2b461105e74a4aaae20126e204"
+    },
+    {
+      "path": "assets/source/character_textures/bronze_normal.png",
+      "bytes": 315120,
+      "sha256": "f5154b3014c63996c755eb3494c54d35336799aff0ca252b7e28dfb9d4ed2a5c"
+    },
+    {
+      "path": "assets/source/character_textures/bronze_orm.png",
+      "bytes": 261549,
+      "sha256": "54cc794a8df01465a68383b45577e3a55934fddeee855173bf255ae24a549abb"
+    },
+    {
+      "path": "assets/source/character_textures/eye_basecolor.png",
+      "bytes": 19012,
+      "sha256": "cbe534247d09f792359441453705ac2dd3dd575699b55a69110709c30f54f572"
+    },
+    {
+      "path": "assets/source/character_textures/eye_normal.png",
+      "bytes": 20040,
+      "sha256": "b8e3d29b00f7a7aec1e894a6f910a911055fdcb645cd481ab69e74f1b4dbb248"
+    },
+    {
+      "path": "assets/source/character_textures/eye_orm.png",
+      "bytes": 16798,
+      "sha256": "d636004fc12e282853bc776a5b843a156a98513853a7d36b358404d73316532e"
+    },
+    {
+      "path": "assets/source/character_textures/flax_basecolor.png",
+      "bytes": 343706,
+      "sha256": "3b9c0fe38d633f2d511a1f62a54255d66dc1b90c1fa669607536df98bf5d6e57"
+    },
+    {
+      "path": "assets/source/character_textures/flax_normal.png",
+      "bytes": 419360,
+      "sha256": "cf4ef6054411cd29d58e88232c833da636fa71945f3919bcef7709b1576d4c22"
+    },
+    {
+      "path": "assets/source/character_textures/flax_orm.png",
+      "bytes": 260814,
+      "sha256": "562b3ff3e792c432f1e7eef4013c7e1d4c3e45319b258b30f0683d5acca3e320"
+    },
+    {
+      "path": "assets/source/character_textures/hair_basecolor.png",
+      "bytes": 293908,
+      "sha256": "3e421724ed03c20dcad2e0be27f39e7fdbb5cbe608ef86994156f3a91e7bd4eb"
+    },
+    {
+      "path": "assets/source/character_textures/hair_normal.png",
+      "bytes": 314609,
+      "sha256": "5bb3fd9ac69762ce7d2466f65801cbcf513b5802cd1f8c22a46421b38c76c789"
+    },
+    {
+      "path": "assets/source/character_textures/hair_orm.png",
+      "bytes": 261079,
+      "sha256": "c8a8756480e452e4e87b72f6ed3ade4f1027f2f130daed93980b5339b2b5ad05"
+    },
+    {
+      "path": "assets/source/character_textures/hair_ridge_basecolor.png",
+      "bytes": 296761,
+      "sha256": "ae693e3eb215920270f6bd34e06e50628b7d40693fbf46d587576d7e7adad717"
+    },
+    {
+      "path": "assets/source/character_textures/hair_ridge_normal.png",
+      "bytes": 314918,
+      "sha256": "479243edab5e65d76852f473d8dc95bd003c1a27ebb599332572a9e42c5821a8"
+    },
+    {
+      "path": "assets/source/character_textures/hair_ridge_orm.png",
+      "bytes": 261084,
+      "sha256": "4521066297833e7d06b7bddeea0aeb85778fd1dffc016e18af76bbef1a87c0e9"
+    },
+    {
+      "path": "assets/source/character_textures/iris_basecolor.png",
+      "bytes": 19902,
+      "sha256": "d0606e3b46b051f84d23e8aa1b4f7b9f87c444b9581426c979da3fbf7430f62c"
+    },
+    {
+      "path": "assets/source/character_textures/iris_normal.png",
+      "bytes": 20006,
+      "sha256": "81b7d0428697da8c8b235ff6118b38d3f6d934cfef43532acc684f8c1f197cbc"
+    },
+    {
+      "path": "assets/source/character_textures/iris_orm.png",
+      "bytes": 16841,
+      "sha256": "a51459921e1f45708b7ad430171d809261904f0544738095a8f41524b914282a"
+    },
+    {
+      "path": "assets/source/character_textures/leather_basecolor.png",
+      "bytes": 375154,
+      "sha256": "73edba87ec3d2bdc624276becb1a1e60a46fa00c704173fc3d1ed878e4bd9681"
+    },
+    {
+      "path": "assets/source/character_textures/leather_normal.png",
+      "bytes": 420139,
+      "sha256": "d3f0a54562fb411efc112224307c3d3b58d49a2e8429d4fa19cebcacd433433b"
+    },
+    {
+      "path": "assets/source/character_textures/leather_orm.png",
+      "bytes": 260805,
+      "sha256": "398ff8f8084d5927ca1f5eaedce13443d3bbf96389fcb6b00f67ddeade39fdef"
+    },
+    {
+      "path": "assets/source/character_textures/skin_basecolor.png",
+      "bytes": 293663,
+      "sha256": "aecb336f038aafd69f32f0161289e3d5932f20cf533c100aa380c1105b83d8f9"
+    },
+    {
+      "path": "assets/source/character_textures/skin_normal.png",
+      "bytes": 315099,
+      "sha256": "cdf034f21a2533ff4e9a9ca5d0e74088502dcb4256daf911bb24e90077e16c63"
+    },
+    {
+      "path": "assets/source/character_textures/skin_orm.png",
+      "bytes": 260795,
+      "sha256": "c87c4c104cedaa6b9e7de8b018ad11b89560d7ae6c7b8cc7cdabd1ee1083b1d1"
+    },
+    {
+      "path": "assets/source/character_textures/skin_shadow_basecolor.png",
+      "bytes": 260358,
+      "sha256": "d1c5d6cc5999e057b664b31e2d2caa375fefb54fa76ea91d121c703168e2ece7"
+    },
+    {
+      "path": "assets/source/character_textures/skin_shadow_normal.png",
+      "bytes": 314864,
+      "sha256": "3928a70592dff602f7e3bebbd2fce952aa9030e57b245584c2883a3ea462bceb"
+    },
+    {
+      "path": "assets/source/character_textures/skin_shadow_orm.png",
+      "bytes": 260630,
+      "sha256": "dd3910fd5e1185460d3a2a55db5648b1072a127da4f1191aec2f42b61fcb5d3f"
+    },
+    {
+      "path": "assets/source/character_textures/slate_edge_basecolor.png",
+      "bytes": 380074,
+      "sha256": "c81bc04317cc889c904d760e3723f69207d0c6cb8a02412da4ce00ca8d11fbc4"
+    },
+    {
+      "path": "assets/source/character_textures/slate_edge_normal.png",
+      "bytes": 419715,
+      "sha256": "b85ef0f2402e47761534e14ec6a717c3f249c13bdc07b6501a56a38c04eacfe3"
+    },
+    {
+      "path": "assets/source/character_textures/slate_edge_orm.png",
+      "bytes": 260534,
+      "sha256": "2fcf8c9bd7b745e10d6edce0f8b39e6bdbbbffb9372d3a67f3c8689bf4c47df7"
+    },
+    {
+      "path": "assets/source/character_textures/slate_woven_basecolor.png",
+      "bytes": 350533,
+      "sha256": "85687fc2bbd1c2b6684a69aa892814826e53bd8a0335ab549d7d67cee44fdd56"
+    },
+    {
+      "path": "assets/source/character_textures/slate_woven_normal.png",
+      "bytes": 420211,
+      "sha256": "93ad5001962633888d324a19d2007f78421b32be5bbf6190675325e9b0196b4d"
+    },
+    {
+      "path": "assets/source/character_textures/slate_woven_orm.png",
+      "bytes": 260454,
+      "sha256": "66a0cc6766a29b3e56d33f317976c565bca8a20b7bdd141f59d28da8e4bafbba"
+    },
+    {
+      "path": "assets/source/character_textures/steel_basecolor.png",
+      "bytes": 300081,
+      "sha256": "3936d7fe3f4dec8615f98fcacedcf06c0020ff293921f91e13ffde138b5411cd"
+    },
+    {
+      "path": "assets/source/character_textures/steel_normal.png",
+      "bytes": 315024,
+      "sha256": "b232e1e1485d493f1d7ecdb6e888191a634757ce2a19d2c1ffe906040ae269f5"
+    },
+    {
+      "path": "assets/source/character_textures/steel_orm.png",
+      "bytes": 261123,
+      "sha256": "a1fd2fd1b2b62b9490365e3acd4b9290aba99d9c26384cde5d6318f69563fecc"
+    },
+    {
+      "path": "assets/source/character_textures/trouser_basecolor.png",
+      "bytes": 360380,
+      "sha256": "c25175398beae6e0815627b460f1a27bdfd524915d6bae02abb0bb27f1d155ad"
+    },
+    {
+      "path": "assets/source/character_textures/trouser_normal.png",
+      "bytes": 419646,
+      "sha256": "9ebc82a47118cce2724e466aba4c8924bd3f933711d7a62f3ba444b022f3ee38"
+    },
+    {
+      "path": "assets/source/character_textures/trouser_orm.png",
+      "bytes": 260723,
+      "sha256": "4c12520477e33440bb1f9a41511c3fbe8fd4e3467871873a80a29f8bdd391b9a"
+    },
+    {
+      "path": "assets/source/character_validate.py",
+      "bytes": 6860,
+      "sha256": "98c5e32b4dc85c33de3409b697b095d4944bc14e68a69e0208016f5456811ee0"
+    },
+    {
+      "path": "assets/source/fence-layout-validation.json",
+      "bytes": 10396,
+      "sha256": "e63bab3b0dc4d86db0c229487846f3e4d081b34e4e23e45ca299041e007055b4"
+    },
+    {
+      "path": "assets/source/ground-material-preview.png",
+      "bytes": 2363083,
+      "sha256": "ca36f372a45ad5f5e0d8f2dffa2ad126b3f34d9a824ac885ea3ea104a20fe8ed"
+    },
+    {
+      "path": "assets/source/ground-preview.png",
+      "bytes": 2822113,
+      "sha256": "13c3bddb123d6191ad05f0e1148b5c7c543b0667cba75d1e92a11a842eaefb11"
+    },
+    {
+      "path": "assets/source/ground_build_blender.py",
+      "bytes": 6218,
+      "sha256": "baa3c46b7255eca886c5abffc5c3562adbe9a9720fa5724deb7192db038d6ad8"
+    },
+    {
+      "path": "assets/source/ground_generate.py",
+      "bytes": 14591,
+      "sha256": "45d7a3893db9ba0469a4a3704e29b80d6897474397a4b38f93dcb8d5c0bbb4f2"
+    },
+    {
+      "path": "assets/source/ground_materials.blend",
+      "bytes": 18764157,
+      "sha256": "79f11379c2e5756b1262b9cf4284f90e3b098400ba63cb72bceb6a4ddc964f56"
+    },
+    {
+      "path": "assets/source/ground_validate_blender.py",
+      "bytes": 2237,
+      "sha256": "fb38840a363f28ee4d2a6a954b37e7702e4953de07cb8ac04aa17380af713ffe"
+    },
+    {
+      "path": "assets/source/package_sample_village.py",
+      "bytes": 11439,
+      "sha256": "71e6af8594ce8ff6c4a2d21e3b5f665b73979d12cd706d1abeba46d8dd510c00"
+    },
+    {
+      "path": "assets/source/props/README.md",
+      "bytes": 3850,
+      "sha256": "1b458c6dc74d0783d8c0a12427243f7ffe33aa446c85432a0e123642401ada66"
+    },
+    {
+      "path": "assets/source/props/generate_props.py",
+      "bytes": 25704,
+      "sha256": "9681e062de27af1699bf301d6e76f8290595df3766af7bbfba77845ffc988682"
+    },
+    {
+      "path": "assets/source/props/props-metrics.json",
+      "bytes": 7803,
+      "sha256": "cee8a7c2b8b0d481b765350edfd5550406accbedb67872f65cc1573c44643ccf"
+    },
+    {
+      "path": "assets/source/props/props.blend",
+      "bytes": 11353132,
+      "sha256": "c23799c243dee029b211a5fded1a974cb6561fb2aaed7979cc1b20f91ccd423a"
+    },
+    {
+      "path": "assets/source/props/props_textures.py",
+      "bytes": 5916,
+      "sha256": "aec1875acc191edabe07c46277fe849163b970b402c0bc54c3b0d7e01360fb0d"
+    },
+    {
+      "path": "assets/source/props/renders/props-assets-detail-prompt.md",
+      "bytes": 723,
+      "sha256": "bf7efeab46da183a42e58833db0c135b616ecb6ee0b4cedfae04678444b0f594"
+    },
+    {
+      "path": "assets/source/props/renders/props-assets-detail.png",
+      "bytes": 2615857,
+      "sha256": "4be956e05cd38e2d2f97359604989bca3b96df5270d8af476530d11394a8875e"
+    },
+    {
+      "path": "assets/source/props/renders/props-assets-overview-prompt.md",
+      "bytes": 660,
+      "sha256": "9a0ab33dbb3dace06a8a26006279f02b8fdcdf3f80805813286431d6201828be"
+    },
+    {
+      "path": "assets/source/props/renders/props-assets-overview.png",
+      "bytes": 2752371,
+      "sha256": "1af38fdc5a86c2653367a93ffed326ee0739c1c567b406d84f94b6303f045f7a"
+    },
+    {
+      "path": "assets/source/props/textures/bark_albedo.png",
+      "bytes": 657588,
+      "sha256": "a91cda4d5b773d2101c76e608c6552e78c80109d298e510f7163e8280e336498"
+    },
+    {
+      "path": "assets/source/props/textures/bark_normal.png",
+      "bytes": 1004184,
+      "sha256": "63d09f4e12410215c2347f807e9489c73f49864794563db51b2f78ece91c03bd"
+    },
+    {
+      "path": "assets/source/props/textures/bark_roughness.png",
+      "bytes": 241503,
+      "sha256": "43743146e6d4589085817ed9a50f1d935cf285df12b8907b68d1b1bbbb9e4755"
+    },
+    {
+      "path": "assets/source/props/textures/ceramic_albedo.png",
+      "bytes": 183740,
+      "sha256": "2672d2ff60da9a0258f117adea58e2cc9fe65fc263d7512337a4780b9eb44571"
+    },
+    {
+      "path": "assets/source/props/textures/ceramic_normal.png",
+      "bytes": 247931,
+      "sha256": "a1e6b5b2d38500cf3e2de2b7fbcfaa46cbd5f2d02112886fa2b9038fd84d59d6"
+    },
+    {
+      "path": "assets/source/props/textures/ceramic_roughness.png",
+      "bytes": 70265,
+      "sha256": "c9cd5af63f34432773b468e8dc81866df70eea76c4b8d43daec973aa20b95429"
+    },
+    {
+      "path": "assets/source/props/textures/cloth_albedo.png",
+      "bytes": 183697,
+      "sha256": "ad6d9484b33b960b3cea37969d948b562e5299d7c06efe9cc57e51a9a8059990"
+    },
+    {
+      "path": "assets/source/props/textures/cloth_normal.png",
+      "bytes": 247477,
+      "sha256": "2c36b5ebd0bb0e7fe24c78a894950602adee7f936d0a6bf9790c436b8ef10348"
+    },
+    {
+      "path": "assets/source/props/textures/cloth_roughness.png",
+      "bytes": 70640,
+      "sha256": "ffb4b2fa0f78e9ef48299710be9da745efe1b5cc7646bcfd3b23cc30a18bf8c7"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_0_albedo.png",
+      "bytes": 47214,
+      "sha256": "f45c873fafd9104b8481d46524596885d5f4ce9d9927d7ae50eca8ba3c35fc34"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_0_normal.png",
+      "bytes": 75023,
+      "sha256": "819874b8c5e4fdf9223cf87892f1c8cef54828749833c53ee03c2db60fae1997"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_0_roughness.png",
+      "bytes": 34998,
+      "sha256": "640f7ad2e4fc5e1887ea9dfa04a95f4a4e05aeb6b8df2a37f7b4fbb02a72181b"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_1_albedo.png",
+      "bytes": 45268,
+      "sha256": "2ab28789cdce12d083dcee6b938052526fbb96372f5f9f7e8f2c7438f60b8f2e"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_1_normal.png",
+      "bytes": 72358,
+      "sha256": "2b690d793b0ac125e2a32e23cc7bcccc6d2a3eec23714fa67b91151397f6414b"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_1_roughness.png",
+      "bytes": 33836,
+      "sha256": "ceb791038e0e79e1499212b3d7dea799fa9b84a848d8e584fdad0636fd44fd58"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_2_albedo.png",
+      "bytes": 45291,
+      "sha256": "6c740f03a3f79db5181ab0ebac0703c85108f6fb96a2d4ac3128863c4f074f98"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_2_normal.png",
+      "bytes": 71917,
+      "sha256": "8120782b9b76a00a96e9476d59863348d33aa2904a469ae3ad3717c5ff0955d3"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_2_roughness.png",
+      "bytes": 33558,
+      "sha256": "f6341e410eaf6ef4c7a3ae9e8df8b72bd3b0815b7b10ef4b8d92b1de28f25725"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_3_albedo.png",
+      "bytes": 44926,
+      "sha256": "895735849c2218d6e555d3c3fdfb862d9f987eb5a9906b203ffa8b859179498a"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_3_normal.png",
+      "bytes": 71111,
+      "sha256": "080f5a9353e6583cf925bddd6ce76d5732d44927934e876b85172aa1138b7e03"
+    },
+    {
+      "path": "assets/source/props/textures/leaf_mass_3_roughness.png",
+      "bytes": 32873,
+      "sha256": "416613d56157d75e295ba4f6b0fb1344832fb4773694c74969fa14448eb0346a"
+    },
+    {
+      "path": "assets/source/props/textures/leaves_0_albedo.png",
+      "bytes": 35516,
+      "sha256": "0e41deffe4f719fa5c88b8151d70e81f9f497f7ccca83944cc0d87527ff50ace"
+    },
+    {
+      "path": "assets/source/props/textures/leaves_1_albedo.png",
+      "bytes": 34911,
+      "sha256": "fe2c7db86f60cd034ec238f047a78f272b1984de12ca3a1efff77c51f5fa357c"
+    },
+    {
+      "path": "assets/source/props/textures/leaves_2_albedo.png",
+      "bytes": 37002,
+      "sha256": "c9d02a0aabda77d2eaf39fea1a6a0bded7786a7be7a8c365487a2839b8690a7b"
+    },
+    {
+      "path": "assets/source/props/textures/leaves_3_albedo.png",
+      "bytes": 38751,
+      "sha256": "648b01edd9206b8c05602aff75f9b267ca3d84bde7797d970f0905826073f142"
+    },
+    {
+      "path": "assets/source/props/textures/metal_albedo.png",
+      "bytes": 183723,
+      "sha256": "5a5207fcb912de96e31813789e4b1f876a9ab5d08685d324b66f5e9aaa419a1f"
+    },
+    {
+      "path": "assets/source/props/textures/metal_normal.png",
+      "bytes": 247774,
+      "sha256": "548b30fa5e6657cf9c9ba7a92594196aec932bf70c01923d577628ef85533e5a"
+    },
+    {
+      "path": "assets/source/props/textures/metal_roughness.png",
+      "bytes": 70202,
+      "sha256": "6a8b5c8f5174324de30ad162d58de32967abd4ad664b0f6e9ccb1bf9ac5a266e"
+    },
+    {
+      "path": "assets/source/props/textures/paper_albedo.png",
+      "bytes": 183512,
+      "sha256": "42236458390ec5594f2525785bc40543ec9e19391d5579eddfcbb57d1e11888d"
+    },
+    {
+      "path": "assets/source/props/textures/paper_normal.png",
+      "bytes": 248126,
+      "sha256": "1971f113690a48747793b7a4ee8a9fb614b101f080ed2008473cb0e4dd68052e"
+    },
+    {
+      "path": "assets/source/props/textures/paper_roughness.png",
+      "bytes": 71768,
+      "sha256": "2358d3ee62fbd74b1c826ee0543b4202b28b12da4d5aaef02b24ec757ae02dc4"
+    },
+    {
+      "path": "assets/source/props/textures/rope_albedo.png",
+      "bytes": 187264,
+      "sha256": "49be22a0029d947cbf567007f0cde2b6e3307a9cd5228575da9e744bce5f8eed"
+    },
+    {
+      "path": "assets/source/props/textures/rope_normal.png",
+      "bytes": 249640,
+      "sha256": "c34d6015e744ec8e795cb3ec17481cabde018a487f45fdc41f933bfa24667f1a"
+    },
+    {
+      "path": "assets/source/props/textures/rope_roughness.png",
+      "bytes": 73165,
+      "sha256": "82e890c75391181fa1d8069950bc551d13939e406701c77d4699f378055f693d"
+    },
+    {
+      "path": "assets/source/props/textures/stone_albedo.png",
+      "bytes": 189197,
+      "sha256": "e37e1d783cf7314c1e55d891b101a0ed4ca18a8aedb0daee36ca843517b14829"
+    },
+    {
+      "path": "assets/source/props/textures/stone_normal.png",
+      "bytes": 249890,
+      "sha256": "b97148a341ba39b8d335a3e7a482262a668532c7f9c2e8cff86eacc38be49937"
+    },
+    {
+      "path": "assets/source/props/textures/stone_roughness.png",
+      "bytes": 70985,
+      "sha256": "35670459165ded4f4bb52879262bc809c98d5763eb036d3345a90e8af9a95f03"
+    },
+    {
+      "path": "assets/source/props/textures/wood_albedo.png",
+      "bytes": 655938,
+      "sha256": "ff9064fb8df1a2c218aee68a235aad0269f2fafc6540f7783815a3474a88db60"
+    },
+    {
+      "path": "assets/source/props/textures/wood_light_albedo.png",
+      "bytes": 658145,
+      "sha256": "04bb0223b4f21da203df57b7737e55db63c53c534e993315a8961fe05f82d608"
+    },
+    {
+      "path": "assets/source/props/textures/wood_light_normal.png",
+      "bytes": 1004457,
+      "sha256": "ef409153b8f370dfa9f8b30de5d3b37f07a338a3218f0315ec1f5192f43a3492"
+    },
+    {
+      "path": "assets/source/props/textures/wood_light_roughness.png",
+      "bytes": 240999,
+      "sha256": "3308aba2b00dd998fe7bb3eaa207bc52a2bdbc3d22c21d24e23e3bc72f89683b"
+    },
+    {
+      "path": "assets/source/props/textures/wood_normal.png",
+      "bytes": 1001060,
+      "sha256": "93166af57fb66f8685f183fe34661d90e14391e4c84d6284b3db654a1ac8cb49"
+    },
+    {
+      "path": "assets/source/props/textures/wood_roughness.png",
+      "bytes": 240046,
+      "sha256": "1ab2ca6334c53514af4b3a645d63aed4585b66bb4b55daa904e26042fc4f9901"
+    },
+    {
+      "path": "assets/source/props/validate_props.py",
+      "bytes": 3935,
+      "sha256": "bad7a6881abf97e7b2c8c55646f6cb008f8105d9a85cf126ec46008b4f926c60"
+    },
+    {
+      "path": "assets/source/renders/01-village-exported-glbs.png",
+      "bytes": 1374976,
+      "sha256": "3e0961b2041163745247491d2ef8ca30475deaf50ca9a360373a01d40e328d80"
+    },
+    {
+      "path": "assets/source/renders/02-hall-exported-glb.png",
+      "bytes": 1630718,
+      "sha256": "4e82c7b0399bc00ff2861f6d9ef8691620293661cb8c45edb8c7dc851ecb60f3"
+    },
+    {
+      "path": "assets/source/renders/03-forge-exported-glb.png",
+      "bytes": 1703782,
+      "sha256": "23c562926edc0c06e23dc1a7c0935e70777bb0b7c2c2342a7635b66beb7fa9fd"
+    },
+    {
+      "path": "assets/source/renders/04-character-exported-idle.png",
+      "bytes": 1643049,
+      "sha256": "14f8c2e0de6e20416d09bd7bd25c486e8efe00451c0bc521f5cb474eed29bc8f"
+    },
+    {
+      "path": "assets/source/renders/05-character-exported-walk.png",
+      "bytes": 1626557,
+      "sha256": "2265f09160cbabefafc731746c7a40a5d6e8a7711a5578464b006fd873b9eb45"
+    },
+    {
+      "path": "assets/source/renders/06-character-exported-attack-025.png",
+      "bytes": 1631754,
+      "sha256": "2cf2ef836c0d00749fda59554413d55c86872116baa4eb56af3d440cd8daea30"
+    },
+    {
+      "path": "assets/source/renders/07-character-exported-death-100.png",
+      "bytes": 1615485,
+      "sha256": "0ab23bffde14a5d2f03d8fa204335374ab3f9f39db2e0e15e8ea9d0d1679b209"
+    },
+    {
+      "path": "assets/source/sample-village-layout.json",
+      "bytes": 1484,
+      "sha256": "698cbc47c874aee045a6de832745c5d8f10bafd79d634bbdc9ba06e71f78d97c"
+    },
+    {
+      "path": "assets/source/sample_village_godot_check.gd",
+      "bytes": 1847,
+      "sha256": "98747c48181fefabcd9cc5cd1190db25e012f1d50fd44eabdc9932d2f0d382b8"
+    },
+    {
+      "path": "assets/source/validate_sample_assets.py",
+      "bytes": 6138,
+      "sha256": "01da3315cb6cfb6cc30bf87d721838be5a870fa0ecf7bde8da3d99e4b8f07d3e"
+    },
+    {
+      "path": "client/art_preview/sample_village_preview.gd",
+      "bytes": 6272,
+      "sha256": "74b46e0ad5a6549033b90573cb149902eb5a7db4f39e31ec6e4a97f60f9d5436"
+    },
+    {
+      "path": "client/art_preview/sample_village_preview.gd.uid",
+      "bytes": 20,
+      "sha256": "49dfdb4c9178d8c0a7edcab1f872f1e082496b5f705e9753af82efdcd4b2b8e9"
+    },
+    {
+      "path": "client/art_preview/sample_village_preview.tscn",
+      "bytes": 200,
+      "sha256": "938136e6889061c74f547b79bae8dfb4cc246c50ad0b220485c389f0bea8808f"
+    },
+    {
+      "path": "client/assets/art/characters/player_novice.glb",
+      "bytes": 13381712,
+      "sha256": "3f046cfcda663ba63300963341f575b69b827bd5100ac303d65a01e135794ce8"
+    },
+    {
+      "path": "client/assets/art/characters/player_novice.glb.import",
+      "bytes": 1067,
+      "sha256": "e9a3e8932716a5793b9980509f1db33b4422549de1bc01452cc317507e65706a"
+    },
+    {
+      "path": "client/assets/art/textures/ground_dirt_road.png",
+      "bytes": 2114917,
+      "sha256": "ef1b96b09abedbcd1a075c51fbc96197e5cb694941b9080f4629686b46773160"
+    },
+    {
+      "path": "client/assets/art/textures/ground_dirt_road.png.import",
+      "bytes": 972,
+      "sha256": "bd87b45102839f859dcd70225c8ef6d73d98f82c687a82345ef6dcb150ada4d3"
+    },
+    {
+      "path": "client/assets/art/textures/ground_dirt_road_normal.png",
+      "bytes": 3853128,
+      "sha256": "a737dd2d5879776247b7d22f4bab7390fce6e33824fd15d5642a00806ce3b679"
+    },
+    {
+      "path": "client/assets/art/textures/ground_dirt_road_normal.png.import",
+      "bytes": 993,
+      "sha256": "27b3ad150f132b4150af2ae9b2634249c61f2cd3764c5a7e3738126abaedb1d3"
+    },
+    {
+      "path": "client/assets/art/textures/ground_grass.png",
+      "bytes": 2255056,
+      "sha256": "291590ca754d0bf41991ac791eb9a6bc1221c329c846a6978ac26a1eb1ad1e81"
+    },
+    {
+      "path": "client/assets/art/textures/ground_grass.png.import",
+      "bytes": 960,
+      "sha256": "cda9dd5194410c16eb92e4022c6f57d95d3baa17dbe980ad18c4fb340bcca27a"
+    },
+    {
+      "path": "client/assets/art/textures/ground_grass_normal.png",
+      "bytes": 3445799,
+      "sha256": "751ab4ec589a88bcc0ad8a3ffd0cc3c40a920b6b0450c66aa48ecfdd6417a43e"
+    },
+    {
+      "path": "client/assets/art/textures/ground_grass_normal.png.import",
+      "bytes": 981,
+      "sha256": "7a10bc406be8a0de3ff391be538edb184bde2999e94f214633101052a8ca04d0"
+    },
+    {
+      "path": "client/assets/art/textures/ground_stone_paving.png",
+      "bytes": 2434934,
+      "sha256": "d83b18b08d0364d432bc4309e9633fcc5d4d6098901064cdd54a86b2e8168be1"
+    },
+    {
+      "path": "client/assets/art/textures/ground_stone_paving.png.import",
+      "bytes": 981,
+      "sha256": "58bb8a29112f65ce34b6612896b6972a8f922f9862c2a45f3cbd27479a140da2"
+    },
+    {
+      "path": "client/assets/art/textures/ground_stone_paving_normal.png",
+      "bytes": 4555305,
+      "sha256": "a0828fb416214123bbfdf3f0392f73b46a81faf0bde970abe055e4cf92856f2d"
+    },
+    {
+      "path": "client/assets/art/textures/ground_stone_paving_normal.png.import",
+      "bytes": 1002,
+      "sha256": "c831230d6cea33de1cae0e47b2364cf5452a66d78a7a57f2b973d8f3f48355df"
+    },
+    {
+      "path": "client/assets/art/village/building_forge.glb",
+      "bytes": 4027640,
+      "sha256": "3b6b7dd2c94447c65f2841ff74bae112a1cca5a93c619f97d04c4bc76f3027bf"
+    },
+    {
+      "path": "client/assets/art/village/building_forge.glb.import",
+      "bytes": 1066,
+      "sha256": "bb28006d5a650cc0f267d1141be9f230757dcad2458653c23c6c5c9a70a5e7b2"
+    },
+    {
+      "path": "client/assets/art/village/building_hall.glb",
+      "bytes": 4360480,
+      "sha256": "b0aa35dd08d83742f8d6c02875ca299572f2a9d6af89c7cdb9437eb8fd022335"
+    },
+    {
+      "path": "client/assets/art/village/building_hall.glb.import",
+      "bytes": 1064,
+      "sha256": "fc82baf8a7881f780450aabbaf1d224fa833398b8f4da04b0fe22d9c8d9a7440"
+    },
+    {
+      "path": "client/assets/art/village/fence_wood_4m.glb",
+      "bytes": 4644576,
+      "sha256": "d13959fb601ccfde76576ad18974a81c8d7776d71e2b4f3a1faa28ed021a27ac"
+    },
+    {
+      "path": "client/assets/art/village/fence_wood_4m.glb.import",
+      "bytes": 1063,
+      "sha256": "d638479d586072c9bcdc9d3ec335e60b6e96e86db1f71f83a7ff4bc9c8c68f36"
+    },
+    {
+      "path": "client/assets/art/village/props_set.glb",
+      "bytes": 7781312,
+      "sha256": "18b67775dbf2935d1aa71233683f397ab41e02d51083bc0e9e30adc6ee9e911d"
+    },
+    {
+      "path": "client/assets/art/village/props_set.glb.import",
+      "bytes": 1052,
+      "sha256": "e2a12d9c0276f436d784ac868a84f423f91e5d2447bf2b7ae661cd8d1469a7e3"
+    },
+    {
+      "path": "client/assets/art/village/tree_old.glb",
+      "bytes": 2977368,
+      "sha256": "0836ce345966c8af8e92e8ae2ff5545143d98ef96d7dd55db786c0e387def92c"
+    },
+    {
+      "path": "client/assets/art/village/tree_old.glb.import",
+      "bytes": 1049,
+      "sha256": "17ace746b952b2e1855585a2756eeb0e48531a699797bb97479768177e00996f"
+    },
+    {
+      "path": "docs/art/buildings-validation.json",
+      "bytes": 14545,
+      "sha256": "b2ccf9db2e25ec69fcf3e4b649fb6e59ba9cc6a394f1dbbe3aa136529ec056c8"
+    },
+    {
+      "path": "docs/art/character-validation.json",
+      "bytes": 23264,
+      "sha256": "15dd450fed5576ef8518d7fc39fd4223d2bca9fa4deffe46fbb23bed38f0e891"
+    },
+    {
+      "path": "docs/art/ground-validation.json",
+      "bytes": 4928,
+      "sha256": "df41c6e1f774d2ac0298f13ff7508fc1212686d3af5468ab0b0ee8472b031bd7"
+    },
+    {
+      "path": "docs/art/props-validation.json",
+      "bytes": 26546,
+      "sha256": "88b8de9ef1de424a4e0a6d7502ee1853508ddded0056c3cb815fdeab5f99131a"
+    },
+    {
+      "path": "docs/art/sample-village-godot-validation.json",
+      "bytes": 1541,
+      "sha256": "ac11826f42653681416849c34b505938055687f20f7567e6e5d76b814b08d589"
+    },
+    {
+      "path": "docs/art/sample-village-manifest.md",
+      "bytes": 33938,
+      "sha256": "117787d67fada8e557668d4a40826aa11963f2d5087131385dde16a62575cc1c"
+    },
+    {
+      "path": "docs/art/sample-village-validation.json",
+      "bytes": 39903,
+      "sha256": "7ee0ad16ec5c72b5995d2cb66e6702d56da1a9ca1ed5c50e226cd31d8ce45dcf"
+    }
+  ],
+  "total_files_in_archive": 236,
+  "total_bytes_excluding_index": 196294940,
+  "largest_file": {
+    "path": "assets/source/ground_materials.blend",
+    "bytes": 18764157,
+    "sha256": "79f11379c2e5756b1262b9cf4284f90e3b098400ba63cb72bceb6a4ddc964f56"
+  }
+}

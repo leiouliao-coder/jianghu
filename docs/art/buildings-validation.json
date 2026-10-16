@@ -1,0 +1,750 @@
+{
+  "building_hall": {
+    "triangles": 19656,
+    "bounds_blender_min": [
+      -7.88425350189209,
+      -7.87000036239624,
+      0.0
+    ],
+    "bounds_blender_max": [
+      7.88425350189209,
+      7.87000036239624,
+      9.057082176208496
+    ],
+    "dimensions": [
+      15.76850700378418,
+      15.74000072479248,
+      9.057082176208496
+    ],
+    "footprint": [
+      14,
+      14
+    ],
+    "front": "-Y",
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "materials": [
+      "brass",
+      "cloth",
+      "iron",
+      "paper",
+      "plaster",
+      "roof",
+      "roof_dark",
+      "roof_light",
+      "roof_warm",
+      "stone",
+      "wood"
+    ],
+    "texture_size": [
+      512,
+      512
+    ],
+    "textures": "Original basecolor, tangent normal, packed ORM PNG; embedded",
+    "blender_version": "4.3.2",
+    "modifiers_remaining": 0,
+    "source": "Script-modeled original geometry, original baked painted pixels, AI concept reference",
+    "file_bytes": 4360480,
+    "preview_source": "Independently reimported exported GLB",
+    "reimport_validation": {
+      "success": true,
+      "errors": [],
+      "blender_version": "4.3.2",
+      "triangles": 19656,
+      "bounds_blender": [
+        [
+          -7.88425350189209,
+          -7.87000036239624,
+          0.0
+        ],
+        [
+          7.88425350189209,
+          7.87000036239624,
+          9.057082176208496
+        ]
+      ],
+      "solid_footprint": [
+        [
+          -7.0,
+          -7.0
+        ],
+        [
+          7.0,
+          7.0
+        ]
+      ],
+      "root_names": [
+        "building_hall"
+      ],
+      "mesh_count": 43,
+      "embedded_png_count": 33,
+      "image_sizes": [
+        {
+          "name": "brass_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "brass_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "brass_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "cloth_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "cloth_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "cloth_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "iron_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "iron_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "iron_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "paper_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "paper_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "paper_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "plaster_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "plaster_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "plaster_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_dark_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_dark_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_dark_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_light_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_light_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_light_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_warm_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_warm_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_warm_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "stone_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "stone_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "stone_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "wood_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "wood_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "wood_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        }
+      ],
+      "materials_have_basecolor_normal_metallic_roughness": true,
+      "glb_version": 2,
+      "extensions_used": [],
+      "file_bytes": 4360480
+    },
+    "sha256": "b0aa35dd08d83742f8d6c02875ca299572f2a9d6af89c7cdb9437eb8fd022335",
+    "source_blend_bytes": 6100935,
+    "final_visual_review": {
+      "front_and_side": "Reimported GLB; coplanar trim planes separated, warm neutral paper, blank plaque",
+      "oblique": "Reimported GLB; exactly 55 degrees downward, complete building framed",
+      "texture_channels": "basecolor, normal, ORM embedded PNG"
+    }
+  },
+  "building_forge": {
+    "triangles": 13088,
+    "bounds_blender_min": [
+      -7.0,
+      -7.0,
+      0.0
+    ],
+    "bounds_blender_max": [
+      7.0,
+      7.0,
+      6.007081985473633
+    ],
+    "dimensions": [
+      14.0,
+      14.0,
+      6.007081985473633
+    ],
+    "footprint": [
+      14,
+      14
+    ],
+    "front": "-Y",
+    "origin": [
+      0,
+      0,
+      0
+    ],
+    "materials": [
+      "cloth",
+      "coal",
+      "ember",
+      "iron",
+      "paper",
+      "plaster",
+      "roof",
+      "roof_dark",
+      "roof_light",
+      "roof_warm",
+      "stone",
+      "wood"
+    ],
+    "texture_size": [
+      512,
+      512
+    ],
+    "textures": "Original basecolor, tangent normal, packed ORM PNG; embedded",
+    "blender_version": "4.3.2",
+    "modifiers_remaining": 0,
+    "source": "Script-modeled original geometry, original baked painted pixels, AI concept reference",
+    "file_bytes": 4027640,
+    "reimport_validation": {
+      "success": true,
+      "errors": [],
+      "blender_version": "4.3.2",
+      "triangles": 13088,
+      "bounds_blender": [
+        [
+          -7.0,
+          -7.0,
+          0.0
+        ],
+        [
+          7.0,
+          7.0,
+          6.007081985473633
+        ]
+      ],
+      "solid_footprint": [
+        [
+          -7.0,
+          -7.0
+        ],
+        [
+          7.0,
+          7.0
+        ]
+      ],
+      "root_names": [
+        "building_forge"
+      ],
+      "mesh_count": 72,
+      "embedded_png_count": 36,
+      "image_sizes": [
+        {
+          "name": "cloth_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "cloth_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "cloth_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "coal_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "coal_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "coal_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "ember_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "ember_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "ember_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "iron_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "iron_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "iron_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "paper_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "paper_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "paper_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "plaster_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "plaster_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "plaster_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_dark_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_dark_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_dark_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_light_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_light_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_light_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_warm_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_warm_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "roof_warm_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "stone_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "stone_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "stone_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "wood_basecolor",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "wood_normal",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        },
+        {
+          "name": "wood_orm",
+          "size": [
+            512,
+            512
+          ],
+          "packed": true
+        }
+      ],
+      "materials_have_basecolor_normal_metallic_roughness": true,
+      "glb_version": 2,
+      "extensions_used": [
+        "KHR_materials_emissive_strength"
+      ],
+      "file_bytes": 4027640
+    },
+    "sha256": "3b6b7dd2c94447c65f2841ff74bae112a1cca5a93c619f97d04c4bc76f3027bf",
+    "source_blend_bytes": 5699960,
+    "final_visual_review": {
+      "front_and_side": "Reimported GLB; coplanar trim planes separated, warm neutral paper, blank plaque",
+      "oblique": "Reimported GLB; exactly 55 degrees downward, complete building framed",
+      "texture_channels": "basecolor, normal, ORM embedded PNG"
+    }
+  }
+}
