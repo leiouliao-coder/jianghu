@@ -22,6 +22,9 @@ func TestLoadRepositoryData(t *testing.T) {
 	if d.StackLimits[ClassMaterial] != 100 || d.Items["缝线"].WeightCenti != 10 {
 		t.Fatal("unexpected stack or weight data")
 	}
+	if d.World.Characters.PerAccount != 6 || d.World.Inventory.BackpackSlots != 40 {
+		t.Fatalf("unexpected world limits %+v", d.World)
+	}
 	if d.Economy.Pool.Cap != 3000 || d.Economy.OrderRewards["测试铁剑"] != 200 {
 		t.Fatalf("unexpected economy %+v", d.Economy)
 	}
@@ -34,11 +37,12 @@ func TestLoadRejectsBrokenData(t *testing.T) {
 		"unknown item":  {"recipes.json", `"木柄坯": 1`, `"木柄": 1`, `unknown item "木柄"`},
 		"duplicate":     {"items.json", `{"id": "矿石"`, `{"id": "铁锭"`, "duplicate item"},
 		"reward target": {"economy.json", `"测试铁剑": 200`, `"测试铜剑": 200`, "unknown equipment name"},
+		"node slots":    {"world.json", `"node_slots_per_account": 200`, `"node_slots_per_account": 100`, "node slots must match"},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			dir := t.TempDir()
-			for _, f := range []string{"items.json", "recipes.json", "economy.json"} {
+			for _, f := range []string{"items.json", "recipes.json", "economy.json", "world.json"} {
 				b, err := os.ReadFile(filepath.Join(repoDataDir, f))
 				if err != nil {
 					t.Fatal(err)

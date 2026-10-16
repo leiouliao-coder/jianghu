@@ -9,9 +9,18 @@ import (
 	"strings"
 )
 
-const DefaultListenAddr = "127.0.0.1:8080"
+const (
+	DefaultListenAddr = "127.0.0.1:8080"
+	DefaultDataDir    = "../shared/data"
+)
 
-type Config struct{ ListenAddr string }
+type Config struct {
+	ListenAddr string
+	// DatabaseURL is optional; when empty the server runs diagnostics only.
+	DatabaseURL string
+	// DataDir is shared/data; the default fits running from server/.
+	DataDir string
+}
 
 // Load reads the process environment. No dotenv file is loaded automatically.
 func Load() (Config, error) {
@@ -27,5 +36,9 @@ func Load() (Config, error) {
 	if err != nil || p < 1 || p > 65535 {
 		return Config{}, fmt.Errorf("JIANGHU_LISTEN_ADDR port must be between 1 and 65535")
 	}
-	return Config{ListenAddr: addr}, nil
+	dataDir := strings.TrimSpace(os.Getenv("JIANGHU_DATA_DIR"))
+	if dataDir == "" {
+		dataDir = DefaultDataDir
+	}
+	return Config{ListenAddr: addr, DatabaseURL: strings.TrimSpace(os.Getenv("JIANGHU_DATABASE_URL")), DataDir: dataDir}, nil
 }

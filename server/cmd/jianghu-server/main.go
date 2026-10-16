@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,6 +12,8 @@ import (
 	"time"
 
 	"github.com/leiouliao-coder/jianghu/server/internal/config"
+	"github.com/leiouliao-coder/jianghu/server/internal/gamedata"
+	"github.com/leiouliao-coder/jianghu/server/internal/store"
 	"github.com/leiouliao-coder/jianghu/server/internal/transport/httpapi"
 )
 
@@ -28,6 +31,24 @@ func run() error {
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+	if cfg.DatabaseURL != "" {
+		// Fail fast: invalid data or an unreachable database must stop startup.
+		data, err := gamedata.Load(cfg.DataDir)
+		if err != nil {
+			return fmt.Errorf("load %s: %w", cfg.DataDir, err)
+		}
+		st, err := store.Open(ctx, cfg.DatabaseURL, data)
+		if err != nil {
+			return fmt.Errorf("open database: %w", err)
+		}
+		defer st.Close()
+		if err := st.Migrate(ctx); err != nil {
+			return fmt.Errorf("migrate: %w", err)
+		}
+		log.Print("database ready, migrations applied")
+	} else {
+		log.Print("JIANGHU_DATABASE_URL not set; running without database")
+	}
 	server := &http.Server{
 		Addr:              cfg.ListenAddr,
 		Handler:           httpapi.NewRouter(),

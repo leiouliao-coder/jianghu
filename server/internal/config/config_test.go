@@ -31,3 +31,19 @@ func TestLoad(t *testing.T) {
 		})
 	}
 }
+
+func TestLoadDatabaseAndData(t *testing.T) {
+	t.Setenv("JIANGHU_LISTEN_ADDR", "")
+	t.Setenv("JIANGHU_DATABASE_URL", "")
+	t.Setenv("JIANGHU_DATA_DIR", "")
+	cfg, err := Load()
+	if err != nil || cfg.DatabaseURL != "" || cfg.DataDir != DefaultDataDir {
+		t.Fatalf("defaults: %+v %v", cfg, err)
+	}
+	t.Setenv("JIANGHU_DATABASE_URL", " postgres://u@h/db ")
+	t.Setenv("JIANGHU_DATA_DIR", "/srv/data")
+	cfg, err = Load()
+	if err != nil || cfg.DatabaseURL != "postgres://u@h/db" || cfg.DataDir != "/srv/data" {
+		t.Fatalf("explicit: %+v %v", cfg, err)
+	}
+}
