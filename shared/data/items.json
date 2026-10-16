@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "status": "test",
+  "sources": {
+    "weight": "docs/design/v0.44/完整设计执行基线_v0.44.md §3.5",
+    "stack": "docs/design/v0.44/完整设计执行基线_v0.44.md §1.4；游戏策划设定.md 8.15",
+    "equipment": "shared/data/recipes.json"
+  },
+  "units": {
+    "weight_centi": "weight in 1/100 units; backpack limit 80+effective strength is in whole units",
+    "stack": "maximum quantity per slot"
+  },
+  "stack_classes": {
+    "material": 100,
+    "consumable": 20,
+    "equipment": 1,
+    "coin": 10000
+  },
+  "items": [
+    {"id": "矿石", "class": "material", "weight_centi": 100},
+    {"id": "铁锭", "class": "material", "weight_centi": 100},
+    {"id": "木柄坯", "class": "material", "weight_centi": 100},
+    {"id": "燃料", "class": "material", "weight_centi": 100},
+    {"id": "纤维", "class": "material", "weight_centi": 25},
+    {"id": "碎布", "class": "material", "weight_centi": 25},
+    {"id": "布", "class": "material", "weight_centi": 50},
+    {"id": "废铁", "class": "material", "weight_centi": 50},
+    {"id": "缝线", "class": "material", "weight_centi": 10},
+    {"id": "TEST-SWORD-001", "class": "equipment", "weight_centi": 300},
+    {"id": "TEST-CLOTH-001", "class": "equipment", "weight_centi": 200},
+    {"id": "生产工具", "class": "equipment", "weight_centi": 200},
+    {"id": "银钱", "class": "coin", "weight_centi": 1}
+  ]
+}

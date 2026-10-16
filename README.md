@@ -1,65 +1,89 @@
-# 江湖 · jianghu
+# Jianghu · 江湖
 
-原创武侠多人在线养成游戏。即时战斗、武学传承、门派与生活职业，构建一个人也能持续游玩的持久江湖世界。
+English | [简体中文](README.zh-CN.md)
 
-**当前阶段：策划＋工程启动骨架，尚不是可玩的多人游戏。**
+An original wuxia multiplayer online growth game: real-time combat, martial-arts lineages, sects and life professions, set in one persistent world that a single player can keep playing on their own.
 
-- 客户端：Godot 4＋类型化GDScript。
-- 服务端：Go（Golang）。
-- 交付目标：Windows、macOS、iOS、Android，四端均为必需；目前未完成四端发布验收。
-- 服务端权威结算，未来以PostgreSQL保存持久资产；当前未接入数据库。
+**Current stage: design plus engineering skeleton, with the first rule modules in place. This is not a playable multiplayer game yet.**
 
-## 仓库结构
+- Client: Godot 4 with typed GDScript.
+- Server: Go.
+- Delivery targets: Windows, macOS, iOS and Android, all four required. No platform has passed release acceptance yet.
+- The server is authoritative for all results. Persistent assets will be stored in PostgreSQL, which is not connected yet.
+
+## Repository layout
 
 ```text
-client/              Godot工程、启动场景、脚本与客户端测试
-server/              Go服务端、配置、HTTP健康接口与单元测试
-shared/protocol/     客户端/服务端协议说明
-shared/data/         将来共用的策划导出数据约定（非已实现运行规则）
-assets/concept-art/  场景、角色概念图与生成提示词
-docs/               策划、技术决策、导入清单与验证边界
-scripts/             本地检查脚本
-.github/workflows/   持续集成检查
+client/              Godot project, boot scene, scripts and client tests
+server/              Go server: config, HTTP diagnostics, rule packages, unit tests
+shared/data/         Versioned test data loaded by the server (schema_version 1)
+shared/protocol/     Client/server protocol notes
+assets/concept-art/  Scene and character concept art with generation prompts
+docs/                Design snapshot, decisions, data dictionary, verification records
+scripts/             Local check and data export scripts
+.github/workflows/   CI checks
 ```
 
-## 快速开始
+## Quick start
 
-需要Go 1.25+、Python 3及Godot 4标准版。无需Go第三方依赖，无需先启动数据库。
+Requires Go 1.25+, Python 3 and the Godot 4 standard build. There are no third-party Go dependencies yet, and no database is needed.
 
 ```sh
-# 从仓库根目录
+# from the repository root
 cd server
 go run ./cmd/jianghu-server
 ```
 
-另一终端：
+In another terminal:
 
 ```sh
 curl http://127.0.0.1:8080/healthz
-# 返回含 status=ok 的JSON；仅证明基础HTTP服务运行
+# returns JSON with status=ok; this only proves the HTTP process is up
 ```
 
-在Godot中导入`client/project.godot`，运行主场景，点击健康检查按钮。手机调试时服务端显式监听局域网地址，客户端填写电脑的局域网IP；手机的127.0.0.1指手机自己。不要把无认证的骨架直接暴露公网。
+Import `client/project.godot` in Godot, run the main scene and press the health-check button. When testing on a phone, start the server on an explicit LAN address and enter your computer's LAN IP in the client; `127.0.0.1` on a phone means the phone itself. Do not expose this unauthenticated skeleton to the public internet.
 
 ```sh
-# 检查Go、策划数据、导入文件校验
+# Go tests, data export check, import checksums and design model checks
 ./scripts/check.sh
-# Godot headless测试见 client/README.md
+# Godot headless tests: see client/README.md
 ```
 
-## 文档与图片
+## What exists today
 
-- [文档导航](docs/README.md)
-- [当前技术基线：Godot＋Golang](docs/decisions/0001-technical-baseline.md)
-- [现有策划快照](docs/design/v0.44/游戏策划设定.md)
-- [概念美术](assets/concept-art/README.md)
+| Area | State |
+|---|---|
+| Server transport | HTTP `/healthz` and `/version` only |
+| Test data | `shared/data/`: items, recipes, economy, moves, teaching routes, map and timing parameters. Four files are generated from the design snapshot by `scripts/export_data.py`; CI fails if they drift |
+| Server rule packages | `gamedata` (load and cross-check data), `growth` (attribute settlement in 0.1 steps), `crafting` (manufacture, wear, repair, salvage), `economy` (NPC limited-purchase orders), `ledger` (stack, slot and carry-weight checks) |
+| Evidence | The Go rules reproduce the design's Python calculations: 18/18 growth cases, the full equipment material ledger, and every economy scenario snapshot field by field. See [M0 verification](docs/verification/m0-data-and-rules.md) |
+| Client | Boot page with a server health check |
 
-![新手村远景](assets/concept-art/starter-village-wide-v1.png)
+Not implemented yet: accounts, character persistence, real-time movement and combat sync, trading, transport contracts, database and deployment. All design numbers are test parameters, and all 16 playable acceptance checks are still pending.
 
-## 实现边界
+## Development plan
 
-当前仅建立工程结构和健康握手，不含账号、角色持久化、实时移动/战斗同步、交易、送镖、数据库或部署。策划数值仍为测试参数，16项可玩验收全部待执行。历史策划中Unity/.NET等旧技术提案由当前ADR覆盖，不能误当现行技术栈。
+Work follows the stage gates in the design baseline. Each stage closes only with test evidence.
 
-## 开源与贡献
+1. **M0 Data and rules**: done.
+2. **M1 Persistence and transactions**: PostgreSQL, idempotent requests, unique item locations.
+3. **M2 Accounts and real-time protocol**: WebSocket messages, one present character per account.
+4. **M3–M7 Gameplay**: world and movement, combat and death, two-node storage and logistics, life skills and equipment, quests and lineages.
+5. **M8 First playable acceptance (G1)**: all 16 checks executed with recorded evidence.
 
-采用[MIT许可证](LICENSE)。第三方依赖及素材保留各自许可证；不得提交密钥、真实玩家信息、签名证书和来源不明的素材。AI概念图来源与权利边界见概念美术说明。提交前运行本地检查，修改规则时同时更新测试与相关文档。
+## Docs and art
+
+- [Documentation index](docs/README.md) (Chinese)
+- [Technical baseline: Godot + Go](docs/decisions/0001-technical-baseline.md)
+- [Design/technical baseline reconciliation](docs/decisions/0002-baseline-reconciliation.md)
+- [Data field dictionary](docs/data/field-dictionary.md) and [state machines](docs/data/state-machines.md)
+- [Design snapshot](docs/design/v0.44/游戏策划设定.md)
+- [Concept art](assets/concept-art/README.md)
+
+The design and decision documents are written in Chinese.
+
+![Starter village overview](assets/concept-art/starter-village-wide-v1.png)
+
+## License and contributing
+
+Released under the [MIT License](LICENSE). Third-party dependencies and assets keep their own licenses. Never commit secrets, real player data, signing certificates or assets of unknown origin. The source and rights boundaries of the AI concept art are described in the concept art notes. Run the local checks before committing, and update tests and related docs whenever you change a rule.

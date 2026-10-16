@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "status": "test",
+  "sources": {
+    "map": "docs/design/v0.44/first_playable_loop_v42.md §二",
+    "params": "docs/design/v0.44/完整设计执行基线_v0.44.md §0.1 §1.1 §1.4 §3.2 §3.3 §3.4 §3.5"
+  },
+  "units": {"time": "seconds", "rate": "1/100 (centi)"},
+  "zone_rules": {
+    "service": {"attack": false, "nonconsensual_pvp": false, "instant_logout": true},
+    "pve": {"attack": true, "nonconsensual_pvp": false, "instant_logout": false},
+    "risk": {"attack": true, "nonconsensual_pvp": true, "instant_logout": false, "entry_confirmation": true}
+  },
+  "blocks": [
+    {"id": "A", "name": "河湾镇", "zone": "service", "logistics_node": true, "facilities": ["矿冶锻"]},
+    {"id": "B", "name": "石桥驿", "zone": "service", "logistics_node": true, "facilities": ["纤织裁缝"]},
+    {"id": "C", "name": "矿区", "zone": "pve", "logistics_node": false, "facilities": ["矿点"]},
+    {"id": "D", "name": "纤维采集区", "zone": "pve", "logistics_node": false, "facilities": ["纤维点"]},
+    {"id": "E", "name": "教学驻地", "zone": "pve", "logistics_node": false, "facilities": ["听雨门驻地", "磐石堂驻地"]},
+    {"id": "F", "name": "古道挑战区", "zone": "pve", "logistics_node": false, "subzones": [{"id": "F-risk", "zone": "risk"}]}
+  ],
+  "edges": [
+    {"from": "A", "to": "C", "kind": "normal"},
+    {"from": "A", "to": "E", "kind": "normal"},
+    {"from": "A", "to": "B", "kind": "normal", "design_travel_seconds": 600},
+    {"from": "B", "to": "D", "kind": "normal"},
+    {"from": "B", "to": "E", "kind": "normal"},
+    {"from": "B", "to": "F", "kind": "normal"},
+    {"from": "F-risk", "to": "A", "kind": "risk_shortcut", "design_travel_seconds_a_b": 360}
+  ],
+  "characters": {"per_account": 6, "present_per_account": 1},
+  "inventory": {
+    "backpack_slots": 40,
+    "carry_base": 80,
+    "carry_per_effective_strength": 1,
+    "overweight_move_speed_centi": 50,
+    "node_slots_per_account": 200
+  },
+  "corpse": {"expire_seconds": 1800, "empty_visual_seconds": 60},
+  "logistics": {
+    "npc_departure_interval_seconds": 600,
+    "npc_trip_slots": 20,
+    "npc_trip_weight": 100,
+    "npc_account_slots_per_trip": 4,
+    "unused_release_before_departure_seconds": 60,
+    "npc_fee": "ceil(2 + 1*slots + 0.02*weight)",
+    "player_risk_guide_extra": "0.005*declared_value",
+    "vehicle_unit_weight": 100,
+    "consignment_days": 7
+  },
+  "combat": {
+    "pve_disengage_seconds": 15,
+    "pvp_disengage_seconds": 30,
+    "linger_after_disengage_seconds": 180,
+    "safe_zone_disconnect_seconds": 30,
+    "stun_seconds": 0.45,
+    "stun_immunity_seconds": 2,
+    "slow_floor_centi": 40,
+    "weapon_swap_seconds": 1
+  },
+  "growth": {
+    "attributes": ["臂力", "根骨", "身法", "悟性", "定力"],
+    "start": 20, "min": 10, "item_cap": 100, "total_cap": 300,
+    "step": 0.1, "breakthrough_item_cap": 105, "breakthrough_total_cap": 305,
+    "martial_proficiency_max": 1000
+  },
+  "life_skills": {
+    "skills": ["采矿", "冶炼", "锻造", "纤维采集", "纺织", "裁缝"],
+    "item_cap": 100, "total_cap": 300, "step": 0.1,
+    "suitability_factor": {"matched": 1, "low": 0.2, "valuable_no_result": 0.5, "too_hard": 0},
+    "min_interval_seconds": {"采矿": 3, "纤维采集": 3, "冶炼": 5, "纺织": 5, "锻造": 10, "裁缝": 10, "维修": 10}
+  },
+  "price_adjust": {"interval_hours": 6, "max_step_centi": 5, "floor_centi": 80, "ceil_centi": 120}
+}

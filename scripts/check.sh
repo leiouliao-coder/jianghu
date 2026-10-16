@@ -6,6 +6,7 @@ go test -race ./...
 go vet ./...
 cd "$ROOT"
 python3 scripts/check_imports.py
+python3 scripts/export_data.py --check
 python3 docs/design/v0.44/verify_growth_v37.py
 python3 docs/design/v0.44/verify_routes_v39.py
 python3 docs/design/v0.44/verify_equipment_ledger_v41.py

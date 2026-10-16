@@ -8,6 +8,12 @@
 4. [策划主文档](design/v0.44/游戏策划设定.md)：含历史决策与版本演进。
 5. [实施与验证清单](design/v0.44/待讨论问题.md)：文件名沿用，当前不再逐项问答。
 
+## 实施数据（开发计划M0起）
+
+- [ADR 0002：设计基线与技术基线对齐](decisions/0002-baseline-reconciliation.md)
+- [字段字典](data/field-dictionary.md)与[状态机](data/state-machines.md)：`shared/data/`的格式与规则。
+- [M0验证记录](verification/m0-data-and-rules.md)
+
 ## 测试附件
 
 - [剑拳、内功、轻功](design/v0.44/剑拳内功轻功_招式样表_v0.35.md)
