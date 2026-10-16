@@ -30,6 +30,7 @@ func _run() -> void:
 	await _test_camera()
 	_test_ground_point()
 	await _test_view_and_shell()
+	await _test_input_reaches_world()
 	if failures == 0:
 		print("PASS world view: interpolation, map, camera, picking, replies")
 	quit(0 if failures == 0 else 1)
@@ -132,5 +133,49 @@ func _test_view_and_shell() -> void:
 	shell.call("_on_closed", Protocol.CLOSE_KICKED, "")
 	await process_frame
 	_check(shell.world_view == null and shell.get_node("Margin").visible, "kick returns to the menu")
+	shell.queue_free()
+	await process_frame
+
+
+func _button(index: MouseButton, pressed: bool, pos: Vector2) -> InputEventMouseButton:
+	var e: InputEventMouseButton = InputEventMouseButton.new()
+	e.button_index = index
+	e.pressed = pressed
+	e.position = pos
+	e.global_position = pos
+	return e
+
+
+## Regression: the account shell is full-screen and once swallowed right and
+## middle clicks, so only the wheel worked. Inject events at the window, the
+## way real input arrives, instead of calling handlers directly.
+func _test_input_reaches_world() -> void:
+	var shell: Control = (load("res://scenes/account.tscn") as PackedScene).instantiate()
+	root.add_child(shell)
+	await process_frame
+	shell.call("_open_world", {"character_id": 1, "x": 0.0, "z": 0.0, "area": "A", "zone": "service", "map": MAP})
+	await process_frame
+	var view: Node3D = shell.world_view
+	var moves: Array[Vector2] = []
+	view.move_requested.connect(func(target: Vector2, _risk: bool) -> void: moves.append(target))
+	var center: Vector2 = Vector2(root.size) / 2.0
+	root.push_input(_button(MOUSE_BUTTON_RIGHT, true, center))
+	await process_frame
+	_check(moves.size() == 1, "right click on the ground requests a move")
+	var rig: CameraRig = view.rig
+	var yaw: float = rig.yaw
+	root.push_input(_button(MOUSE_BUTTON_MIDDLE, true, center))
+	var motion: InputEventMouseMotion = InputEventMouseMotion.new()
+	motion.position = center + Vector2(40, 0)
+	motion.relative = Vector2(40, 0)
+	motion.button_mask = MOUSE_BUTTON_MASK_MIDDLE
+	root.push_input(motion)
+	root.push_input(_button(MOUSE_BUTTON_MIDDLE, false, center))
+	await process_frame
+	_check(rig.yaw != yaw, "middle drag rotates the camera")
+	var distance: float = rig.distance
+	root.push_input(_button(MOUSE_BUTTON_WHEEL_DOWN, true, center))
+	await process_frame
+	_check(rig.distance != distance, "wheel zooms")
 	shell.queue_free()
 	await process_frame

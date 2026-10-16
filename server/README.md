@@ -25,16 +25,16 @@ go build -o /tmp/jianghu-server ./cmd/jianghu-server
 不设置 `JIANGHU_DATABASE_URL` 时服务端不连数据库，只提供诊断接口，`/v1/ws` 返回 404。设置后，启动时加载并校验 `JIANGHU_DATA_DIR`（默认 `../shared/data`），连接数据库并执行内置迁移；任一步失败即以退出码 1 停止。
 
 ```sh
-docker compose up -d          # 在 server/ 目录，启动本机开发用 PostgreSQL 16（仅监听 127.0.0.1）
-JIANGHU_DATABASE_URL='postgres://jianghu:jianghu-dev@127.0.0.1:5432/jianghu?sslmode=disable' go run ./cmd/jianghu-server
+docker compose up -d          # 在 server/ 目录，启动本机开发用 PostgreSQL 16（仅监听 127.0.0.1:5433）
+JIANGHU_DATABASE_URL='postgres://jianghu:jianghu-dev@127.0.0.1:5433/jianghu?sslmode=disable' go run ./cmd/jianghu-server
 ```
 
-`compose.yaml` 中的口令只是本机开发占位，不得用于任何可被外部访问的环境。
+`compose.yaml` 中的口令只是本机开发占位，不得用于任何可被外部访问的环境。开发数据库映射到本机 5433 端口，以免和本机已安装的 PostgreSQL（默认 5432）冲突。
 
 数据库集成测试需要一个允许建库的 PostgreSQL 账号；每个测试新建独立数据库、结束后删除：
 
 ```sh
-JIANGHU_TEST_DATABASE_URL='postgres://jianghu:jianghu-dev@127.0.0.1:5432/postgres?sslmode=disable' go test -race ./...
+JIANGHU_TEST_DATABASE_URL='postgres://jianghu:jianghu-dev@127.0.0.1:5433/postgres?sslmode=disable' go test -race ./...
 ```
 
 未设置该变量时这些测试会跳过并说明原因；CI 设置了 `JIANGHU_REQUIRE_DB=1`，缺数据库即失败，不能静默跳过。

@@ -4,6 +4,7 @@ extends Node3D
 ## move and renders what the server reports.
 
 signal leave_requested
+signal move_requested(target: Vector2, accept_risk: bool)
 
 const AREA_NAMES: Dictionary = {"service": "安全区", "pve": "野外（无强制PVP）", "risk": "风险区（可能遭受玩家攻击）"}
 
@@ -44,6 +45,7 @@ func setup(ws: WsClient, payload: Dictionary) -> void:
 
 
 func request_move(target: Vector2, accept_risk: bool = false) -> void:
+	move_requested.emit(target, accept_risk)
 	if client == null:
 		return
 	var req_id: String = client.request("move_to", {"x": target.x, "z": target.y, "accept_risk": accept_risk})

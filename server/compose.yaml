@@ -1,5 +1,6 @@
 # Local development database only. Bound to 127.0.0.1; the password is a
-# development placeholder, never reuse it anywhere reachable.
+# development placeholder, never reuse it anywhere reachable. Host port 5433
+# so it does not clash with a locally installed PostgreSQL on 5432.
 services:
   postgres:
     image: postgres:16
@@ -8,7 +9,7 @@ services:
       POSTGRES_PASSWORD: jianghu-dev
       POSTGRES_DB: jianghu
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:5433:5432"
     volumes:
       - jianghu-pg:/var/lib/postgresql/data
     healthcheck:

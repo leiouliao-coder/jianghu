@@ -44,7 +44,7 @@ text = "JIANGHU / 江湖"
 
 [node name="Notice" type="Label" parent="Margin/Content"]
 layout_mode = 2
-text = "项目启动页 · Bootstrap only\n此页只验证客户端启动与服务端健康检查，不是可玩游戏。"
+text = "开发入口 · Development entry\n可先检查服务端，再进入账号登录。当前可以登录、创建角色，并在六区块灰盒世界中移动；尚无战斗、物品与任务。"
 autowrap_mode = 3
 
 [node name="AddressLabel" type="Label" parent="Margin/Content"]
@@ -76,7 +76,7 @@ text = "账号登录 / Account"
 [node name="Scope" type="Label" parent="Margin/Content"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "目标平台：Windows / macOS / iOS / Android\n账号登录需服务端配置数据库；当前未验证移动导出、战斗、资产同步或切后台。"
+text = "目标平台：Windows / macOS / iOS / Android（手机目前只支持点地面移动）\n账号登录需要服务端配置数据库。"
 autowrap_mode = 3
 
 [node name="HealthRequest" type="HTTPRequest" parent="."]
