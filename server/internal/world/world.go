@@ -57,6 +57,7 @@ type entity struct {
 	sink      Sink    // nil while the owner is disconnected
 	moveTimes []time.Time
 	f         *combat.Fighter
+	mob       *monster // nil for characters
 
 	leave    leaveMode
 	leaveReq combat.Tick // when a logout was requested
@@ -158,7 +159,7 @@ func (w *World) CanHarm(a, b *combat.Fighter) bool {
 	if a.Kind == combat.Player && b.Kind == combat.Player {
 		return za == ZoneRisk && zb == ZoneRisk
 	}
-	return true
+	return a.Kind != b.Kind // monsters never fight each other
 }
 
 func (w *World) zoneOf(id int64) string {
@@ -451,26 +452,39 @@ type death struct {
 
 func (w *World) step(dt float64) stepResult {
 	w.tick++
+	w.thinkMonsters()
 	now := w.eng.Now
 	for _, e := range w.ents {
 		if !e.f.CanMove(now) {
 			e.path = nil
 			continue
 		}
-		budget := w.speed * dt * float64(w.eng.SpeedCenti(e.f)) / 100
+		speed := w.speed
+		if e.mob != nil {
+			speed = e.mob.kind.Speed
+		}
+		budget := speed * dt * float64(w.eng.SpeedCenti(e.f)) / 100
 		for budget > 0 && len(e.path) > 0 {
 			next := e.path[0]
 			d := dist(e.pos, next)
 			if d > 1e-9 {
 				e.f.Facing = combat.Vec{X: (next[0] - e.pos[0]) / d, Z: (next[1] - e.pos[1]) / d}
 			}
+			step := next
+			if d > budget {
+				step = Point{e.pos[0] + (next[0]-e.pos[0])*budget/d, e.pos[1] + (next[1]-e.pos[1])*budget/d}
+			}
+			// Monsters stop at the edge of a service zone.
+			if e.mob != nil && !w.monsterWalkable(step) {
+				e.path = nil
+				break
+			}
 			if d <= budget {
 				e.pos, e.path = next, e.path[1:]
 				budget -= d
 				continue
 			}
-			f := budget / d
-			e.pos = Point{e.pos[0] + (next[0]-e.pos[0])*f, e.pos[1] + (next[1]-e.pos[1])*f}
+			e.pos = step
 			budget = 0
 		}
 		e.f.Pos = vec(e.pos)
@@ -482,7 +496,7 @@ func (w *World) step(dt float64) stepResult {
 			w.pending = append(w.pending, ev)
 		}
 		if ev.Kind == "death" {
-			if e := w.ents[ev.Actor]; e != nil {
+			if e := w.ents[ev.Actor]; e != nil && e.mob == nil {
 				deaths = append(deaths, death{e.id, e.name, point(e.f.Pos)})
 			}
 		}
@@ -569,6 +583,7 @@ func (w *World) runHooks(r stepResult) {
 // EntityView is one character as others see it.
 type EntityView struct {
 	ID      int64   `json:"id"`
+	Kind    string  `json:"kind"` // player or monster
 	Name    string  `json:"name"`
 	X       float64 `json:"x"`
 	Z       float64 `json:"z"`
@@ -606,7 +621,11 @@ func round2(v float64) float64 { return math.Round(v*100) / 100 }
 
 func (w *World) entityView(e *entity) EntityView {
 	f := e.f
-	v := EntityView{ID: e.id, Name: e.name, X: round2(e.pos[0]), Z: round2(e.pos[1]),
+	kind := "player"
+	if e.mob != nil {
+		kind = "monster"
+	}
+	v := EntityView{ID: e.id, Kind: kind, Name: e.name, X: round2(e.pos[0]), Z: round2(e.pos[1]),
 		Facing: round2(math.Atan2(f.Facing.Z, f.Facing.X)), Area: e.area.ID, Zone: e.area.Zone,
 		Moving: len(e.path) > 0, HP: f.HP, MaxHP: f.MaxHP, MP: f.MP, SP: f.SP, Dead: f.Dead,
 		Stunned: f.Stunned(w.eng.Now), Preset: f.Preset}
@@ -674,7 +693,9 @@ func (w *World) Positions() map[int64]Saved {
 	defer w.mu.Unlock()
 	out := make(map[int64]Saved, len(w.ents))
 	for id, e := range w.ents {
-		out[id] = Saved{Pos: e.pos, Dead: e.f.Dead}
+		if e.mob == nil {
+			out[id] = Saved{Pos: e.pos, Dead: e.f.Dead}
+		}
 	}
 	return out
 }

@@ -52,6 +52,7 @@ func run() error {
 		}
 		log.Print("database ready, migrations applied")
 		w := world.New(data)
+		w.SpawnMonsters(data)
 		worldCtx, stopWorld := context.WithCancel(context.Background())
 		defer stopWorld()
 		go w.Run(worldCtx)
