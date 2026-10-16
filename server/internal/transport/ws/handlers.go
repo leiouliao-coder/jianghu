@@ -11,6 +11,7 @@ import (
 	"github.com/leiouliao-coder/jianghu/server/internal/auth"
 	"github.com/leiouliao-coder/jianghu/server/internal/session"
 	"github.com/leiouliao-coder/jianghu/server/internal/store"
+	"github.com/leiouliao-coder/jianghu/server/internal/world"
 )
 
 // handle processes one request; false closes the connection.
@@ -26,7 +27,7 @@ func (s *Server) handle(ctx context.Context, c *conn, env Envelope) bool {
 		return s.login(ctx, c, env)
 	case "resume":
 		return s.resume(ctx, c, env)
-	case "char_list", "char_create", "enter_world", "leave_world":
+	case "char_list", "char_create", "enter_world", "leave_world", "move_to", "stop":
 		account := s.accountOf(c)
 		if account == 0 {
 			c.sendError(env.ReqID, ErrNotAuthenticated, "log in or resume first", nil)
@@ -41,6 +42,10 @@ func (s *Server) handle(ctx context.Context, c *conn, env Envelope) bool {
 			s.enterWorld(ctx, c, env, account)
 		case "leave_world":
 			s.leaveWorld(c, env, account)
+		case "move_to":
+			s.moveTo(c, env)
+		case "stop":
+			s.stop(c, env)
 		}
 	default:
 		c.sendError(env.ReqID, ErrUnknownType, "unknown message type "+env.Type, nil)
@@ -80,8 +85,11 @@ func (s *Server) register(ctx context.Context, c *conn, env Envelope) {
 		c.sendError(env.ReqID, ErrInvalidPassword, "password must be 8-128 bytes", nil)
 		return
 	}
+	// Before login there is no account to scope req_id by, so it is scoped to
+	// this connection: clients cannot collide with or squat on each other's
+	// IDs. A retry after reconnecting gets name_taken and should log in.
 	// The password is not part of the request fingerprint: only the name is.
-	res, err := s.st.Do(ctx, store.Request{ID: "register:" + env.ReqID, Kind: "register", Payload: p.Name},
+	res, err := s.st.Do(ctx, store.Request{ID: "register:" + c.nonce + ":" + env.ReqID, Kind: "register", Payload: p.Name},
 		func(ctx context.Context, tx *store.Tx) (any, error) {
 			id, err := tx.CreateAccount(ctx, p.Name, hash)
 			return map[string]int64{"account_id": id}, err
@@ -206,8 +214,8 @@ func (s *Server) enterWorld(ctx context.Context, c *conn, env Envelope, account 
 	if !decode(c, env, &p) {
 		return
 	}
-	owner, err := s.st.CharacterOwner(ctx, p.CharacterID)
-	if errors.Is(err, store.ErrNotFound) || (err == nil && owner != account) {
+	info, err := s.st.CharacterInfo(ctx, p.CharacterID)
+	if errors.Is(err, store.ErrNotFound) || (err == nil && info.AccountID != account) {
 		c.sendError(env.ReqID, ErrUnknownCharacter, "no such character on this account", nil)
 		return
 	}
@@ -221,7 +229,14 @@ func (s *Server) enterWorld(ctx context.Context, c *conn, env Envelope, account 
 			map[string]int64{"character_id": other.CharacterID})
 		return
 	}
-	c.send("enter_world.ok", env.ReqID, map[string]any{"character_id": p.CharacterID, "block": s.cfg.StartBlock})
+	// A lingering or kicked-away character is still in the world: take it over.
+	pos, area, ok := s.world.Attach(p.CharacterID, c)
+	if !ok {
+		pos, area = s.world.Spawn(p.CharacterID, info.Name, world.Point{info.X, info.Z}, c)
+	}
+	c.character = p.CharacterID
+	c.send("enter_world.ok", env.ReqID, map[string]any{"character_id": p.CharacterID, "name": info.Name,
+		"x": pos[0], "z": pos[1], "area": area.ID, "zone": area.Zone, "map": s.cfg.Map})
 }
 
 func (s *Server) leaveWorld(c *conn, env Envelope, account int64) {
@@ -229,7 +244,50 @@ func (s *Server) leaveWorld(c *conn, env Envelope, account int64) {
 		c.sendError(env.ReqID, ErrNotInWorld, "this connection has no character in the world", nil)
 		return
 	}
+	c.character = 0
 	c.send("leave_world.ok", env.ReqID, nil)
+}
+
+func (s *Server) moveTo(c *conn, env Envelope) {
+	var p struct {
+		X          *float64 `json:"x"`
+		Z          *float64 `json:"z"`
+		AcceptRisk bool     `json:"accept_risk"`
+	}
+	if !decode(c, env, &p) {
+		return
+	}
+	if p.X == nil || p.Z == nil {
+		c.sendError(env.ReqID, ErrBadRequest, "move_to needs x and z", nil)
+		return
+	}
+	if c.character == 0 {
+		c.sendError(env.ReqID, ErrNotInWorld, "enter the world first", nil)
+		return
+	}
+	path, err := s.world.MoveTo(c.character, world.Point{*p.X, *p.Z}, p.AcceptRisk, time.Now())
+	switch {
+	case errors.Is(err, world.ErrRiskRequired):
+		c.sendError(env.ReqID, ErrRiskConfirmation, "the route enters a risk area where other players may attack; resend with accept_risk", nil)
+	case errors.Is(err, world.ErrUnreachable):
+		c.sendError(env.ReqID, ErrUnreachable, "no walkable route to that point", nil)
+	case errors.Is(err, world.ErrRateLimited):
+		c.sendError(env.ReqID, ErrRateLimited, "too many move requests", nil)
+	case errors.Is(err, world.ErrNotInWorld):
+		c.sendError(env.ReqID, ErrNotInWorld, "enter the world first", nil)
+	case err != nil:
+		s.internal(c, env, err)
+	default:
+		c.send("move_to.ok", env.ReqID, map[string]any{"path": path})
+	}
+}
+
+func (s *Server) stop(c *conn, env Envelope) {
+	if c.character == 0 || s.world.Stop(c.character) != nil {
+		c.sendError(env.ReqID, ErrNotInWorld, "enter the world first", nil)
+		return
+	}
+	c.send("stop.ok", env.ReqID, nil)
 }
 
 // reply turns a store result (fresh or replayed) into a response.

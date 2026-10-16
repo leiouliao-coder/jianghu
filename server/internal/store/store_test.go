@@ -89,7 +89,7 @@ func TestMigrateIsIdempotent(t *testing.T) {
 	if err := s.Migrate(ctx); err != nil {
 		t.Fatal(err)
 	}
-	if n := count(t, s, `SELECT count(*) FROM schema_migrations`); n != 2 {
+	if n := count(t, s, `SELECT count(*) FROM schema_migrations`); n != 3 {
 		t.Fatalf("schema_migrations rows=%d", n)
 	}
 }

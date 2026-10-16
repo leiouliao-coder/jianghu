@@ -67,6 +67,64 @@ type World struct {
 	Combat struct {
 		SafeZoneDisconnectSeconds int `json:"safe_zone_disconnect_seconds"`
 	} `json:"combat"`
+	Blocks []BlockInfo `json:"blocks"`
+	Edges  []struct {
+		From string `json:"from"`
+		To   string `json:"to"`
+		Kind string `json:"kind"`
+	} `json:"edges"`
+}
+
+// Rect is [x0, z0, x1, z1] in meters with x0 < x1 and z0 < z1.
+type Rect [4]float64
+
+func (r Rect) Contains(x, z float64) bool { return x >= r[0] && x <= r[2] && z >= r[1] && z <= r[3] }
+
+type Map struct {
+	Movement struct {
+		WalkSpeed                float64 `json:"walk_speed"`
+		TickHz                   int     `json:"tick_hz"`
+		SnapshotHz               int     `json:"snapshot_hz"`
+		ViewRadius               float64 `json:"view_radius"`
+		MaxMoveRequestsPerSecond int     `json:"max_move_requests_per_second"`
+	} `json:"movement"`
+	Spawn struct {
+		Block string  `json:"block"`
+		X     float64 `json:"x"`
+		Z     float64 `json:"z"`
+	} `json:"spawn"`
+	Bounds Rect `json:"bounds"`
+	Blocks []struct {
+		ID   string `json:"id"`
+		Rect Rect   `json:"rect"`
+	} `json:"blocks"`
+	RiskAreas []struct {
+		ID    string `json:"id"`
+		Block string `json:"block"`
+		Rect  Rect   `json:"rect"`
+	} `json:"risk_areas"`
+	Roads []struct {
+		ID       string       `json:"id"`
+		Connects [2]string    `json:"connects"`
+		Zone     string       `json:"zone"`
+		Width    float64      `json:"width"`
+		Points   [][2]float64 `json:"points"`
+	} `json:"roads"`
+	Obstacles []struct {
+		ID   string `json:"id"`
+		Rect Rect   `json:"rect"`
+	} `json:"obstacles"`
+}
+
+// BlockInfo is the world.json view of a block.
+type BlockInfo struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Zone     string `json:"zone"`
+	Subzones []struct {
+		ID   string `json:"id"`
+		Zone string `json:"zone"`
+	} `json:"subzones"`
 }
 
 type Data struct {
@@ -76,6 +134,7 @@ type Data struct {
 	RepairMaxLoss int64
 	Economy       Economy
 	World         World
+	Map           Map
 }
 
 type header struct {
@@ -104,12 +163,16 @@ func Load(dir string) (*Data, error) {
 		header
 		World
 	}
-	for name, dst := range map[string]any{"items.json": &items, "recipes.json": &recipes, "economy.json": &economy, "world.json": &world} {
+	var geo struct {
+		header
+		Map
+	}
+	for name, dst := range map[string]any{"items.json": &items, "recipes.json": &recipes, "economy.json": &economy, "world.json": &world, "map.json": &geo} {
 		if err := readJSON(filepath.Join(dir, name), dst); err != nil {
 			return nil, err
 		}
 	}
-	for name, h := range map[string]header{"items.json": items.header, "recipes.json": recipes.header, "economy.json": economy.header, "world.json": world.header} {
+	for name, h := range map[string]header{"items.json": items.header, "recipes.json": recipes.header, "economy.json": economy.header, "world.json": world.header, "map.json": geo.header} {
 		if h.SchemaVersion != SchemaVersion {
 			return nil, fmt.Errorf("%s: schema_version %d, want %d", name, h.SchemaVersion, SchemaVersion)
 		}
@@ -118,7 +181,7 @@ func Load(dir string) (*Data, error) {
 		}
 	}
 	d := &Data{Items: map[string]Item{}, StackLimits: items.StackClasses, Equipment: map[string]Equipment{},
-		RepairMaxLoss: recipes.RepairMaxLoss, Economy: economy.Economy, World: world.World}
+		RepairMaxLoss: recipes.RepairMaxLoss, Economy: economy.Economy, World: world.World, Map: geo.Map}
 	var errs []error
 	for _, it := range items.Items {
 		if _, dup := d.Items[it.ID]; dup {
@@ -170,6 +233,7 @@ func Load(dir string) (*Data, error) {
 	if d.StackLimits[ClassCoin] <= 0 || len(d.ItemsOfClass(ClassCoin)) != 1 {
 		errs = append(errs, errors.New("items: exactly one coin item with a positive stack limit is required"))
 	}
+	errs = append(errs, checkMap(d)...)
 	if err := errors.Join(errs...); err != nil {
 		return nil, err
 	}
@@ -206,4 +270,66 @@ func readJSON(path string, dst any) error {
 		return fmt.Errorf("%s: %w", path, err)
 	}
 	return nil
+}
+
+// checkMap requires map.json to match world.json: the same blocks, a road
+// for every edge, and the risk shortcut marked as risk.
+func checkMap(d *Data) []error {
+	var errs []error
+	m := d.Map
+	valid := func(r Rect) bool { return r[0] < r[2] && r[1] < r[3] }
+	if mv := m.Movement; mv.WalkSpeed <= 0 || mv.TickHz <= 0 || mv.SnapshotHz <= 0 || mv.SnapshotHz > mv.TickHz ||
+		mv.ViewRadius <= 0 || mv.MaxMoveRequestsPerSecond <= 0 {
+		errs = append(errs, errors.New("map: movement parameters must be positive and snapshot_hz <= tick_hz"))
+	}
+	if !valid(m.Bounds) {
+		errs = append(errs, errors.New("map: invalid bounds"))
+	}
+	inBounds := func(r Rect) bool {
+		return r[0] >= m.Bounds[0] && r[1] >= m.Bounds[1] && r[2] <= m.Bounds[2] && r[3] <= m.Bounds[3]
+	}
+	zones := map[string]string{} // block or subzone id -> zone
+	for _, b := range d.World.Blocks {
+		zones[b.ID] = b.Zone
+		for _, sz := range b.Subzones {
+			zones[sz.ID] = sz.Zone
+		}
+	}
+	seen := map[string]bool{}
+	for _, b := range m.Blocks {
+		if _, ok := zones[b.ID]; !ok || seen[b.ID] || !valid(b.Rect) || !inBounds(b.Rect) {
+			errs = append(errs, fmt.Errorf("map: block %q unknown, duplicate or invalid", b.ID))
+		}
+		seen[b.ID] = true
+	}
+	for _, b := range d.World.Blocks {
+		if !seen[b.ID] {
+			errs = append(errs, fmt.Errorf("map: world block %q has no geometry", b.ID))
+		}
+	}
+	for _, r := range m.RiskAreas {
+		if zones[r.ID] != "risk" || !valid(r.Rect) || !inBounds(r.Rect) {
+			errs = append(errs, fmt.Errorf("map: risk area %q must be a risk subzone in world.json with a valid rect", r.ID))
+		}
+	}
+	roads := map[[2]string]string{}
+	for _, r := range m.Roads {
+		if len(r.Points) < 2 || r.Width <= 0 || (r.Zone != "pve" && r.Zone != "risk") {
+			errs = append(errs, fmt.Errorf("map: road %q needs 2+ points, positive width and zone pve or risk", r.ID))
+		}
+		roads[r.Connects] = r.Zone
+		roads[[2]string{r.Connects[1], r.Connects[0]}] = r.Zone
+	}
+	for _, e := range d.World.Edges {
+		want := map[string]string{"normal": "pve", "risk_shortcut": "risk"}[e.Kind]
+		if got, ok := roads[[2]string{e.From, e.To}]; !ok || got != want {
+			errs = append(errs, fmt.Errorf("map: edge %s-%s (%s) needs a %s road", e.From, e.To, e.Kind, want))
+		}
+	}
+	for _, o := range m.Obstacles {
+		if !valid(o.Rect) || o.Rect.Contains(m.Spawn.X, m.Spawn.Z) {
+			errs = append(errs, fmt.Errorf("map: obstacle %q invalid or covers the spawn point", o.ID))
+		}
+	}
+	return errs
 }

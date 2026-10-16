@@ -5,6 +5,8 @@ package ws
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -17,6 +19,7 @@ import (
 
 	"github.com/leiouliao-coder/jianghu/server/internal/session"
 	"github.com/leiouliao-coder/jianghu/server/internal/store"
+	"github.com/leiouliao-coder/jianghu/server/internal/world"
 )
 
 const ProtocolVersion = 1
@@ -44,6 +47,9 @@ const (
 	ErrUnknownCharacter   = "unknown_character"
 	ErrCharacterPresent   = "character_present"
 	ErrNotInWorld         = "not_in_world"
+	ErrUnreachable        = "unreachable"
+	ErrRiskConfirmation   = "risk_confirmation_required"
+	ErrRateLimited        = "rate_limited"
 	ErrInternal           = "internal"
 )
 
@@ -62,12 +68,13 @@ type Config struct {
 	SessionTTL       time.Duration
 	IdleTimeout      time.Duration // close if the client sends nothing for this long
 	MaxLoginFailures int
-	StartBlock       string // where entering characters appear until M3 stores positions
+	Map              any // world.ClientMap, sent with enter_world
 }
 
 type Server struct {
 	st       *store.Store
 	presence *session.Presence
+	world    *world.World
 	cfg      Config
 
 	mu        sync.Mutex
@@ -78,8 +85,34 @@ type Server struct {
 	active    sync.WaitGroup // running ServeHTTP calls
 }
 
-func New(st *store.Store, presence *session.Presence, cfg Config) *Server {
-	return &Server{st: st, presence: presence, cfg: cfg, byAccount: map[int64]*conn{}, all: map[*conn]struct{}{}}
+// New wires the gateway to the store, the presence leases and the world.
+// It takes over presence.OnRelease: a released character leaves the world
+// and its position is saved.
+func New(st *store.Store, presence *session.Presence, w *world.World, cfg Config) *Server {
+	s := &Server{st: st, presence: presence, world: w, cfg: cfg, byAccount: map[int64]*conn{}, all: map[*conn]struct{}{}}
+	presence.OnRelease = s.onRelease
+	return s
+}
+
+func (s *Server) onRelease(_, character int64) {
+	pos, ok := s.world.Despawn(character)
+	if !ok {
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := s.st.SavePosition(ctx, character, pos[0], pos[1]); err != nil {
+		log.Printf("ws: save position of character %d: %v", character, err)
+	}
+}
+
+// SavePositions stores every character still in the world (at shutdown).
+func (s *Server) SavePositions(ctx context.Context) {
+	for id, p := range s.world.Positions() {
+		if err := s.st.SavePosition(ctx, id, p[0], p[1]); err != nil {
+			log.Printf("ws: save position of character %d: %v", id, err)
+		}
+	}
 }
 
 type outMsg struct {
@@ -89,16 +122,21 @@ type outMsg struct {
 }
 
 type conn struct {
-	id       uint64
-	ws       *websocket.Conn
-	out      chan outMsg
-	seq      atomic.Uint64
-	sendMu   sync.Mutex
-	once     sync.Once
-	done     chan struct{}
-	account  int64 // set under Server.mu
-	failures int   // read goroutine only
+	id        uint64
+	nonce     string // random per connection; scopes pre-login request IDs
+	ws        *websocket.Conn
+	out       chan outMsg
+	seq       atomic.Uint64
+	sendMu    sync.Mutex
+	once      sync.Once
+	done      chan struct{}
+	account   int64 // set under Server.mu
+	failures  int   // read goroutine only
+	character int64 // controlled character; read goroutine only
 }
+
+// Push implements world.Sink.
+func (c *conn) Push(typ string, payload any) { c.send(typ, "", payload) }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// net/http clears its read/write deadlines when the connection is
@@ -108,7 +146,9 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	wsc.SetReadLimit(64 << 10)
-	c := &conn{id: s.nextID.Add(1), ws: wsc, out: make(chan outMsg, 64), done: make(chan struct{})}
+	nonce := make([]byte, 12)
+	_, _ = rand.Read(nonce) // crypto/rand.Read never fails on supported platforms
+	c := &conn{id: s.nextID.Add(1), nonce: hex.EncodeToString(nonce), ws: wsc, out: make(chan outMsg, 64), done: make(chan struct{})}
 	s.mu.Lock()
 	if s.closing {
 		s.mu.Unlock()
@@ -250,6 +290,9 @@ func (s *Server) detach(c *conn) {
 	delete(s.all, c)
 	s.mu.Unlock()
 	if account != 0 {
+		if c.character != 0 {
+			s.world.Detach(c.character, c)
+		}
 		s.presence.Disconnect(account, c.id, s.cfg.Linger)
 	}
 }

@@ -16,6 +16,7 @@ import (
 	"github.com/leiouliao-coder/jianghu/server/internal/session"
 	"github.com/leiouliao-coder/jianghu/server/internal/store"
 	"github.com/leiouliao-coder/jianghu/server/internal/store/storetest"
+	"github.com/leiouliao-coder/jianghu/server/internal/world"
 )
 
 // Integration tests over real WebSocket connections against PostgreSQL.
@@ -24,6 +25,8 @@ type harness struct {
 	t   *testing.T
 	url string
 	gw  *Server
+	w   *world.World
+	st  *store.Store
 }
 
 func newHarness(t *testing.T, cfg Config) *harness {
@@ -52,8 +55,12 @@ func newHarness(t *testing.T, cfg Config) *harness {
 	if cfg.Linger == 0 {
 		cfg.Linger = 30 * time.Second
 	}
-	cfg.StartBlock = "A"
-	gw := New(st, session.NewPresence(), cfg)
+	w := world.New(d)
+	cfg.Map = world.ClientMap(d)
+	runCtx, stopWorld := context.WithCancel(context.Background())
+	go w.Run(runCtx)
+	t.Cleanup(stopWorld)
+	gw := New(st, session.NewPresence(), w, cfg)
 	srv := httptest.NewUnstartedServer(gw)
 	// Same short deadlines as production; the gateway must lift them.
 	srv.Config.ReadTimeout = 300 * time.Millisecond
@@ -65,7 +72,7 @@ func newHarness(t *testing.T, cfg Config) *harness {
 		_ = gw.Shutdown(ctx)
 		srv.Close()
 	})
-	return &harness{t: t, url: "ws" + strings.TrimPrefix(srv.URL, "http"), gw: gw}
+	return &harness{t: t, url: "ws" + strings.TrimPrefix(srv.URL, "http"), gw: gw, w: w, st: st}
 }
 
 type client struct {
@@ -229,11 +236,15 @@ func TestAccountAndCharacterFlow(t *testing.T) {
 	}
 	c.fails("enter_world", map[string]int64{"character_id": 999999}, ErrUnknownCharacter)
 	var entered struct {
-		CharacterID int64  `json:"character_id"`
-		Block       string `json:"block"`
+		CharacterID int64          `json:"character_id"`
+		Area        string         `json:"area"`
+		Zone        string         `json:"zone"`
+		X           float64        `json:"x"`
+		Z           float64        `json:"z"`
+		Map         map[string]any `json:"map"`
 	}
 	c.ok("enter_world", map[string]int64{"character_id": sword}, &entered)
-	if entered.CharacterID != sword || entered.Block != "A" {
+	if entered.CharacterID != sword || entered.Area != "A" || entered.Zone != "service" || entered.Map["blocks"] == nil {
 		t.Fatalf("enter_world %+v", entered)
 	}
 	c.fails("enter_world", map[string]int64{"character_id": fist}, ErrCharacterPresent)
@@ -416,4 +427,131 @@ func TestShutdownClosesConnections(t *testing.T) {
 	// Connections arriving after shutdown are turned away immediately.
 	late := h.dial()
 	late.closedWith(websocket.StatusGoingAway)
+}
+
+// snapshotUntil reads pushes until a snapshot satisfies ok, skipping replies.
+func (c *client) snapshotUntil(ok func(world.Snapshot) bool) world.Snapshot {
+	c.t.Helper()
+	deadline := time.Now().Add(5 * time.Second)
+	for time.Now().Before(deadline) {
+		env, err := c.read()
+		if err != nil {
+			c.t.Fatalf("waiting for snapshot: %v", err)
+		}
+		if env.Type != "snapshot" {
+			continue
+		}
+		var s world.Snapshot
+		if err := json.Unmarshal(env.Payload, &s); err != nil {
+			c.t.Fatal(err)
+		}
+		if ok(s) {
+			return s
+		}
+	}
+	c.t.Fatal("no matching snapshot within 5s")
+	return world.Snapshot{}
+}
+
+func find(s world.Snapshot, id int64) (world.EntityView, bool) {
+	for _, e := range s.Entities {
+		if e.ID == id {
+			return e, true
+		}
+	}
+	return world.EntityView{}, false
+}
+
+func TestMoveAndSnapshots(t *testing.T) {
+	h := newHarness(t, Config{})
+	c, _ := registerAndLogin(h, "mover")
+	id := c.newCharacter("行者")
+	c.fails("move_to", map[string]float64{"x": 4, "z": 0}, ErrNotInWorld)
+	c.ok("enter_world", map[string]int64{"character_id": id}, nil)
+	c.fails("move_to", map[string]any{"x": 4}, ErrBadRequest)
+	c.fails("move_to", map[string]float64{"x": -15, "z": -15}, ErrUnreachable) // inside a building
+	c.fails("move_to", map[string]float64{"x": 200, "z": -130}, ErrRiskConfirmation)
+	var moved struct {
+		Path [][2]float64 `json:"path"`
+	}
+	start := time.Now()
+	c.ok("move_to", map[string]float64{"x": 4, "z": 0}, &moved)
+	if len(moved.Path) != 2 || moved.Path[1] != [2]float64{4, 0} {
+		t.Fatalf("path %v", moved.Path)
+	}
+	// Client-supplied speed or position fields are ignored; the server walks 4 m/s.
+	s := c.snapshotUntil(func(s world.Snapshot) bool {
+		e, ok := find(s, id)
+		return ok && !e.Moving && e.X == 4
+	})
+	if took := time.Since(start); took < 900*time.Millisecond {
+		t.Fatalf("4 m covered in %v, faster than walking speed", took)
+	}
+	if e, _ := find(s, id); e.Area != "A" || e.Zone != "service" {
+		t.Fatalf("area %+v", e)
+	}
+	c.ok("move_to", map[string]float64{"x": 20, "z": 0}, nil)
+	c.ok("stop", nil, nil)
+	c.snapshotUntil(func(s world.Snapshot) bool { e, ok := find(s, id); return ok && !e.Moving && e.X < 20 })
+}
+
+func TestPositionIsSavedOnLeave(t *testing.T) {
+	h := newHarness(t, Config{})
+	c, _ := registerAndLogin(h, "saver")
+	id := c.newCharacter("归人")
+	c.ok("enter_world", map[string]int64{"character_id": id}, nil)
+	c.ok("move_to", map[string]float64{"x": 3, "z": 0}, nil)
+	c.snapshotUntil(func(s world.Snapshot) bool { e, ok := find(s, id); return ok && !e.Moving && e.X == 3 })
+	c.ok("leave_world", nil, nil)
+	if _, ok := h.w.Get(id); ok {
+		t.Fatal("character still in the world after leave_world")
+	}
+	var back struct{ X, Z float64 }
+	c.ok("enter_world", map[string]int64{"character_id": id}, &back)
+	if back.X != 3 || back.Z != 0 {
+		t.Fatalf("re-entered at %v,%v, want 3,0", back.X, back.Z)
+	}
+}
+
+func TestPlayersSeeEachOtherAndKickKeepsCharacter(t *testing.T) {
+	h := newHarness(t, Config{Linger: 300 * time.Millisecond})
+	a, _ := registerAndLogin(h, "alpha")
+	aid := a.newCharacter("甲士")
+	a.ok("enter_world", map[string]int64{"character_id": aid}, nil)
+	b, _ := registerAndLogin(h, "beta")
+	bid := b.newCharacter("乙士")
+	b.ok("enter_world", map[string]int64{"character_id": bid}, nil)
+	b.snapshotUntil(func(s world.Snapshot) bool { _, ok := find(s, aid); return ok })
+
+	// alpha logs in elsewhere: the character stays and the new device controls it.
+	a2 := h.dial()
+	a2.login("alpha")
+	a.closedWith(CloseKicked)
+	a2.ok("enter_world", map[string]int64{"character_id": aid}, nil)
+	a2.ok("move_to", map[string]float64{"x": -3, "z": 0}, nil)
+	a2.snapshotUntil(func(s world.Snapshot) bool { e, ok := find(s, aid); return ok && !e.Moving && e.X == -3 })
+
+	// Network loss: the character lingers, then leaves the world.
+	_ = a2.c.CloseNow()
+	b.snapshotUntil(func(s world.Snapshot) bool { _, ok := find(s, aid); return !ok })
+	if _, ok := h.w.Get(aid); ok {
+		t.Fatal("lingering character not removed after the linger time")
+	}
+	info, err := h.st.CharacterInfo(context.Background(), aid)
+	if err != nil || info.X != -3 {
+		t.Fatalf("position after linger: %+v %v", info, err)
+	}
+}
+
+// Before login, req_id is scoped to the connection: two clients that pick
+// the same req_id must not collide (or squat on each other's IDs).
+func TestRegisterRequestIDsAreScopedPerConnection(t *testing.T) {
+	h := newHarness(t, Config{})
+	for _, name := range []string{"first-user", "second-user"} {
+		c := h.dial()
+		c.write(1, "register", "same-id", creds{"name": name, "password": "password-" + name})
+		if env := c.reply("same-id"); env.Type != "register.ok" {
+			t.Fatalf("%s: %s %s", name, env.Type, env.Payload)
+		}
+	}
 }

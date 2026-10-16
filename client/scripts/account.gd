@@ -1,6 +1,9 @@
 extends Control
-## Account screen: register, log in, list/create characters, enter and
-## leave the world over protocol v1. The token stays in memory only.
+## Account screen and game shell: register, log in, list/create characters,
+## then show the world view while a character is in the world. The token
+## stays in memory only.
+
+const WORLD_VIEW: PackedScene = preload("res://scenes/world_view.tscn")
 
 const ERROR_TEXT: Dictionary = {
 	"bad_credentials": "账号、密码或登录凭证不正确。",
@@ -33,6 +36,8 @@ var token: String = ""
 var _pending: Dictionary = {}  # req_id -> request type
 var _queued: Array[Dictionary] = []  # requests waiting for the connection
 var _characters: Array[Dictionary] = []
+var world_view: Node3D = null
+var _in_world_id: int = 0
 
 
 func _ready() -> void:
@@ -127,7 +132,9 @@ func _on_closed(code: int, _reason: String) -> void:
 		status_label.text = "账号已在其他设备登录，本连接已断开。"
 		token = ""
 		characters_box.visible = false
+		_close_world()
 	elif code == Protocol.CLOSE_TOO_MANY_FAILURES:
+		_close_world()
 		status_label.text = "登录失败次数过多，连接已断开。"
 	else:
 		status_label.text = "连接已断开（%d），稍后自动重连。" % code
@@ -157,16 +164,20 @@ func _on_reply(req_id: String, envelope: Dictionary) -> void:
 				token = String(payload.get("token", ""))
 			status_label.text = "已登录 / Logged in"
 			characters_box.visible = true
-			_send("char_list")
+			if world_view != null and _in_world_id != 0:
+				# Reconnected while in the world: take the character back.
+				_send("enter_world", {"character_id": _in_world_id})
+			else:
+				_send("char_list")
 		"char_list":
 			_show_characters(payload)
 		"char_create":
 			new_name.text = ""
 			_send("char_list")
 		"enter_world":
-			status_label.text = "角色已进入江湖：%s 区" % String(payload.get("block", "?"))
-			_send("char_list")
+			_open_world(payload)
 		"leave_world":
+			_close_world()
 			status_label.text = "角色已离开江湖。"
 			_send("char_list")
 
@@ -186,3 +197,23 @@ func _show_characters(payload: Dictionary) -> void:
 		if int(c.get("id", 0)) == present_id:
 			label += "（在江湖中）"
 		character_list.add_item(label)
+
+
+func _open_world(payload: Dictionary) -> void:
+	_in_world_id = int(payload.get("character_id", 0))
+	if world_view == null:
+		world_view = WORLD_VIEW.instantiate()
+		add_child(world_view)
+		world_view.leave_requested.connect(func() -> void: _send("leave_world"))
+	world_view.setup(client, payload)
+	$Background.visible = false
+	$Margin.visible = false
+
+
+func _close_world() -> void:
+	_in_world_id = 0
+	if world_view != null:
+		world_view.queue_free()
+		world_view = null
+	$Background.visible = true
+	$Margin.visible = true

@@ -17,6 +17,7 @@ import (
 	"github.com/leiouliao-coder/jianghu/server/internal/store"
 	"github.com/leiouliao-coder/jianghu/server/internal/transport/httpapi"
 	"github.com/leiouliao-coder/jianghu/server/internal/transport/ws"
+	"github.com/leiouliao-coder/jianghu/server/internal/world"
 )
 
 func main() {
@@ -50,12 +51,16 @@ func run() error {
 			return fmt.Errorf("migrate: %w", err)
 		}
 		log.Print("database ready, migrations applied")
-		gateway = ws.New(st, session.NewPresence(), ws.Config{
+		w := world.New(data)
+		worldCtx, stopWorld := context.WithCancel(context.Background())
+		defer stopWorld()
+		go w.Run(worldCtx)
+		gateway = ws.New(st, session.NewPresence(), w, ws.Config{
 			Linger:           time.Duration(data.World.Combat.SafeZoneDisconnectSeconds) * time.Second,
 			SessionTTL:       7 * 24 * time.Hour,
 			IdleTimeout:      60 * time.Second,
 			MaxLoginFailures: 5,
-			StartBlock:       "A",
+			Map:              world.ClientMap(data),
 		})
 		mux := http.NewServeMux()
 		mux.Handle("/v1/ws", gateway)
@@ -94,6 +99,8 @@ func run() error {
 			if err := gateway.Shutdown(shutdownCtx); err != nil {
 				log.Printf("websocket shutdown: %v", err)
 			}
+			// Lingering characters would leave after their timers; save them now.
+			gateway.SavePositions(shutdownCtx)
 		}
 		err := <-served
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {

@@ -25,6 +25,9 @@ func TestLoadRepositoryData(t *testing.T) {
 	if d.World.Characters.PerAccount != 6 || d.World.Inventory.BackpackSlots != 40 || d.World.Combat.SafeZoneDisconnectSeconds != 30 {
 		t.Fatalf("unexpected world limits %+v", d.World)
 	}
+	if d.Map.Movement.WalkSpeed != 4 || len(d.Map.Blocks) != 6 || len(d.Map.Roads) != 7 {
+		t.Fatalf("unexpected map %+v", d.Map.Movement)
+	}
 	if d.Economy.Pool.Cap != 3000 || d.Economy.OrderRewards["测试铁剑"] != 200 {
 		t.Fatalf("unexpected economy %+v", d.Economy)
 	}
@@ -38,11 +41,14 @@ func TestLoadRejectsBrokenData(t *testing.T) {
 		"duplicate":     {"items.json", `{"id": "矿石"`, `{"id": "铁锭"`, "duplicate item"},
 		"reward target": {"economy.json", `"测试铁剑": 200`, `"测试铜剑": 200`, "unknown equipment name"},
 		"node slots":    {"world.json", `"node_slots_per_account": 200`, `"node_slots_per_account": 100`, "node slots must match"},
+		"missing road":  {"map.json", `"id": "B-D", "connects": ["B", "D"]`, `"id": "B-D", "connects": ["B", "E"]`, "edge B-D (normal) needs a pve road"},
+		"risk as pve":   {"map.json", `"connects": ["F-risk", "A"], "zone": "risk"`, `"connects": ["F-risk", "A"], "zone": "pve"`, "edge F-risk-A (risk_shortcut) needs a risk road"},
+		"unknown block": {"map.json", `{"id": "E", "rect"`, `{"id": "G", "rect"`, `block "G" unknown`},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			dir := t.TempDir()
-			for _, f := range []string{"items.json", "recipes.json", "economy.json", "world.json"} {
+			for _, f := range []string{"items.json", "recipes.json", "economy.json", "world.json", "map.json"} {
 				b, err := os.ReadFile(filepath.Join(repoDataDir, f))
 				if err != nil {
 					t.Fatal(err)

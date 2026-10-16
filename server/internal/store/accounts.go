@@ -59,14 +59,28 @@ func (s *Store) Characters(ctx context.Context, accountID int64) ([]Character, e
 	return pgx.CollectRows(rows, pgx.RowToStructByPos[Character])
 }
 
-// CharacterOwner returns the account that owns a character.
-func (s *Store) CharacterOwner(ctx context.Context, characterID int64) (int64, error) {
-	var id int64
-	err := s.pool.QueryRow(ctx, `SELECT account_id FROM characters WHERE id = $1`, characterID).Scan(&id)
+// CharacterInfo is what entering the world needs.
+type CharacterInfo struct {
+	AccountID int64
+	Name      string
+	X, Z      float64
+}
+
+func (s *Store) CharacterInfo(ctx context.Context, characterID int64) (CharacterInfo, error) {
+	var c CharacterInfo
+	err := s.pool.QueryRow(ctx, `SELECT account_id, name, pos_x, pos_z FROM characters WHERE id = $1`, characterID).
+		Scan(&c.AccountID, &c.Name, &c.X, &c.Z)
 	if errors.Is(err, pgx.ErrNoRows) {
-		return 0, ErrNotFound
+		return c, ErrNotFound
 	}
-	return id, err
+	return c, err
+}
+
+// SavePosition records where a character left the world. Position is not
+// an asset, so this is a plain update rather than a request transaction.
+func (s *Store) SavePosition(ctx context.Context, characterID int64, x, z float64) error {
+	_, err := s.pool.Exec(ctx, `UPDATE characters SET pos_x = $2, pos_z = $3 WHERE id = $1`, characterID, x, z)
+	return err
 }
 
 func deref(s *string) string {

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "status": "test",
+  "sources": {
+    "topology": "docs/design/v0.44/first_playable_loop_v42.md §二; shared/data/world.json blocks/edges",
+    "speed": "docs/design/v0.44/剑拳内功轻功_招式样表_v0.35.md §一 普通移动4米/秒"
+  },
+  "note": "Graybox geometry for the six-block prototype. Distances are not the design travel times in world.json; those drive logistics schedules.",
+  "units": {"distance": "meters", "speed": "meters/second", "axes": "x east, z south, ground y=0"},
+  "movement": {"walk_speed": 4, "tick_hz": 20, "snapshot_hz": 10, "view_radius": 80, "max_move_requests_per_second": 10},
+  "spawn": {"block": "A", "x": 0, "z": 0},
+  "bounds": [-140, -160, 340, 140],
+  "blocks": [
+    {"id": "A", "rect": [-30, -30, 30, 30]},
+    {"id": "B", "rect": [170, -30, 230, 30]},
+    {"id": "C", "rect": [-130, -30, -70, 30]},
+    {"id": "D", "rect": [270, -30, 330, 30]},
+    {"id": "E", "rect": [70, 70, 130, 130]},
+    {"id": "F", "rect": [170, -150, 230, -70]}
+  ],
+  "risk_areas": [
+    {"id": "F-risk", "block": "F", "rect": [175, -145, 225, -115]}
+  ],
+  "roads": [
+    {"id": "A-C", "connects": ["A", "C"], "zone": "pve", "width": 8, "points": [[-30, 0], [-70, 0]]},
+    {"id": "A-B", "connects": ["A", "B"], "zone": "pve", "width": 8, "points": [[30, 0], [170, 0]]},
+    {"id": "A-E", "connects": ["A", "E"], "zone": "pve", "width": 8, "points": [[0, 30], [0, 100], [70, 100]]},
+    {"id": "B-E", "connects": ["B", "E"], "zone": "pve", "width": 8, "points": [[200, 30], [200, 100], [130, 100]]},
+    {"id": "B-D", "connects": ["B", "D"], "zone": "pve", "width": 8, "points": [[230, 0], [270, 0]]},
+    {"id": "B-F", "connects": ["B", "F"], "zone": "pve", "width": 8, "points": [[200, -30], [200, -70]]},
+    {"id": "F-risk-A", "connects": ["F-risk", "A"], "zone": "risk", "width": 6, "points": [[180, -130], [0, -130], [0, -30]]}
+  ],
+  "obstacles": [
+    {"id": "A-hall", "rect": [-22, -22, -8, -8]},
+    {"id": "A-forge", "rect": [8, 8, 22, 22]},
+    {"id": "B-inn", "rect": [178, -22, 192, -8]},
+    {"id": "B-loom", "rect": [208, 8, 222, 22]},
+    {"id": "C-rock", "rect": [-110, -10, -90, 10]},
+    {"id": "E-hall", "rect": [90, 90, 110, 110]}
+  ]
+}

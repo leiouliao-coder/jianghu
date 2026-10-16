@@ -1,12 +1,14 @@
 extends SceneTree
 ## Real end-to-end check against a running server with a database:
 ## register, log in, create and list characters, enter and leave the world,
-## then a second login of the same account kicks the first connection.
+## move and receive snapshots, confirm the risk prompt, then a second login
+## of the same account kicks the first connection.
 ## Usage: godot --headless --path client --script res://tests/smoke_ws.gd -- ws://127.0.0.1:8080/v1/ws
 
 var url: String = "ws://127.0.0.1:8080/v1/ws"
 var replies: Dictionary = {}
 var closes: Array[int] = []
+var last_snapshot: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -22,6 +24,9 @@ func _connect(client: WsClient) -> bool:
 	client.auto_reconnect = false
 	client.reply_received.connect(func(id: String, env: Dictionary) -> void: replies[id] = env)
 	client.closed.connect(func(code: int, _r: String) -> void: closes.append(code))
+	client.pushed.connect(func(env: Dictionary) -> void:
+		if env["type"] == "snapshot":
+			last_snapshot = env["payload"])
 	root.add_child(client)
 	if client.connect_to(url) != OK:
 		return false
@@ -70,7 +75,26 @@ func _run() -> void:
 	if listed["payload"]["characters"].size() != 1:
 		_fail("char_list size")
 		return
-	if not _expect(await _call(first, "enter_world", {"character_id": char_id}), "enter_world.ok", "enter_world"): return
+	var entered: Dictionary = await _call(first, "enter_world", {"character_id": char_id})
+	if not _expect(entered, "enter_world.ok", "enter_world"): return
+	if entered["payload"].get("area") != "A" or entered["payload"]["map"].get("blocks", []).size() != 6:
+		_fail("enter_world must place the character in A and send the six-block map")
+		return
+	if not _expect(await _call(first, "move_to", {"x": 3.0, "z": 0.0}), "move_to.ok", "move_to"): return
+	var deadline_move: int = Time.get_ticks_msec() + 5000
+	var arrived: bool = false
+	while not arrived and Time.get_ticks_msec() < deadline_move:
+		await process_frame
+		for e: Variant in last_snapshot.get("entities", []):
+			if int(e["id"]) == char_id and is_equal_approx(float(e["x"]), 3.0) and not e["moving"]:
+				arrived = true
+	if not arrived:
+		_fail("no snapshot showed the character arriving at x=3")
+		return
+	var risky: Dictionary = await _call(first, "move_to", {"x": 200.0, "z": -130.0})
+	if risky.get("type") != "error" or risky["payload"].get("code") != "risk_confirmation_required":
+		_fail("entering the risk area without confirmation must be refused: %s" % JSON.stringify(risky))
+		return
 
 	var second: WsClient = WsClient.new()
 	if not await _connect(second):
@@ -88,5 +112,5 @@ func _run() -> void:
 	if not _expect(await _call(second, "enter_world", {"character_id": char_id}), "enter_world.ok", "take over character"): return
 	if not _expect(await _call(second, "leave_world"), "leave_world.ok", "leave_world"): return
 	second.close_connection()
-	print("PASS websocket smoke: register, login, characters, enter/leave, kick on second login")
+	print("PASS websocket smoke: register, login, characters, enter, move + snapshots, risk prompt, kick, take over, leave")
 	quit(0)

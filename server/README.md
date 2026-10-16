@@ -1,6 +1,6 @@
 # Jianghu Go 服务端骨架
 
-要求 Go 1.25 或以上。HTTP 提供诊断接口；配置数据库后另有 WebSocket 接口 `/v1/ws`（注册、登录、角色、进入/离开江湖，见 [`shared/protocol/v1.md`](../shared/protocol/v1.md)）。**尚未实现多人世界、移动、战斗或交易。** 第三方 Go 依赖：`github.com/jackc/pgx/v5`（PostgreSQL）、`github.com/coder/websocket`、`golang.org/x/crypto`（argon2id 密码哈希；固定为支持 Go 1.25 的最后版本 v0.55.0）。
+要求 Go 1.25 或以上。HTTP 提供诊断接口；配置数据库后另有 WebSocket 接口 `/v1/ws`（注册、登录、角色、进入/离开江湖、移动与快照，见 [`shared/protocol/v1.md`](../shared/protocol/v1.md)）。**尚未实现战斗、物品操作接口或交易。** 第三方 Go 依赖：`github.com/jackc/pgx/v5`（PostgreSQL）、`github.com/coder/websocket`、`golang.org/x/crypto`（argon2id 密码哈希；固定为支持 Go 1.25 的最后版本 v0.55.0）。
 
 在仓库的 `server` 目录执行：
 
@@ -60,6 +60,7 @@ JIANGHU_LISTEN_ADDR=0.0.0.0:8080 go run ./cmd/jianghu-server
 - `internal/store`：PostgreSQL 迁移、幂等请求事务与物品 / 钱币操作（M1），账号凭据与会话（M2）。
 - `internal/auth`：argon2id 密码哈希、名字校验、会话令牌（只存哈希）。
 - `internal/session`：账号在场租约（同号只有一个角色在世界，断线保留 30 秒）。
+- `internal/world`：权威世界循环（20Hz）与寻路。六个区块由一个循环统管，角色所在区块由位置决定；客户端只发目标点，服务端规划路径并按 4 米/秒移动；普通寻路绕开风险区。地图来自 `shared/data/map.json`。
 - `internal/transport/ws`：WebSocket 网关。
 
 后续增加实时协议、权威地图与战斗；不要把客户端上传的位置、伤害或金币视为可信结果。
