@@ -12,7 +12,7 @@
 
 - [ADR 0002：设计基线与技术基线对齐](decisions/0002-baseline-reconciliation.md)
 - [字段字典](data/field-dictionary.md)与[状态机](data/state-machines.md)：`shared/data/`的格式与规则。
-- [M0验证记录](verification/m0-data-and-rules.md)、[M1验证记录](verification/m1-persistence.md)、[M2验证记录](verification/m2-accounts-protocol.md)、[M3验证记录](verification/m3-world-movement.md)
+- [M0验证记录](verification/m0-data-and-rules.md)、[M1验证记录](verification/m1-persistence.md)、[M2验证记录](verification/m2-accounts-protocol.md)、[M3验证记录](verification/m3-world-movement.md)、[M4验证记录](verification/m4-combat-death.md)
 - [实时协议 v1](../shared/protocol/v1.md)
 
 ## 测试附件

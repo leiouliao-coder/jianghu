@@ -172,3 +172,21 @@ func TestCastingRootsAndDeadComeBackDead(t *testing.T) {
 		t.Fatalf("despawn %v %v %v", p, dead, ok)
 	}
 }
+
+func TestSelfViewCarriesCooldownsAndRanges(t *testing.T) {
+	w := duelAt(t, 0, 0)
+	if err := w.Cast(1, "q", Point{1, 0}, 0); err != nil {
+		t.Fatal(err)
+	}
+	w.Step(dt)
+	v := w.selfView(w.ents[1])
+	if v.Ranges["basic"] != 2 || v.Ranges["q"] != 3 {
+		t.Fatalf("armed basic reaches 2 m and 穿雨 3 m: %+v", v.Ranges)
+	}
+	if cd := v.Cooldowns["q"]; cd < 4.9 || cd > 5 {
+		t.Fatalf("q cooldown %.2f, want just under 5 s", cd)
+	}
+	if v.Cooldowns["e"] != 0 {
+		t.Fatal("unused slot has no cooldown")
+	}
+}

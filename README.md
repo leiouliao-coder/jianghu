@@ -57,11 +57,12 @@ Import `client/project.godot` in Godot, run the main scene and press the health-
 | Test data | `shared/data/`: items, recipes, economy, moves, teaching routes, map and timing parameters. Four files are generated from the design snapshot by `scripts/export_data.py`; CI fails if they drift |
 | Server rule packages | `gamedata` (load and cross-check data), `growth` (attribute settlement in 0.1 steps), `crafting` (manufacture, wear, repair, salvage), `economy` (NPC limited-purchase orders), `ledger` (stack, slot and carry-weight checks) |
 | Asset ledger | `store`: PostgreSQL migrations, idempotent requests (a replayed request ID returns the first result), unique item locations, non-negative coins, ordered container locks |
-| Evidence | The Go rules reproduce the design's Python calculations: 18/18 growth cases, the full equipment material ledger, and every economy scenario snapshot field by field. Under 50 concurrent requests an item is picked up exactly once and coins never go negative. A second login kicks the first connection and only one character per account is in the world. See [M0](docs/verification/m0-data-and-rules.md), [M1](docs/verification/m1-persistence.md), [M2](docs/verification/m2-accounts-protocol.md) and [M3](docs/verification/m3-world-movement.md) verification |
-| Client | Boot page, account screen, and a six-block graybox world: right-click (or tap on mobile) to move, other players visible, risk-area confirmation, zoom/rotate camera |
+| Evidence | The Go rules reproduce the design's Python calculations: 18/18 growth cases, the full equipment material ledger, and every economy scenario snapshot field by field. Under 50 concurrent requests an item is picked up exactly once and coins never go negative. A second login kicks the first connection and only one character per account is in the world. See [M0](docs/verification/m0-data-and-rules.md), [M1](docs/verification/m1-persistence.md), [M2](docs/verification/m2-accounts-protocol.md) [M3](docs/verification/m3-world-movement.md) and [M4](docs/verification/m4-combat-death.md) verification |
+| Client | Boot page, account screen, and a six-block graybox world: right-click to move or attack, Q/W/E/Space skills, HP bars and cooldowns, floating combat text, death screen and corpse looting (placeholder shapes until the art sample lands) |
 | World | `world`: one authoritative 20 Hz loop; the server plans paths and walks at 4 m/s, clients only send destinations; ordinary routes avoid risk areas; positions are saved on leave |
+| Combat | `combat`: deterministic 0.05 s timeline that reproduces the move table's four scenarios exactly; death drops everything carried into a corpse that anyone may loot, each item once; corpses expire after 30 min; delayed logout outside safe zones; teaching bandits and a boss |
 
-Not implemented yet: combat, items in play, trading, transport contracts, TLS and deployment. Builds: macOS exported and launched locally; Windows and Android are exported by CI; iOS needs an Apple team ID. All design numbers are test parameters, and all 16 playable acceptance checks are still pending.
+Not implemented yet: real art (a sample is in production, see `docs/art/sample-village-brief.md`), quests, crafting in play, trading, transport contracts, TLS and deployment. Builds: macOS exported and launched locally; Windows and Android are exported by CI; iOS needs an Apple team ID. All design numbers are test parameters, and all 16 playable acceptance checks are still pending.
 
 ## Development plan
 
@@ -71,8 +72,9 @@ Work follows the stage gates in the design baseline. Each stage closes only with
 2. **M1 Persistence and transactions**: done.
 3. **M2 Accounts and real-time protocol**: done.
 4. **M3 World and movement**: done.
-5. **M4–M7 Gameplay**: combat and death, two-node storage and logistics, life skills and equipment, quests and lineages.
-6. **M8 First playable acceptance (G1)**: all 16 checks executed with recorded evidence.
+5. **M4 Combat and death**: done.
+6. **M5–M7 Gameplay**: two-node storage and logistics, life skills and equipment, quests and lineages.
+7. **M8 First playable acceptance (G1)**: all 16 checks executed with recorded evidence.
 
 ## Docs and art
 

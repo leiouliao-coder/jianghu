@@ -59,6 +59,7 @@ func newHarness(t *testing.T, cfg Config, linger ...time.Duration) *harness {
 		w.SafeDisconnect, w.Linger = linger[0], linger[0]
 	}
 	cfg.Map = world.ClientMap(d)
+	cfg.ItemNames = d.ItemNames()
 	runCtx, stopWorld := context.WithCancel(context.Background())
 	go w.Run(runCtx)
 	t.Cleanup(stopWorld)
@@ -633,11 +634,14 @@ func TestKillDropLootRespawn(t *testing.T) {
 	b.fails("move_to", map[string]float64{"x": 200, "z": -120}, ErrBusy)
 
 	var opened struct {
-		Items []store.CorpseItem `json:"items"`
-		Coins int64              `json:"coins"`
+		Items []struct {
+			store.CorpseItem
+			Name string `json:"name"`
+		} `json:"items"`
+		Coins int64 `json:"coins"`
 	}
 	a.ok("corpse_open", map[string]int64{"corpse_id": corpseID}, &opened)
-	if len(opened.Items) != 1 || opened.Items[0].ID != sword || opened.Coins != 120 {
+	if len(opened.Items) != 1 || opened.Items[0].ID != sword || opened.Items[0].Name != "测试铁剑" || opened.Coins != 120 {
 		t.Fatalf("corpse_open %+v", opened)
 	}
 	a.ok("loot", map[string]any{"corpse_id": corpseID, "item_id": sword}, nil)

@@ -20,7 +20,11 @@ transform = Transform3D(1, 0, 0, 0, 0.5, 0.866, 0, -0.866, 0.5, 0, 30, 0)
 
 [node name="MapRoot" type="Node3D" parent="."]
 
+[node name="Corpses" type="Node3D" parent="."]
+
 [node name="Avatars" type="Node3D" parent="."]
+
+[node name="Effects" type="Node3D" parent="."]
 
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("2")
@@ -34,8 +38,8 @@ far = 1000.0
 [node name="Panel" type="PanelContainer" parent="HUD"]
 offset_left = 12.0
 offset_top = 12.0
-offset_right = 360.0
-offset_bottom = 140.0
+offset_right = 380.0
+offset_bottom = 180.0
 
 [node name="Box" type="VBoxContainer" parent="HUD/Panel"]
 layout_mode = 2
@@ -46,16 +50,136 @@ text = "—"
 
 [node name="Hint" type="Label" parent="HUD/Panel/Box"]
 layout_mode = 2
-text = "右键/点按地面移动 · S 停止 · 滚轮缩放 · 中键旋转 · Home 复位"
+text = "右键地面移动 · 右键敌人攻击 · Q/W/E 招式 · 空格 轻功 · S 停止 · 滚轮缩放 · 中键旋转 · Home 复位"
 autowrap_mode = 3
 
 [node name="Status" type="Label" parent="HUD/Panel/Box"]
 layout_mode = 2
 autowrap_mode = 3
 
-[node name="Leave" type="Button" parent="HUD/Panel/Box"]
+[node name="Buttons" type="HBoxContainer" parent="HUD/Panel/Box"]
 layout_mode = 2
+
+[node name="Swap" type="Button" parent="HUD/Panel/Box/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "切换持械/空手"
+
+[node name="Leave" type="Button" parent="HUD/Panel/Box/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "离开江湖 / Leave"
+
+[node name="Target" type="PanelContainer" parent="HUD"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 12.0
+offset_right = 150.0
+offset_bottom = 70.0
+
+[node name="Box" type="VBoxContainer" parent="HUD/Target"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="HUD/Target/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="HP" type="ProgressBar" parent="HUD/Target/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 14)
+show_percentage = false
+
+[node name="Bars" type="PanelContainer" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -130.0
+offset_right = 230.0
+offset_bottom = -12.0
+
+[node name="Box" type="VBoxContainer" parent="HUD/Bars"]
+layout_mode = 2
+
+[node name="HP" type="ProgressBar" parent="HUD/Bars/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 14)
+show_percentage = false
+
+[node name="MP" type="ProgressBar" parent="HUD/Bars/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+show_percentage = false
+
+[node name="SP" type="ProgressBar" parent="HUD/Bars/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+show_percentage = false
+
+[node name="Values" type="Label" parent="HUD/Bars/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Skills" type="HBoxContainer" parent="HUD/Bars/Box"]
+layout_mode = 2
+alignment = 1
+
+[node name="Death" type="PanelContainer" parent="HUD"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -70.0
+offset_right = 170.0
+offset_bottom = 70.0
+
+[node name="Box" type="VBoxContainer" parent="HUD/Death"]
+layout_mode = 2
+alignment = 1
+
+[node name="Text" type="Label" parent="HUD/Death/Box"]
+layout_mode = 2
+text = "你已身死。随身物品留在原地的遗物中，任何人都可拾取，30 分钟后消失。"
+autowrap_mode = 3
+horizontal_alignment = 1
+
+[node name="Respawn" type="Button" parent="HUD/Death/Box"]
+layout_mode = 2
+text = "在最近的安全处复活"
+
+[node name="Loot" type="PanelContainer" parent="HUD"]
+visible = false
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -150.0
+offset_right = -12.0
+offset_bottom = 150.0
+
+[node name="Box" type="VBoxContainer" parent="HUD/Loot"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="HUD/Loot/Box"]
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="HUD/Loot/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Close" type="Button" parent="HUD/Loot/Box"]
+layout_mode = 2
+text = "关闭"
 
 [node name="RiskDialog" type="ConfirmationDialog" parent="HUD"]
 title = "进入风险区"

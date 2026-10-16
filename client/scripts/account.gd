@@ -143,6 +143,10 @@ func _on_closed(code: int, _reason: String) -> void:
 func _on_pushed(envelope: Dictionary) -> void:
 	if envelope["type"] == "kicked":
 		status_label.text = "账号已在其他设备登录。"
+	elif envelope["type"] == "left_world":
+		_close_world()
+		status_label.text = "角色已离开江湖。"
+		_send("char_list")
 
 
 func _on_reply(req_id: String, envelope: Dictionary) -> void:
@@ -177,9 +181,12 @@ func _on_reply(req_id: String, envelope: Dictionary) -> void:
 		"enter_world":
 			_open_world(payload)
 		"leave_world":
-			_close_world()
-			status_label.text = "角色已离开江湖。"
-			_send("char_list")
+			if payload.get("left", true):
+				_close_world()
+				status_label.text = "角色已离开江湖。"
+				_send("char_list")
+			elif world_view != null:
+				world_view.status_label.text = "正在离开：脱离战斗后，安全区立即离开，野外需再等 180 秒。期间移动、出招或遭到攻击会取消。"
 
 
 func _show_characters(payload: Dictionary) -> void:

@@ -46,10 +46,7 @@ jobs:
       - name: Import and run client checks
         run: |
           /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path client --import --quit
-          /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --script res://tests/test_bootstrap.gd
-          /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --script res://tests/test_protocol.gd
-          /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --script res://tests/test_account.gd
-          /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --script res://tests/test_world.gd
+          ./scripts/run_client_tests.sh /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 test_bootstrap test_protocol test_account test_world
           /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --quit-after 3
   end-to-end:
     # Real Go server with PostgreSQL, driven by the Godot client over WebSocket.
@@ -91,8 +88,7 @@ jobs:
       - name: Client smoke tests against the server
         run: |
           /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path client --import --quit
-          /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --script res://tests/smoke_health.gd
-          /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path client --script res://tests/smoke_ws.gd
+          ./scripts/run_client_tests.sh /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 smoke_health smoke_ws
       - name: Server log
         if: always()
         run: cat /tmp/server.log

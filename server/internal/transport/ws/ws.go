@@ -81,7 +81,8 @@ type Config struct {
 	SessionTTL       time.Duration
 	IdleTimeout      time.Duration // close if the client sends nothing for this long
 	MaxLoginFailures int
-	Map              any // world.ClientMap, sent with enter_world
+	Map              any               // world.ClientMap, sent with enter_world
+	ItemNames        map[string]string // item ID -> display name
 }
 
 type Server struct {

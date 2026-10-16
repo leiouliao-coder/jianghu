@@ -1,6 +1,6 @@
 # Godot 客户端基础工程
 
-使用 Godot 4 标准版与类型化 GDScript，无第三方插件。当前有启动页（`GET /healthz` 连接检查）、账号界面（注册、登录、角色列表与创建）和六区块灰盒世界（服务端寻路移动、其他玩家可见、风险区确认），全部走 WebSocket 协议 v1。**还没有战斗、物品或任务。**
+使用 Godot 4 标准版与类型化 GDScript，无第三方插件。当前有启动页（`GET /healthz` 连接检查）、账号界面（注册、登录、角色列表与创建）和六区块灰盒世界（服务端寻路移动、其他玩家与怪物可见、风险区确认、战斗、死亡与拾取），全部走 WebSocket 协议 v1。人物和场景仍是占位外形，正式美术见 `docs/art/sample-village-brief.md`。**还没有任务、生产或交易。**
 
 ## 打开与运行
 
@@ -20,12 +20,16 @@ godot --path client
 | 输入 | 功能 |
 |---|---|
 | 鼠标右键点地面 | 移动到该处（服务端寻路） |
+| 鼠标右键点怪物或敌人 | 追到射程内并持续普攻 |
+| 鼠标右键点遗物 | 打开拾取窗口（需在 3 米内） |
+| Q / W / E | 主武学三招，朝鼠标方向（`skill_q` 等，可改键） |
+| 空格 | 轻功位移，朝鼠标方向（`skill_l`） |
 | 手机点按地面 | 移动（决定Q1：手机只保证启动、连服、点地面移动） |
 | S | 停止（`move_stop`，可在项目设置的输入映射中改键） |
 | 滚轮 / 按住中键拖动 | 缩放（12–60 米）/ 旋转 |
 | Home | 复位镜头（`camera_reset`，可改键） |
 
-目标在风险区、或只能经过风险区到达时，会弹窗确认。I/B/M/J 等面板键位要等对应面板实现后再加。
+目标在风险区、或只能经过风险区到达时，会弹窗确认。出招动作未结束时按下的招式会缓冲 0.6 秒，动作结束后自动放出（后摇仍不能取消）。持械/空手用界面上的按钮切换（设计基线未给这个操作分配按键）。I/B/M/J 等面板键位要等对应面板实现后再加。
 
 点击“账号登录”进入账号界面，地址默认 `ws://127.0.0.1:8080/v1/ws`；服务端需配置数据库才开放该接口。登录凭证只保存在内存中，断线后客户端按退避时间（0.5 秒起，最长 30 秒）自动重连并用凭证恢复会话；被别处登录踢下线（关闭码 4001）时不会重连。协议见 [`shared/protocol/v1.md`](../shared/protocol/v1.md)。
 
@@ -42,11 +46,10 @@ godot --headless --editor --path client --import --quit
 不需要启动服务器：
 
 ```sh
-godot --headless --path client --script res://tests/test_bootstrap.gd
-godot --headless --path client --script res://tests/test_protocol.gd
-godot --headless --path client --script res://tests/test_account.gd
-godot --headless --path client --script res://tests/test_world.gd
+./scripts/run_client_tests.sh <godot 可执行文件> test_bootstrap test_protocol test_account test_world
 ```
+
+请用这个脚本运行测试，不要直接调用 Godot：GDScript 运行时出错可能中断测试而退出码仍为 0。脚本会把“退出码非 0、输出含 SCRIPT ERROR、或没有打印 PASS”都判为失败。
 
 实际端到端网络测试（必须先启动 Go 服务）：
 
@@ -59,7 +62,7 @@ godot --headless --path client --script res://tests/smoke_health.gd -- http://12
 账号与 WebSocket 端到端测试（服务端须配置数据库）：
 
 ```sh
-godot --headless --path client --script res://tests/smoke_ws.gd -- ws://127.0.0.1:8080/v1/ws
+./scripts/run_client_tests.sh <godot 可执行文件> smoke_ws -- ws://127.0.0.1:8080/v1/ws
 ```
 
 它会依次注册、登录、建角、列出角色、进入江湖，走 3 米并等快照确认到达，确认进入风险区会被要求确认，然后用第二个连接登录同一账号，确认第一个连接以关闭码 4001 被踢下线、新连接可以接管原角色并离开江湖。

@@ -79,7 +79,19 @@ func (s *Server) combatRequest(ctx context.Context, c *conn, env Envelope, accou
 			s.internal(c, env, err)
 			return
 		}
-		c.send("corpse_open.ok", env.ReqID, map[string]any{"corpse_id": p.Corpse, "items": items, "coins": coins})
+		type named struct {
+			store.CorpseItem
+			Name string `json:"name"`
+		}
+		out := make([]named, 0, len(items))
+		for _, it := range items {
+			name := s.cfg.ItemNames[it.Proto]
+			if name == "" {
+				name = it.Proto
+			}
+			out = append(out, named{it, name})
+		}
+		c.send("corpse_open.ok", env.ReqID, map[string]any{"corpse_id": p.Corpse, "items": out, "coins": coins})
 	case "loot":
 		s.loot(ctx, c, env, account)
 	}

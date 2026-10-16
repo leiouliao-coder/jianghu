@@ -610,8 +610,17 @@ type CorpseView struct {
 	Empty     bool    `json:"empty"`
 }
 
+// SelfView is what only the viewer sees about its own character.
+type SelfView struct {
+	Cooldowns  map[string]float64 `json:"cooldowns"` // seconds left per slot
+	Ranges     map[string]float64 `json:"ranges"`    // meters per slot
+	InCombat   bool               `json:"in_combat"`
+	LeavingNow bool               `json:"leaving"`
+}
+
 type Snapshot struct {
 	Tick     uint64         `json:"tick"`
+	Self     *SelfView      `json:"self,omitempty"`
 	Entities []EntityView   `json:"entities"`
 	Corpses  []CorpseView   `json:"corpses"`
 	Events   []combat.Event `json:"events"`
@@ -659,7 +668,7 @@ func (w *World) snapshots() []delivery {
 		if viewer.sink == nil {
 			continue
 		}
-		s := Snapshot{Tick: w.tick, Entities: []EntityView{}, Corpses: []CorpseView{}, Events: []combat.Event{}}
+		s := Snapshot{Tick: w.tick, Self: w.selfView(viewer), Entities: []EntityView{}, Corpses: []CorpseView{}, Events: []combat.Event{}}
 		seen := map[int64]bool{}
 		for _, e := range w.ents {
 			if dist(viewer.pos, e.pos) <= w.view {
@@ -684,6 +693,17 @@ func (w *World) snapshots() []delivery {
 	}
 	w.pending = nil
 	return out
+}
+
+func (w *World) selfView(e *entity) *SelfView {
+	v := &SelfView{Cooldowns: map[string]float64{}, Ranges: map[string]float64{},
+		InCombat: w.eng.InCombat(e.f), LeavingNow: e.leave != stay}
+	for _, slot := range []string{"basic", "q", "w", "e", "l"} {
+		if rng, cd, ok := w.eng.SlotInfo(e.f, slot); ok {
+			v.Ranges[slot], v.Cooldowns[slot] = rng, round2(cd)
+		}
+	}
+	return v
 }
 
 // Positions returns every character's position and death state, for saving

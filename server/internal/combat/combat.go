@@ -200,6 +200,20 @@ func (f *Fighter) Busy() bool                              { return f.act != nil
 func (f *Fighter) Stunned(now Tick) bool                   { return now < f.stunnedUntil }
 func (f *Fighter) CooldownLeft(slot string, now Tick) Tick { return max(0, f.readyAt[slot]-now) }
 
+// SlotInfo reports a slot's skill range and seconds of cooldown left, for
+// the owning player's HUD; ok is false for an empty slot.
+func (e *Engine) SlotInfo(f *Fighter, slot string) (rng, cooldown float64, ok bool) {
+	s := e.skillFor(f, slot)
+	if s == nil {
+		return 0, 0, false
+	}
+	rng = s.Range
+	if s.Shape == "rect" {
+		rng = s.Length
+	}
+	return rng, float64(f.CooldownLeft(slot, e.Now)) * e.cfg.TickSeconds, true
+}
+
 // LastCombat is the tick of the fighter's last effective hostile exchange.
 func (f *Fighter) LastCombat() Tick { return f.lastCombat }
 

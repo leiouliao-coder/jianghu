@@ -61,6 +61,7 @@ func run() error {
 			IdleTimeout:      60 * time.Second,
 			MaxLoginFailures: 5,
 			Map:              world.ClientMap(data),
+			ItemNames:        data.ItemNames(),
 		})
 		if err := gateway.LoadCorpses(ctx); err != nil {
 			return fmt.Errorf("load corpses: %w", err)

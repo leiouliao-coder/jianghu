@@ -31,6 +31,7 @@ func _run() -> void:
 	_test_ground_point()
 	await _test_view_and_shell()
 	await _test_input_reaches_world()
+	await _test_combat_hud()
 	if failures == 0:
 		print("PASS world view: interpolation, map, camera, picking, replies")
 	quit(0 if failures == 0 else 1)
@@ -178,4 +179,102 @@ func _test_input_reaches_world() -> void:
 	await process_frame
 	_check(rig.distance != distance, "wheel zooms")
 	shell.queue_free()
+	await process_frame
+
+
+func _snapshot(me: Dictionary, others: Array, corpses: Array, events: Array, self_info: Dictionary) -> Dictionary:
+	var ents: Array = [me]
+	ents.append_array(others)
+	return {"entities": ents, "corpses": corpses, "events": events, "self": self_info}
+
+
+## Combat client: HUD, death screen, floating text, chasing and hitting a
+## clicked monster, and looting a corpse, all against a recording client.
+func _test_combat_hud() -> void:
+	var view: Node3D = (load("res://scenes/world_view.tscn") as PackedScene).instantiate()
+	root.add_child(view)
+	await process_frame
+	var fake: WsClient = (load("res://tests/fake_client.gd") as GDScript).new()
+	root.add_child(fake)
+	view.setup(fake, {"character_id": 1, "x": 0.0, "z": 0.0, "area": "C", "zone": "pve", "map": MAP})
+	var me: Dictionary = {"id": 1, "kind": "player", "name": "我", "x": 0.0, "z": 0.0, "hp": 700, "max_hp": 1000,
+		"mp": 80, "sp": 60, "preset": "armed", "action": "", "dead": false, "stunned": false, "facing": 0.0}
+	var bandit: Dictionary = {"id": -1, "kind": "monster", "name": "矿区山贼", "x": 6.0, "z": 0.0, "hp": 300, "max_hp": 400, "dead": false}
+	var corpse: Dictionary = {"id": 55, "x": 0.0, "z": 4.0, "owner": "路人", "expires_in": 1700, "empty": false}
+	var self_info: Dictionary = {"cooldowns": {"q": 3.2, "w": 0.0}, "ranges": {"basic": 2.0}, "in_combat": true}
+	view.apply_snapshot(1000.0, _snapshot(me, [bandit], [corpse], [{"kind": "hit", "actor": -1, "target": 1, "value": 40}], self_info))
+	await process_frame
+	_check(view.get_node("HUD/Bars/Box/HP").value == 700.0, "own HP bar")
+	_check(view.get_node("HUD/Bars/Box/Values").text.contains("战斗中"), "combat state shown")
+	_check(view.get_node("HUD/Bars/Box/Skills/Slot_q").text == "Q 3.2", "Q cooldown shown")
+	_check(view.get_node("HUD/Bars/Box/Skills/Slot_w").text == "W", "ready skill shows only its key")
+	_check(view.get_node("Corpses").get_child_count() == 1, "corpse marker drawn")
+	_check(view.get_node("Effects").get_child_count() == 1, "hit shows floating damage")
+
+	# Right-click the bandit: chase while out of range...
+	view.click_ground(Vector2(6.2, 0.1))
+	_check(view.attack_target == -1, "clicking a monster targets it")
+	view._process(0.0)
+	var chase: Dictionary = fake.last("move_to")
+	_check(not chase.is_empty() and is_equal_approx(float(chase["payload"]["x"]), 6.0), "out of range: walk toward it")
+	_check(view.get_node("HUD/Target").visible, "target frame shown")
+	# ...then attack once in reach.
+	me["x"] = 4.5
+	view.apply_snapshot(1100.0, _snapshot(me, [bandit], [corpse], [], self_info))
+	view._next_basic_ms = 0
+	view._process(0.0)
+	var hit: Dictionary = fake.last("cast")
+	_check(not hit.is_empty() and hit["payload"]["slot"] == "basic" and int(hit["payload"]["target"]) == -1, "in range: basic attack the target")
+
+	# A skill pressed mid-action is buffered and fires when the action ends,
+	# taking priority over the next auto-attack.
+	me["action"] = "sword_basic"
+	view.apply_snapshot(1150.0, _snapshot(me, [bandit], [corpse], [], self_info))
+	var casts_before: int = fake.sent.filter(func(r: Dictionary) -> bool: return r["type"] == "cast").size()
+	view.cast_skill("q", Vector2(1, 0))
+	view._process(0.0)
+	_check(fake.sent.filter(func(r: Dictionary) -> bool: return r["type"] == "cast").size() == casts_before, "no cast while acting: buffered")
+	me["action"] = ""
+	view.apply_snapshot(1160.0, _snapshot(me, [bandit], [corpse], [], self_info))
+	view._process(0.0)
+	var q: Dictionary = fake.last("cast")
+	_check(q["payload"]["slot"] == "q", "buffered Q fires as soon as the action ends, before the next basic")
+	view.cast_skill("w", Vector2(1, 0))
+	view._on_reply(String(fake.last("cast")["id"]), {"type": "error", "payload": {"code": "busy"}})
+	_check(not view.buffered.is_empty() and view.buffered["slot"] == "w", "a busy reply also buffers the skill")
+	view.buffered["until"] = 0
+	view._process(0.0)
+	_check(view.buffered.is_empty(), "a stale buffered skill is dropped")
+
+	# Right-click the corpse: open it, list goods, loot one.
+	view.click_ground(Vector2(0.2, 3.9))
+	var open: Dictionary = fake.last("corpse_open")
+	_check(not open.is_empty() and int(open["payload"]["corpse_id"]) == 55, "clicking a corpse opens it")
+	view._on_reply(String(open["id"]), {"type": "corpse_open.ok", "payload": {"corpse_id": 55, "coins": 30,
+		"items": [{"id": "abc", "proto": "TEST-SWORD-001", "name": "测试铁剑", "qty": 1}]}})
+	await process_frame
+	var buttons: Array = view.get_node("HUD/Loot/Box/Items").get_children().filter(func(n: Node) -> bool: return not n.is_queued_for_deletion())
+	_check(view.get_node("HUD/Loot").visible and buttons.size() == 2, "loot window lists coins and the sword")
+	_check(view.get_node("HUD/Loot/Box/Title").text == "路人的遗物", "loot window names the owner")
+	(buttons[1] as Button).pressed.emit()
+	var take: Dictionary = fake.last("loot")
+	_check(not take.is_empty() and take["payload"]["item_id"] == "abc", "pressing an item loots it")
+
+	# Death: the death screen appears; respawning hides it.
+	me["dead"] = true
+	me["hp"] = 0
+	view.apply_snapshot(1200.0, _snapshot(me, [bandit], [corpse], [], self_info))
+	_check(view.get_node("HUD/Death").visible, "death screen when dead")
+	view.get_node("HUD/Death/Box/Respawn").pressed.emit()
+	var rs: Dictionary = fake.last("respawn")
+	_check(not rs.is_empty(), "respawn button asks the server")
+	view._on_reply(String(rs["id"]), {"type": "respawn.ok", "payload": {"area": "A"}})
+	_check(not view.get_node("HUD/Death").visible, "respawned: death screen closes")
+
+	# A corpse that disappears closes its loot window.
+	view.show_loot(55, {"coins": 1, "items": []})
+	view.apply_snapshot(1300.0, _snapshot(me, [], [], [], self_info))
+	_check(not view.get_node("HUD/Loot").visible, "vanished corpse closes the loot window")
+	view.queue_free()
+	fake.queue_free()
 	await process_frame

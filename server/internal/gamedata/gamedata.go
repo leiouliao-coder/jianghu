@@ -367,6 +367,19 @@ func (d *Data) ItemsOfClass(c ItemClass) []string {
 	return ids
 }
 
+// ItemNames maps item IDs to display names: materials are named by their
+// ID, equipment by its recipe name.
+func (d *Data) ItemNames() map[string]string {
+	out := map[string]string{}
+	for id := range d.Items {
+		out[id] = id
+	}
+	for id, eq := range d.Equipment {
+		out[id] = eq.Name
+	}
+	return out
+}
+
 // EquipmentByName finds an equipment spec by display name, or nil.
 func (d *Data) EquipmentByName(name string) *Equipment {
 	for _, eq := range d.Equipment {
