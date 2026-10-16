@@ -10,12 +10,12 @@ permissions:
   contents: read
 jobs:
   export:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       GODOT: /tmp/godot/Godot_v4.7.2-stable_linux.x86_64
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
           java-version: "17"
@@ -59,7 +59,7 @@ jobs:
           "$GODOT" --headless --path client --export-debug "Android" ../build/android/jianghu.apk
           ls -la build/*
           test -s build/windows/jianghu.exe && test -s build/macos/jianghu.zip && test -s build/android/jianghu.apk
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: jianghu-clients
           path: build/
