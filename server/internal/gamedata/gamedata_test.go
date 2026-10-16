@@ -22,7 +22,7 @@ func TestLoadRepositoryData(t *testing.T) {
 	if d.StackLimits[ClassMaterial] != 100 || d.Items["缝线"].WeightCenti != 10 {
 		t.Fatal("unexpected stack or weight data")
 	}
-	if d.World.Characters.PerAccount != 6 || d.World.Inventory.BackpackSlots != 40 {
+	if d.World.Characters.PerAccount != 6 || d.World.Inventory.BackpackSlots != 40 || d.World.Combat.SafeZoneDisconnectSeconds != 30 {
 		t.Fatalf("unexpected world limits %+v", d.World)
 	}
 	if d.Economy.Pool.Cap != 3000 || d.Economy.OrderRewards["测试铁剑"] != 200 {

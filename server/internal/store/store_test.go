@@ -2,66 +2,30 @@ package store
 
 import (
 	"context"
-	"crypto/rand"
-	"encoding/hex"
 	"errors"
 	"fmt"
-	"net/url"
-	"os"
 	"sync"
 	"testing"
 
 	"github.com/jackc/pgx/v5"
 
 	"github.com/leiouliao-coder/jianghu/server/internal/gamedata"
+	"github.com/leiouliao-coder/jianghu/server/internal/store/storetest"
 )
 
-// Integration tests need a PostgreSQL server where the user may create
-// databases. Each test gets a fresh database that is dropped afterwards.
-//
-//	JIANGHU_TEST_DATABASE_URL=postgres://user@127.0.0.1:5432/postgres?sslmode=disable
-//
-// Without it the tests skip, unless JIANGHU_REQUIRE_DB=1 (set in CI) makes
-// that a failure.
+// testStore opens a migrated store on a fresh database (see storetest).
 func testStore(t *testing.T) *Store {
 	t.Helper()
-	base := os.Getenv("JIANGHU_TEST_DATABASE_URL")
-	if base == "" {
-		if os.Getenv("JIANGHU_REQUIRE_DB") == "1" {
-			t.Fatal("JIANGHU_REQUIRE_DB=1 but JIANGHU_TEST_DATABASE_URL is empty")
-		}
-		t.Skip("JIANGHU_TEST_DATABASE_URL not set; skipping PostgreSQL integration test")
-	}
-	ctx := context.Background()
-	admin, err := pgx.Connect(ctx, base)
-	if err != nil {
-		t.Fatal(err)
-	}
-	b := make([]byte, 6)
-	_, _ = rand.Read(b)
-	name := "jianghu_t_" + hex.EncodeToString(b)
-	if _, err := admin.Exec(ctx, "CREATE DATABASE "+name); err != nil {
-		t.Fatal(err)
-	}
-	u, err := url.Parse(base)
-	if err != nil {
-		t.Fatal(err)
-	}
-	u.Path = "/" + name
 	d, err := gamedata.Load("../../../shared/data")
 	if err != nil {
 		t.Fatal(err)
 	}
-	s, err := Open(ctx, u.String(), d)
+	s, err := Open(context.Background(), storetest.DatabaseURL(t), d)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() {
-		s.Close()
-		_, _ = admin.Exec(ctx, "DROP DATABASE "+name+" WITH (FORCE)")
-		_ = admin.Close(ctx)
-	})
-	if err := s.Migrate(ctx); err != nil {
+	t.Cleanup(s.Close)
+	if err := s.Migrate(context.Background()); err != nil {
 		t.Fatal(err)
 	}
 	return s
@@ -97,7 +61,7 @@ type player struct{ account, character, backpack int64 }
 func newPlayer(t *testing.T, s *Store, name string) player {
 	t.Helper()
 	return run(t, s, "setup-"+name, func(ctx context.Context, tx *Tx) (player, error) {
-		a, err := tx.CreateAccount(ctx, name)
+		a, err := tx.CreateAccount(ctx, name, "")
 		if err != nil {
 			return player{}, err
 		}
@@ -125,7 +89,7 @@ func TestMigrateIsIdempotent(t *testing.T) {
 	if err := s.Migrate(ctx); err != nil {
 		t.Fatal(err)
 	}
-	if n := count(t, s, `SELECT count(*) FROM schema_migrations`); n != 1 {
+	if n := count(t, s, `SELECT count(*) FROM schema_migrations`); n != 2 {
 		t.Fatalf("schema_migrations rows=%d", n)
 	}
 }
@@ -402,7 +366,7 @@ func TestConcurrentLastSlot(t *testing.T) {
 
 func TestCharacterLimitUnderConcurrency(t *testing.T) {
 	s := testStore(t)
-	acct := run(t, s, "acct", func(ctx context.Context, tx *Tx) (int64, error) { return tx.CreateAccount(ctx, "many") })
+	acct := run(t, s, "acct", func(ctx context.Context, tx *Tx) (int64, error) { return tx.CreateAccount(ctx, "many", "") })
 	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
 		wg.Add(1)

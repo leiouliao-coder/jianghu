@@ -1,6 +1,6 @@
 # Jianghu Go 服务端骨架
 
-要求 Go 1.25 或以上。HTTP 只提供诊断接口；已有资产账本（PostgreSQL）与规则包，但**尚未对外提供账号、多人世界、战斗或交易接口**。唯一的第三方 Go 依赖是 PostgreSQL 驱动 `github.com/jackc/pgx/v5`。
+要求 Go 1.25 或以上。HTTP 提供诊断接口；配置数据库后另有 WebSocket 接口 `/v1/ws`（注册、登录、角色、进入/离开江湖，见 [`shared/protocol/v1.md`](../shared/protocol/v1.md)）。**尚未实现多人世界、移动、战斗或交易。** 第三方 Go 依赖：`github.com/jackc/pgx/v5`（PostgreSQL）、`github.com/coder/websocket`、`golang.org/x/crypto`（argon2id 密码哈希；固定为支持 Go 1.25 的最后版本 v0.55.0）。
 
 在仓库的 `server` 目录执行：
 
@@ -22,7 +22,7 @@ go build -o /tmp/jianghu-server ./cmd/jianghu-server
 
 ## 数据库（可选）
 
-不设置 `JIANGHU_DATABASE_URL` 时服务端不连数据库，只提供诊断接口。设置后，启动时加载并校验 `JIANGHU_DATA_DIR`（默认 `../shared/data`），连接数据库并执行内置迁移；任一步失败即以退出码 1 停止。
+不设置 `JIANGHU_DATABASE_URL` 时服务端不连数据库，只提供诊断接口，`/v1/ws` 返回 404。设置后，启动时加载并校验 `JIANGHU_DATA_DIR`（默认 `../shared/data`），连接数据库并执行内置迁移；任一步失败即以退出码 1 停止。
 
 ```sh
 docker compose up -d          # 在 server/ 目录，启动本机开发用 PostgreSQL 16（仅监听 127.0.0.1）
@@ -57,6 +57,9 @@ JIANGHU_LISTEN_ADDR=0.0.0.0:8080 go run ./cmd/jianghu-server
 - `internal/transport/httpapi`：诊断传输层。
 - `internal/gamedata`：加载并校验 `shared/data`。
 - `internal/growth`、`crafting`、`economy`、`ledger`：确定性规则（M0）。
-- `internal/store`：PostgreSQL 迁移、幂等请求事务与物品 / 钱币操作（M1）。
+- `internal/store`：PostgreSQL 迁移、幂等请求事务与物品 / 钱币操作（M1），账号凭据与会话（M2）。
+- `internal/auth`：argon2id 密码哈希、名字校验、会话令牌（只存哈希）。
+- `internal/session`：账号在场租约（同号只有一个角色在世界，断线保留 30 秒）。
+- `internal/transport/ws`：WebSocket 网关。
 
 后续增加实时协议、权威地图与战斗；不要把客户端上传的位置、伤害或金币视为可信结果。

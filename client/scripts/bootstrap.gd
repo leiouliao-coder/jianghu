@@ -1,5 +1,5 @@
 extends Control
-## Development-only connection check. This does not log in or start a world.
+## Development entry page: HTTP health check and a link to the account screen.
 
 signal health_checked(ok: bool, message: String)
 
@@ -7,10 +7,12 @@ signal health_checked(ok: bool, message: String)
 @onready var check_button: Button = $Margin/Content/CheckHealth
 @onready var status_label: Label = $Margin/Content/Status
 @onready var health_request: HTTPRequest = $HealthRequest
+@onready var account_button: Button = $Margin/Content/OpenAccount
 
 
 func _ready() -> void:
 	check_button.pressed.connect(check_health)
+	account_button.pressed.connect(open_account)
 	health_request.request_completed.connect(_on_request_completed)
 
 
@@ -55,3 +57,7 @@ func _finish(ok: bool, message: String) -> void:
 	check_button.disabled = false
 	status_label.text = message
 	health_checked.emit(ok, message)
+
+
+func open_account() -> void:
+	get_tree().change_scene_to_file("res://scenes/account.tscn")

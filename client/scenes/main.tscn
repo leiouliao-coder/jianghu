@@ -68,10 +68,15 @@ layout_mode = 2
 text = "尚未连接 / Not connected"
 autowrap_mode = 3
 
+[node name="OpenAccount" type="Button" parent="Margin/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 52)
+text = "账号登录 / Account"
+
 [node name="Scope" type="Label" parent="Margin/Content"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "目标平台：Windows / macOS / iOS / Android\n当前未验证移动导出、账号、战斗、资产同步或切后台。"
+text = "目标平台：Windows / macOS / iOS / Android\n账号登录需服务端配置数据库；当前未验证移动导出、战斗、资产同步或切后台。"
 autowrap_mode = 3
 
 [node name="HealthRequest" type="HTTPRequest" parent="."]

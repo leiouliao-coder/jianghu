@@ -35,9 +35,12 @@ func newItemID() string {
 	return hex.EncodeToString(b)
 }
 
-func (t *Tx) CreateAccount(ctx context.Context, name string) (int64, error) {
+// CreateAccount creates an account. An empty passwordHash makes an account
+// that cannot log in (system and test accounts).
+func (t *Tx) CreateAccount(ctx context.Context, name, passwordHash string) (int64, error) {
 	var id int64
-	err := t.tx.QueryRow(ctx, `INSERT INTO accounts (name) VALUES ($1) ON CONFLICT (name) DO NOTHING RETURNING id`, name).Scan(&id)
+	err := t.tx.QueryRow(ctx, `INSERT INTO accounts (name, password_hash) VALUES ($1, NULLIF($2, '')) ON CONFLICT (name) DO NOTHING RETURNING id`,
+		name, passwordHash).Scan(&id)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return 0, reject(CodeNameTaken, "account %q", name)
 	}

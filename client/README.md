@@ -1,6 +1,6 @@
 # Godot 客户端基础工程
 
-使用 Godot 4 标准版与类型化 GDScript，无第三方插件。当前只有可运行启动页和 `GET /healthz` 连接检查，**不是游戏原型完成品**。
+使用 Godot 4 标准版与类型化 GDScript，无第三方插件。当前有启动页（`GET /healthz` 连接检查）和账号界面（注册、登录、角色列表与创建、进入/离开江湖，走 WebSocket 协议 v1），**还没有游戏世界画面**。
 
 ## 打开与运行
 
@@ -15,14 +15,24 @@ godot --path client
 
 先按 `server/README.md` 启动 Go 服务，然后点击“检查服务端”。默认访问 `http://127.0.0.1:8080/healthz`，预期 HTTP 200 且 JSON `status` 为 `ok`。地址栏填写服务器基础地址，不含 `/healthz`。
 
+点击“账号登录”进入账号界面，地址默认 `ws://127.0.0.1:8080/v1/ws`；服务端需配置数据库才开放该接口。登录凭证只保存在内存中，断线后客户端按退避时间（0.5 秒起，最长 30 秒）自动重连并用凭证恢复会话；被别处登录踢下线（关闭码 4001）时不会重连。协议见 [`shared/protocol/v1.md`](../shared/protocol/v1.md)。
+
 手机上的 `127.0.0.1` 指手机自身：真机测试需使用开发电脑的局域网地址，并按服务端说明显式配置 LAN 监听、配置防火墙，勿把无鉴权开发端口暴露公网。开发用 HTTP 不是正式生产传输方案。
 
 ## 自动测试
+
+首次运行前先导入一次，让 `Protocol`、`WsClient` 等全局类生效：
+
+```sh
+godot --headless --editor --path client --import --quit
+```
 
 不需要启动服务器：
 
 ```sh
 godot --headless --path client --script res://tests/test_bootstrap.gd
+godot --headless --path client --script res://tests/test_protocol.gd
+godot --headless --path client --script res://tests/test_account.gd
 ```
 
 实际端到端网络测试（必须先启动 Go 服务）：
@@ -33,12 +43,20 @@ godot --headless --path client --script res://tests/smoke_health.gd
 godot --headless --path client --script res://tests/smoke_health.gd -- http://127.0.0.1:8080
 ```
 
+账号与 WebSocket 端到端测试（服务端须配置数据库）：
+
+```sh
+godot --headless --path client --script res://tests/smoke_ws.gd -- ws://127.0.0.1:8080/v1/ws
+```
+
+它会依次注册、登录、建角、列出角色、进入江湖，然后用第二个连接登录同一账号，确认第一个连接以关闭码 4001 被踢下线、新连接可以接管原角色并离开江湖。
+
 失败退出码为 1。无网络单元测试覆盖场景实例化、按钮连接、地址校验、正常响应、错误 JSON、非 200 与连接错误；网络 smoke 通过同一个客户端按钮处理逻辑发起真实 HTTP 请求。
 
 ## 目录
 
-- `scenes/`：场景；当前 `main.tscn` 为启动页。
-- `scripts/`：类型化 GDScript；当前仅健康检查。
+- `scenes/`：场景；`main.tscn` 为启动页，`account.tscn` 为账号界面。
+- `scripts/`：类型化 GDScript；`net/` 下是协议编解码（`Protocol`）和 WebSocket 连接（`WsClient`）。
 - `assets/`：未来运行时资源，概念图在仓库根目录另存。
 - `tests/`：无需第三方测试插件的 headless 脚本。
 
@@ -46,7 +64,7 @@ godot --headless --path client --script res://tests/smoke_health.gd -- http://12
 
 目标为 Windows、macOS、iOS、Android。当前使用 Compatibility 渲染器降低空工程验证门槛；正式 3D 战斗阶段需按移动端预算评估 Mobile 渲染器，不能据此宣称画质或性能达标。
 
-未提供虚假的导出证书与模板：实际导出需安装匹配的 Godot export templates；Android 需 SDK/JDK 并启用 INTERNET 权限，iOS 需 macOS/Xcode 与签名。移动端对明文 HTTP、局域网访问等限制需在实际导出配置中验证，生产环境应使用合规 HTTPS。尚未完成四端导出、真机测试、账号、战斗、资产同步、断线重连、后台与切换角色。
+未提供虚假的导出证书与模板：实际导出需安装匹配的 Godot export templates；Android 需 SDK/JDK 并启用 INTERNET 权限，iOS 需 macOS/Xcode 与签名。移动端对明文 HTTP、局域网访问等限制需在实际导出配置中验证，生产环境应使用合规 HTTPS。尚未完成四端导出、真机测试、战斗、资产同步与切后台。
 
 官方参考：
 - [HTTPRequest API](https://docs.godotengine.org/en/stable/classes/class_httprequest.html)

@@ -13,8 +13,10 @@ import (
 
 	"github.com/leiouliao-coder/jianghu/server/internal/config"
 	"github.com/leiouliao-coder/jianghu/server/internal/gamedata"
+	"github.com/leiouliao-coder/jianghu/server/internal/session"
 	"github.com/leiouliao-coder/jianghu/server/internal/store"
 	"github.com/leiouliao-coder/jianghu/server/internal/transport/httpapi"
+	"github.com/leiouliao-coder/jianghu/server/internal/transport/ws"
 )
 
 func main() {
@@ -31,6 +33,8 @@ func run() error {
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+	var handler http.Handler = httpapi.NewRouter()
+	var gateway *ws.Server
 	if cfg.DatabaseURL != "" {
 		// Fail fast: invalid data or an unreachable database must stop startup.
 		data, err := gamedata.Load(cfg.DataDir)
@@ -46,12 +50,23 @@ func run() error {
 			return fmt.Errorf("migrate: %w", err)
 		}
 		log.Print("database ready, migrations applied")
+		gateway = ws.New(st, session.NewPresence(), ws.Config{
+			Linger:           time.Duration(data.World.Combat.SafeZoneDisconnectSeconds) * time.Second,
+			SessionTTL:       7 * 24 * time.Hour,
+			IdleTimeout:      60 * time.Second,
+			MaxLoginFailures: 5,
+			StartBlock:       "A",
+		})
+		mux := http.NewServeMux()
+		mux.Handle("/v1/ws", gateway)
+		mux.Handle("/", handler)
+		handler = mux
 	} else {
 		log.Print("JIANGHU_DATABASE_URL not set; running without database")
 	}
 	server := &http.Server{
 		Addr:              cfg.ListenAddr,
-		Handler:           httpapi.NewRouter(),
+		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
@@ -60,7 +75,7 @@ func run() error {
 	}
 	served := make(chan error, 1)
 	go func() { served <- server.ListenAndServe() }()
-	log.Printf("%s version=%s listening=%s (diagnostics only)", httpapi.Service, httpapi.Version, cfg.ListenAddr)
+	log.Printf("%s version=%s listening=%s websocket=%v", httpapi.Service, httpapi.Version, cfg.ListenAddr, gateway != nil)
 	select {
 	case err := <-served:
 		if errors.Is(err, http.ErrServerClosed) {
@@ -74,6 +89,11 @@ func run() error {
 		if err := server.Shutdown(shutdownCtx); err != nil {
 			_ = server.Close()
 			return err
+		}
+		if gateway != nil {
+			if err := gateway.Shutdown(shutdownCtx); err != nil {
+				log.Printf("websocket shutdown: %v", err)
+			}
 		}
 		err := <-served
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {

@@ -26,7 +26,7 @@ scripts/             Local check and data export scripts
 
 ## Quick start
 
-Requires Go 1.25+, Python 3 and the Godot 4 standard build. The only third-party Go dependency is the PostgreSQL driver `pgx`. A database is optional: without `JIANGHU_DATABASE_URL` the server runs diagnostics only (see [server/README.md](server/README.md)).
+Requires Go 1.25+, Python 3 and the Godot 4 standard build. Third-party Go dependencies: `pgx` (PostgreSQL), `coder/websocket` and `golang.org/x/crypto`. A database is optional: without `JIANGHU_DATABASE_URL` the server runs diagnostics only (see [server/README.md](server/README.md)).
 
 ```sh
 # from the repository root
@@ -53,14 +53,14 @@ Import `client/project.godot` in Godot, run the main scene and press the health-
 
 | Area | State |
 |---|---|
-| Server transport | HTTP `/healthz` and `/version` only |
+| Server transport | HTTP `/healthz` and `/version`; with a database, WebSocket `/v1/ws` for register, login, session resume, characters and entering/leaving the world ([protocol v1](shared/protocol/v1.md)) |
 | Test data | `shared/data/`: items, recipes, economy, moves, teaching routes, map and timing parameters. Four files are generated from the design snapshot by `scripts/export_data.py`; CI fails if they drift |
 | Server rule packages | `gamedata` (load and cross-check data), `growth` (attribute settlement in 0.1 steps), `crafting` (manufacture, wear, repair, salvage), `economy` (NPC limited-purchase orders), `ledger` (stack, slot and carry-weight checks) |
 | Asset ledger | `store`: PostgreSQL migrations, idempotent requests (a replayed request ID returns the first result), unique item locations, non-negative coins, ordered container locks |
-| Evidence | The Go rules reproduce the design's Python calculations: 18/18 growth cases, the full equipment material ledger, and every economy scenario snapshot field by field. Under 50 concurrent requests an item is picked up exactly once and coins never go negative. See [M0](docs/verification/m0-data-and-rules.md) and [M1](docs/verification/m1-persistence.md) verification |
-| Client | Boot page with a server health check |
+| Evidence | The Go rules reproduce the design's Python calculations: 18/18 growth cases, the full equipment material ledger, and every economy scenario snapshot field by field. Under 50 concurrent requests an item is picked up exactly once and coins never go negative. A second login kicks the first connection and only one character per account is in the world. See [M0](docs/verification/m0-data-and-rules.md), [M1](docs/verification/m1-persistence.md) and [M2](docs/verification/m2-accounts-protocol.md) verification |
+| Client | Boot page with a health check, and an account screen: register, log in, create and list characters, enter and leave the world |
 
-Not implemented yet: login and network-facing account APIs, real-time movement and combat sync, trading, transport contracts and deployment. All design numbers are test parameters, and all 16 playable acceptance checks are still pending.
+Not implemented yet: the game world view, real-time movement and combat sync, trading, transport contracts, TLS and deployment. All design numbers are test parameters, and all 16 playable acceptance checks are still pending.
 
 ## Development plan
 
@@ -68,7 +68,7 @@ Work follows the stage gates in the design baseline. Each stage closes only with
 
 1. **M0 Data and rules**: done.
 2. **M1 Persistence and transactions**: done.
-3. **M2 Accounts and real-time protocol**: WebSocket messages, one present character per account.
+3. **M2 Accounts and real-time protocol**: done.
 4. **M3–M7 Gameplay**: world and movement, combat and death, two-node storage and logistics, life skills and equipment, quests and lineages.
 5. **M8 First playable acceptance (G1)**: all 16 checks executed with recorded evidence.
 

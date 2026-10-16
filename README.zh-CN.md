@@ -26,7 +26,7 @@ scripts/             本地检查与数据导出脚本
 
 ## 快速开始
 
-需要Go 1.25+、Python 3及Godot 4标准版。唯一的Go第三方依赖是PostgreSQL驱动`pgx`。数据库可选：不设置`JIANGHU_DATABASE_URL`时服务端只提供诊断接口（见[server/README.md](server/README.md)）。
+需要Go 1.25+、Python 3及Godot 4标准版。Go第三方依赖：`pgx`（PostgreSQL）、`coder/websocket`、`golang.org/x/crypto`。数据库可选：不设置`JIANGHU_DATABASE_URL`时服务端只提供诊断接口（见[server/README.md](server/README.md)）。
 
 ```sh
 # 从仓库根目录
@@ -53,14 +53,14 @@ curl http://127.0.0.1:8080/healthz
 
 | 部分 | 状态 |
 |---|---|
-| 服务端传输 | 仅HTTP `/healthz`和`/version` |
+| 服务端传输 | HTTP `/healthz`和`/version`；配置数据库后另有WebSocket `/v1/ws`，用于注册、登录、会话恢复、角色与进入/离开江湖（[协议v1](shared/protocol/v1.md)） |
 | 测试数据 | `shared/data/`：物品、配方、经济、招式、传承路线、地图与时间参数；其中4份由`scripts/export_data.py`从策划快照生成，与源不一致时CI报错 |
 | 服务端规则包 | `gamedata`（加载与交叉校验数据）、`growth`（属性按0.1结算）、`crafting`（制造、磨损、维修、回收）、`economy`（NPC有限采购订单）、`ledger`（堆叠、格数与负重检查） |
 | 资产账本 | `store`：PostgreSQL迁移、请求幂等（同一请求ID重放返回首次结果）、物品位置唯一、钱币不为负、容器按序加锁 |
-| 验证证据 | Go规则复现了策划的Python演算：成长案例18/18、装备物料账全流程、经济各场景快照逐字段一致；50个并发请求下同一物品只被拾取一次、钱币不会为负。见[M0](docs/verification/m0-data-and-rules.md)与[M1](docs/verification/m1-persistence.md)验证记录 |
-| 客户端 | 启动页与服务端健康检查 |
+| 验证证据 | Go规则复现了策划的Python演算：成长案例18/18、装备物料账全流程、经济各场景快照逐字段一致；50个并发请求下同一物品只被拾取一次、钱币不会为负。同一账号第二处登录会踢掉第一个连接，同号只有一个角色在江湖。见[M0](docs/verification/m0-data-and-rules.md)、[M1](docs/verification/m1-persistence.md)、[M2](docs/verification/m2-accounts-protocol.md)验证记录 |
+| 客户端 | 启动页与健康检查；账号界面：注册、登录、创建与列出角色、进入和离开江湖 |
 
-尚未实现：登录与对外的账号接口、实时移动与战斗同步、交易、运输合同与部署。所有策划数值都是测试参数，16项可玩验收全部待执行。
+尚未实现：游戏世界画面、实时移动与战斗同步、交易、运输合同、TLS与部署。所有策划数值都是测试参数，16项可玩验收全部待执行。
 
 ## 开发计划
 
@@ -68,7 +68,7 @@ curl http://127.0.0.1:8080/healthz
 
 1. **M0 数据与规则**：已完成。
 2. **M1 持久化与事务**：已完成。
-3. **M2 账号与实时协议**：WebSocket消息，同号同时只有一个角色在场。
+3. **M2 账号与实时协议**：已完成。
 4. **M3–M7 玩法**：世界与移动、战斗与死亡、两节点仓储与物流、生活技能与装备、任务与传承。
 5. **M8 首个可玩闭环验收（G1）**：16项逐项实机执行并留存证据。
 

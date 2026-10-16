@@ -64,6 +64,9 @@ type World struct {
 		BackpackSlots       int `json:"backpack_slots"`
 		NodeSlotsPerAccount int `json:"node_slots_per_account"`
 	} `json:"inventory"`
+	Combat struct {
+		SafeZoneDisconnectSeconds int `json:"safe_zone_disconnect_seconds"`
+	} `json:"combat"`
 }
 
 type Data struct {
@@ -160,9 +163,9 @@ func Load(dir string) (*Data, error) {
 	if p := d.Economy.Pool; p.Initial < 0 || p.Initial > p.Cap || p.HourlyRefill < 0 {
 		errs = append(errs, errors.New("economy pool: need 0 <= initial <= cap and refill >= 0"))
 	}
-	if w := d.World; w.Characters.PerAccount <= 0 || w.Inventory.BackpackSlots <= 0 ||
+	if w := d.World; w.Characters.PerAccount <= 0 || w.Inventory.BackpackSlots <= 0 || w.Combat.SafeZoneDisconnectSeconds <= 0 ||
 		w.Inventory.NodeSlotsPerAccount != d.Economy.NodeSlotsPerAccount {
-		errs = append(errs, errors.New("world: character/slot limits must be positive and node slots must match economy.json"))
+		errs = append(errs, errors.New("world: character/slot limits and disconnect time must be positive and node slots must match economy.json"))
 	}
 	if d.StackLimits[ClassCoin] <= 0 || len(d.ItemsOfClass(ClassCoin)) != 1 {
 		errs = append(errs, errors.New("items: exactly one coin item with a positive stack limit is required"))
